@@ -5,6 +5,6 @@
 /Obscure/Intermediate
 /Obscure/PackagedMod
 /Obscure/Saved
-/SrcMod/.xmake
-/SrcMod/Binaries
-/SrcMod/Intermediates
+/ModSrc/.xmake
+/ModSrc/Binaries
+/ModSrc/Intermediates

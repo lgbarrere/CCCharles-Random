@@ -25,13 +25,13 @@ public:
         // other than the one you're currently building with somehow.
         //ModIntendedSDKVersion = STR("2.6");
 
-        Output::send<LogLevel::Verbose>(STR("Pépito says hello\n"));
+        Output::send<LogLevel::Verbose>(STR("RandomizerMod says hello\n"));
     }
 
     ~RandomizerMod() override
     {
     }
-    
+
     TArray<FString> LoadFileToStringArray(FString fileName)
     {
         TArray<FString> result;
@@ -46,7 +46,7 @@ public:
 
         return result;
     }
-    
+
     auto on_unreal_init() -> void override
     {
         // You are allowed to use the 'Unreal' namespace in this function and anywhere else after this function has fired.
