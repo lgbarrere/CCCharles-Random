@@ -1,0 +1,6 @@
+[submodule "ModSrc/APCpp"]
+	path = ModSrc/APCpp
+	url = https://github.com/N00byKing/APCpp
+[submodule "ModSrc/RE-UE4SS"]
+	path = ModSrc/RE-UE4SS
+	url = https://github.com/UE4SS-RE/RE-UE4SS

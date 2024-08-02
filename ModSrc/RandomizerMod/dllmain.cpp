@@ -32,20 +32,20 @@ public:
     {
     }
 
-    TArray<FString> LoadFileToStringArray(FString fileName)
-    {
-        TArray<FString> result;
-        FString directory = FPaths::ProjectContentDir();
-        IPlatformFile& file = FPlatformFileManager::Get().GetPlatformFile();
+    // TArray<FString> LoadFileToStringArray(FString fileName)
+    // {
+    //     TArray<FString> result;
+    //     FString directory = FPaths::ProjectContentDir();
+    //     IPlatformFile& file = FPlatformFileManager::Get().GetPlatformFile();
 
-        if (file.CreateDirectory(*directory))
-        {
-            FString myFile = directory + "/" + fileName;
-            FFileHelper::LoadFileToStringArray(result, *myFile);
-        }
+    //     if (file.CreateDirectory(*directory))
+    //     {
+    //         FString myFile = directory + "/" + fileName;
+    //         FFileHelper::LoadFileToStringArray(result, *myFile);
+    //     }
 
-        return result;
-    }
+    //     return result;
+    // }
 
     auto on_unreal_init() -> void override
     {
