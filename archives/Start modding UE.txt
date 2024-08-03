@@ -1,0 +1,104 @@
+IMPORTANT : Several methods described by this file are depreciated because UE4SS is now used instead.
+This file is kept to keep a trace useful for further documentations.
+This file describes the first setup of the project including :
+> Unreal Mod Unlocker
+> Unreal Engine
+> Umodel
+
+(*) = Optional
+
+Downloading Unreal Mod Unlocker (UMU) :
+- https://illusory.dev/
+Downloading Epic Games Launcher :
+- https://www.epicgames.com/site/fr/home
+Downloading Unreal Engine (UE) :
+- In the Epic Games Launcher :
+1) Click "Unreal Engine" (to the left side menu)
+2) Select the "library" tab
+2) Click the "+" sign next to "ENGINE VERSION"
+3) Set the version to "4.26.2" (1)
+4) Click "Install"
+Downloading Umodel :
+- https://www.gildor.org/en/projects/umodel#files
+
+Finding the folder of the game <root> :
+- In Steam :
+1) Search "Choo-Choo Charles"
+2) Right click on it
+3) "Manage"
+4) "Browse local files"
+
+Finding the folder to mod <Win64 path> :
+- Navigate trough ./<ProjectName>/Binaries/Win64 (for Choo-Choo Charles, the  <ProjectName> is "Obscure")
+
+Patching the game to start modding :
+- It is recommanded to do a backup of the Win64 folder before starting
+Setup your folder with UMU :
+1) Copy the Win64 path
+2) Launch UMU
+3) Click "Open"
+4) Paste the Win64 path in the topside search bar and press "Select folder"
+5) Click "Patch" in UMU
+6) In the Win64 path, click the "*Shipping.exe" application the first time
+7) Read the messages boxes and confirm or close them
+8) Relaunch the "*Shipping.exe" application a second time and close it when possible
+
+(1) The version of UE to download must be the same as the version of the project, it can be found by :
+- Checking the application version itself :
+1) Right-click on the "*Shipping.exe" application
+2) "Properties"
+3) "Details"
+4) "File version" (4.26.2.0 for Choo-Choo Charles, note the last number can be ignored)
+- Generating a log version (*) :
+1) If "*Shipping.exe" was first launched, Open "UnrealModUnlocker-Settings.ini"
+2) Set "UE Version Logs" to "True" and save
+3) Relaunch "*Shipping.exe" and close it when possible
+4) Open the generated log in UnrealModUnlocker-Logs
+
+Configuring UE for modding :
+- Start a new UE project :
+1) Launch UE
+2) Click "Games" > "Next>"
+3) Select "First Person" > "Next>" (note a blank project can be chosen for experienced users)
+4) Copy the name of the project ("Obscure" for Choo-Choo Charles), which can be found in the root folder of the game, named "<project>.exe"
+5) Paste the project name in the "Name" field in UE
+6) Click "Create Project"
+7) Click "Build" (in the top menu)
+
+Start modding :
+- Get the AES encryption key (*)
+1) Open UnrealModUnlocker-Settings.ini
+2) Set "AES key Dumper" to "True" and save
+3) Launch the game
+4) Go to the log files and get the AES key (if no log is generated, the AES key is not necessary)
+
+Use Umodel :
+- Display the pak file :
+1) Launch umodel_64.exe
+2) Copy the path to the pak file <pak path> (from <root>, navigate through <Projectname>/Content/Paks/)
+3) To the top bar, paste the <pak path>
+4) If AES key is asked, paste it after copying from the log files
+
+Paths managing :
+- Understanding Content :
+1) Right-click the "Game" folder and click "Save folder packages"
+> The "Game" folder is equivalent to the "Content" folder of the game to mod
+> Every used paths and file types by the game must be the same in the UE project
+2) Choose a file to mod and reproduce the same path to this file in UE in the "Content" folder
+3) Create a file of the same type, it is going to be the one used by the game after modding
+4) Proceed to any intended changes in this modded file
+(*) Make an instance of this file with the expected exact name of the used file, it can also be renamed, the instance is called instead
+5) Click "File" tab > "Cook Content for Windows"
+6) Retrieve the cooked Content from UE project folder ("Documents/Unreal Projects/" folder by default), then navigate through "<ProjectName>/Saved/Cooked/WindowsNoEditor/Obscure/Content/"
+7) Copy the folder containing the modded file to the "Content/" folder of the original game (in <root>/<ProjectName>/)
+8) Launch the game to see the result
+
+
+
+
+
+
+
+
+
+
