@@ -3,9 +3,13 @@
 /Obscure/Build
 /Obscure/Content/StarterContent
 /Obscure/Intermediate
-/Obscure/PackagedMod
 /Obscure/Saved
 /ModSrc/.xmake
 /ModSrc/Binaries
 /ModSrc/Intermediates
 /Obscure/.vs
+/Obscure/PackagedMod/WindowsNoEditor/Engine
+Obscure/PackagedMod/WindowsNoEditor/Obscure.exe
+/Obscure/PackagedMod/WindowsNoEditor/Obscure/Binaries
+Obscure/PackagedMod/WindowsNoEditor/Manifest_NonUFSFiles_Win64.txt
+Obscure/PackagedMod/WindowsNoEditor/Obscure/Content/Paks/pakchunk0-WindowsNoEditor.pak
