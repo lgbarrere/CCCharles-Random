@@ -12,6 +12,10 @@ No randomization is yet implemented.
 ### C++
 No feature is yet implemented, the C++ only says "hello" in the logs to ensure it is injectable.
 
+### Utility Tools
+To make the modding easier to develop, an Overlay has been added and can be displayed by pressing "F1" while playing.
+The Overlay gives a list of useful shortcuts to test newly added features (Speed boost, teleportation, item swap, ...)
+
 ## Recommendations
 For a better understanding of how to setup this project, some paths in this documentation are replaced by keywords as follows and should be known :
 * **\<ProjectFolder\>** is the path to this project once it is downloaded, for instance **D:/UEProject/CCCharles-Random/**
@@ -81,8 +85,7 @@ Follow the comments in this script to fill it properly.
 
 ## Planned updates
 * Update of the text files and documentations according to the new Projet organization
-* Reorganize the main Blueprint to separate the useful nodes for modding and the Mod itself only used by the player
-* Make an interface for the useful nodes to mod the game or do some tests (overlay with mapped keys, switch to enable/disable the Mod, ...)
+* See "check spots.txt" at "TODO" for details, this file is going to be reorganized too
 
 ## Known Issues
-The dummy "Use Item" function curently causes a crash and should be fixed by reproducing a reference to the original one. As this function is linked to the "+" (numpad) key, **do not press this key** until a fix is done.
+Any affects the mod developers : the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.

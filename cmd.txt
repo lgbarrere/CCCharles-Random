@@ -30,3 +30,6 @@ The content of GameExecutableFolder should be :
 > imgui.ini
 > Obscure-Win64-Shipping.exe
 > turbojpeg.dll
+
+
+If needed, link the Github account to the Epic Game account and setup the ssh key with : https://www.youtube.com/watch?v=X40b9x9BFGo

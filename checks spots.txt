@@ -27,23 +27,21 @@ Number of unlockable items : 22
 Progression necessary items : (6)(12)(16)(21)(22)
 
 TODO :
-> Reorganize the main Blueprint to separate the useful nodes for modding and the mod itself
-> Make an interface for the useful nodes to mod the game or do some tests (key mapping, ...)
-> Fix "UseItem" currently causing a crash (worked earlier)
+* Fix the wrong focus with the Overlay
 > Use APCpp to link the game to Archipelago
-> Important : It is not possible to get the mission_start from Darly if the ancient_tablet is in inventory => to treat
+! It is not possible to get the mission_start from Darly if the ancient_tablet is in inventory => to handle
 > Define a distance to randomize the items on the ground
 > Disable the given items (original) by the missions
 > Make a special item for the multiworld and the hints
-> Test the inputs of "Use Item"/"Gather Item"
-> Add some tapped-scraps ("Unscrap" remove scraps from inventory, "Derailed" fix the train to 10 HP, ...)
-> Make some checks to enable the train upgrade
+> Test the inputs of "Use Item"/"Gather Item" with specific items (pages, paint cans, weapons, ...)
+> Add some trapped-scraps ("Unscrap" remove scraps from inventory, "Derailed" fix the train to 10 HP, ...)
 
 Ideas :
-> Change the scrap checks from single to 1-5 scraps to get one check (to make the scraps more important to check)
-> Change keys into "key fragments" (5 per key for instance), each fragment will be a check
-> Make a compass (could be found in a check if enabled) yo find the closest check to do
-> Implement a scrap count by area if possible always displayed in the screen (all counts displayed on the map)
+> Change the scrap checks from single to 1-5 (yaml reliant) scraps to get one check, making the scraps more important to check
+> Change keys into "key fragments" (5 per key for instance, yaml reliant), each fragment will be a check
+> Make a compass (could be found in a check if enabled in yaml) to find the closest check to do
+> Implement a scrap count by area if possible, always displayed in the screen/map (all counts displayed on the map)
+> Make some checks to enable the train upgrade
 
 Interesting notes :
 If "Use Item" is call with a negative amount, the items are added to inventory instead of being removed
