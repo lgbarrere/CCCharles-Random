@@ -3,6 +3,7 @@ This project is a randomizer mod for Choo-Choo Charles that works with the multi
 The development of this randomizer is currently in progress and actively updated.
 This documentation can be updated at any moment, as the project is currently under complete reorganization.
 The randomization logic is not yet available, however several useful test modules have been implemented to facilitate the development.
+The currently used UE4SS version UE4SS_v3.0.1-98-g5c1bfc4.zip comes from [the experimental RE-UE4SS](https://github.com/UE4SS-RE/RE-UE4SS/releases/tag/experimental).
 
 ## Current features
 ### Blueprints
@@ -46,6 +47,7 @@ Before setting this project up for development, it is highly recommended to know
 
 ### Requirements
 This section is inspired by the [UE4SS Documentation](https://docs.ue4ss.com/dev/index.html), check it out for details.
+If needed, link the Github account to the Epic Game account and [setup the ssh key](https://www.youtube.com/watch?v=X40b9x9BFGo).
 1. A computer running Windows
 2. [Microsoft Visual Studio Community](https://visualstudio.microsoft.com/fr/vs/community/) 2019 (prefer recent versions) or 2022
 3. [Rust](https://www.rust-lang.org/tools/install) >= 1.73.0
@@ -63,6 +65,10 @@ cd '<ProjectFolder>\ModSrc\RE-UE4SS\'
 git submodule update --init --recursive
 cd ..\APCpp\
 git submodule update --init --recursive
+mkdir build
+cd .\build\
+cmake .. -DWIN32=1 -DUSE_ZLIB=OFF
+cmake --build .
 ```
 
 ### How to use and build the project
@@ -85,7 +91,7 @@ Follow the comments in this script to fill it properly.
 
 ## Planned updates
 * Update of the text files and documentations according to the new Projet organization
-* See "check spots.txt" at "TODO" for details, this file is going to be reorganized too
+* See "todo.txt" for details
 
 ## Known Issues
 Any affects the mod developers : the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.

@@ -1,0 +1,55 @@
+Interesting Blueprints :
+Game/_Game/Blueprints/ItemPickup.uasset
+Game/_Game/Blueprints/PaintCan.uasset
+Game/_Game/Blueprints/ScrapCreatePoint.uasset
+Game/_Game/Blueprints/UpgradesMenu.uasset
+Game/_Game/Blueprints/MissionSpecificBlueprints/Pages_PageCount.uasset
+Game/_GAME/Blueprints/ItemDataTable.uasset
+Game/_GAME/Blueprints/NPC.uasset => MissionID
+Game/_GAME/Blueprints/MissionsDataTable.uasset
+Game/_GAME/Blueprints/SubtitlesStruct.uasset
+Game/EasySave/easySaveObject.uasset
+
+Global pickable items name :
+- Loot boxes => ScrapCratePoint
+- Scraps inside loot boxes => ItemPickup_C
+- Scraps => ItemPickup
+- Mission Items (talkable characters) => NPC<Name>
+
+Usable classes :
+ItemPickup
+Pages_Drawing<number 1..8>
+
+Reproduced game features :
+player_distance_interaction = 290
+
+Miscellaneous :
+If "Use Item" is called with a negative amount, the items are added to inventory instead of being removed
+
+All Item Names :
+01_KeyTony
+Mine1_Key
+05_Scraps
+Mine1_Egg
+Mine2_Egg
+Mine2_Gear (unused)
+Mine2_Key
+Mine3_Egg
+Mine3_Key
+Tutorial2_Key
+Boomer_Dynamite
+Boomer_Rockets
+Bob_BobPiece
+Bob_Key
+Canyon_BlueBox
+Lighthouse_Breaker
+Port_Journal
+Pages_Drawing
+Towers_Files
+Junkyard_LockPicks
+Junkyard_Tablet
+Swamp_Fish
+Pickles_Jar
+Train_Key
+Bridge_Dynamite
+Boss_ShrineKey
