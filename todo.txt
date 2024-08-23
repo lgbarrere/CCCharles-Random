@@ -4,7 +4,7 @@ TODO :
 ! It is not possible to get the mission_start from Darly if the ancient_tablet is in inventory => to handle
 > Define a distance to randomize the items on the ground
 > Disable the given items (original) by the missions
-> Make a special item for the multiworld and the hints
+> Update "DeathDuck" to give multiworld items and hints
 > Test the inputs of "Use Item"/"Gather Item" with specific items (pages, paint cans, weapons, ...)
 > Add some trapped-scraps ("Unscrap" remove scraps from inventory, "Derailed" fix the train to 10 HP, ...)
 > Check if "Spawn Rumble Actor" can be used for weapons and paint cans
