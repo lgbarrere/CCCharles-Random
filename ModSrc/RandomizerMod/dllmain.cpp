@@ -9,6 +9,8 @@
 #include <Unreal/FString.hpp>
 #include <Unreal/BPMacros.hpp>
 
+#include <../APCpp/Archipelago.h>
+
 using namespace RC;
 using namespace RC::Unreal;
 
@@ -46,6 +48,12 @@ public:
 
     //     return result;
     // }
+
+    void StartArchipelagoConnexion(const char* ipAddress, const char* gameName, const char* playerName, const char* password)
+    {
+        // IP example from (after /connect archipelago.gg:) 59157
+        AP_Init("localhost", "Choo-Choo charles", "YaranCCC", "");
+    }
 
     auto on_unreal_init() -> void override
     {

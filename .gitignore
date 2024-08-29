@@ -13,3 +13,6 @@ Obscure/PackagedMod/WindowsNoEditor/Obscure.exe
 /Obscure/PackagedMod/WindowsNoEditor/Obscure/Binaries
 Obscure/PackagedMod/WindowsNoEditor/Manifest_NonUFSFiles_Win64.txt
 Obscure/PackagedMod/WindowsNoEditor/Obscure/Content/Paks/pakchunk0-WindowsNoEditor.pak
+ModSrc/RandomizerMod/AutoWorld.py
+ModSrc/RandomizerMod/BaseClasses.py
+ModSrc/RandomizerMod/generic/Rules.py

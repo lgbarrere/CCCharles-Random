@@ -1,6 +1,6 @@
-Number of unlockable items : 22
-Progression basically necessary items : (6)(12)(16)(21)(22)
-Go mode : egg_green + egg_blue + egg_red + temple_key + bug_spray (nightmare only)
+Number of unlockable items types (exept scraps) : 22
+Progression basically necessary items : (6)(12)(16)(20)(21)
+Go mode : egg_green + egg_blue + egg_red + remote_explosive (x8) + temple_key + bug_spray (nightmare only)
 
 List of spots :
 Start camp :
@@ -121,7 +121,7 @@ scrap_helen_house_7 (X=99198.508 Y=82057.820 Z=9248.227)
 scrap_helen_house_8 (X=99208.617 Y=84383.125 Z=9257.880)
 
 Sgt Flint (NPCFlint X=111078.258 Y=83740.672 Z=8899.851) :
-sgt_flint_mission_end (dialog 2) -> bug_spray (22)
+sgt_flint_mission_end (dialog 2) -> bug_spray (21)
 scrap_flint_house_1 (X=105743.531 Y=83017.492 Z=9423.290)
 scrap_flint_house_2 (X=108495.805 Y=81616.992 Z=9139.340)
 scrap_flint_house_3 (X=108709.219 Y=85981.016 Z=9650.472)
@@ -134,7 +134,7 @@ scrap_flint_house_9 (X=112074.063 Y=83533.398 Z=9008.831)
 scrap_flint_house_10 (X=110738.523 Y=85389.852 Z=9082.626)
 scrap_flint_house_11 (X=112962.594 Y=85872.922 Z=8638.805)
 scrap_flint_house_12 (X=116230.563 Y=84357.602 Z=8580.226)
-paint_can_orange (X=111916.102 Y=83066.195 Z=9094.554)
+orange_paint_can (X=111916.102 Y=83066.195 Z=9094.554)
 
 South Mine Outside:
 scrap_south_mine_outside_1 (X=114794.375 Y=57211.855 Z=8523.348)
@@ -215,14 +215,14 @@ scrap_observatory_10 (X=36151.621 Y=-31791.633 Z=11093.785)
 (4) pink_paint_can (X=33069.133 Y=-32168.045 Z=11859.582)
 
 Ghost boulder field :
-page_1 (X=46232.703 Y=-37052.875 Z=9531.116) (8)
-page_2 (X=51854.980 Y=-31332.070 Z=9804.927) (8)
-page_3 (X=47595.750 Y=-29931.740 Z=9308.014) (8)
-page_4 (X=43819.680 Y=-30378.770 Z=9706.599) (8)
-page_5 (X=47494.746 Y=-20884.781 Z=9812.398) (8)
-page_6 (X=43725.148 Y=-21952.570 Z=9744.351) (8)
-page_7 (X=44752.465 Y=-16362.510 Z=10147.004) (8)
-page_8 (X=50496.270 Y=-26090.533 Z=9835.365) (8)
+page_drawing_1 (X=46232.703 Y=-37052.875 Z=9531.116) (8)
+page_drawing_2 (X=51854.980 Y=-31332.070 Z=9804.927) (8)
+page_drawing_3 (X=47595.750 Y=-29931.740 Z=9308.014) (8)
+page_drawing_4 (X=43819.680 Y=-30378.770 Z=9706.599) (8)
+page_drawing_5 (X=47494.746 Y=-20884.781 Z=9812.398) (8)
+page_drawing_6 (X=43725.148 Y=-21952.570 Z=9744.351) (8)
+page_drawing_7 (X=44752.465 Y=-16362.510 Z=10147.004) (8)
+page_drawing_8 (X=50496.270 Y=-26090.533 Z=9835.365) (8)
 scrap_boulder_field_1 (X=41385.406 Y=-32281.871 Z=10240.781)
 scrap_boulder_field_2 (X=46654.969 Y=-38859.254 Z=9920.861)
 scrap_boulder_field_3 (X=44765.836 Y=-41675.559 Z=9938.179)
@@ -266,23 +266,23 @@ journal (X=34690.777 Y=-49788.359 Z=10214.353) (9)
 
 Stantiago (NPCSantiago X=77632.234 Y=-11898.024 Z=7441.424) :
 gray_paint_can (X=74641.648 Y=-11320.948 Z=7551.767)
-scrap_stantiago_1 (X=67315.281 Y=-13828.055 Z=10101.339)
-scrap_stantiago_2 (X=67679.508 Y=-14127.952 Z=10061.037)
-scrap_stantiago_3 (X=67062.219 Y=-15626.003 Z=10065.956)
-scrap_stantiago_4 (X=66140.914 Y=-16079.730 Z=10092.268)
-scrap_stantiago_5 (X=66824.719 Y=-14729.157 Z=10125.234)
-scrap_stantiago_6 (X=69777.258 Y=-8371.526 Z=9391.735)
-scrap_stantiago_7 (X=70339.695 Y=-11066.703 Z=8912.465)
-scrap_stantiago_8 (X=72729.508 Y=-7048.998 Z=8245.522)
-scrap_stantiago_9 (X=75896.070 Y=-8705.214 Z=7514.992)
-scrap_stantiago_10 (X=74264.211 Y=-10553.446 Z=7520.141)
-scrap_stantiago_11 (X=74328.117 Y=-11423.852 Z=7511.827)
-scrap_stantiago_12 (X=76753.164 Y=-10744.933 Z=7437.174)
-scrap_stantiago_13 (X=77330.414 Y=-11640.151 Z=7189.003)
-scrap_stantiago_14 (X=76403.516 Y=-12484.995 Z=7440.368)
-scrap_stantiago_15 (X=78651.977 Y=-12233.159 Z=7439.514)
-scrap_stantiago_16 (X=80336.297 Y=-12276.590 Z=7436.639)
-scrap_stantiago_17 (X=79845.086 Y=-13410.705 Z=7440.597)
+scrap_santiago_1 (X=67315.281 Y=-13828.055 Z=10101.339)
+scrap_santiago_2 (X=67679.508 Y=-14127.952 Z=10061.037)
+scrap_santiago_3 (X=67062.219 Y=-15626.003 Z=10065.956)
+scrap_santiago_4 (X=66140.914 Y=-16079.730 Z=10092.268)
+scrap_santiago_5 (X=66824.719 Y=-14729.157 Z=10125.234)
+scrap_santiago_6 (X=69777.258 Y=-8371.526 Z=9391.735)
+scrap_santiago_7 (X=70339.695 Y=-11066.703 Z=8912.465)
+scrap_santiago_8 (X=72729.508 Y=-7048.998 Z=8245.522)
+scrap_santiago_9 (X=75896.070 Y=-8705.214 Z=7514.992)
+scrap_santiago_10 (X=74264.211 Y=-10553.446 Z=7520.141)
+scrap_santiago_11 (X=74328.117 Y=-11423.852 Z=7511.827)
+scrap_santiago_12 (X=76753.164 Y=-10744.933 Z=7437.174)
+scrap_santiago_13 (X=77330.414 Y=-11640.151 Z=7189.003)
+scrap_santiago_14 (X=76403.516 Y=-12484.995 Z=7440.368)
+scrap_santiago_15 (X=78651.977 Y=-12233.159 Z=7439.514)
+scrap_santiago_16 (X=80336.297 Y=-12276.590 Z=7436.639)
+scrap_santiago_17 (X=79845.086 Y=-13410.705 Z=7440.597)
 (9) santiago_mission_end (dialog 3) -> 35_scraps_reward
 
 Trench house :
@@ -437,7 +437,7 @@ Inside North Mine :
 (12) scrap_inside_north_mine_12 (X=-53237.699 Y=-96609.461 Z=8846.201)
 (12) scrap_inside_north_mine_13 (X=-58543.488 Y=-95879.695 Z=8981.646)
 (12) blue_egg (X=-53592.195 Y=-99177.500 Z=8975.387)
-(12)(4) paint_can_blue (X=-56133.391 Y=-101870.047 Z=9004.720)
+(12)(4) blue_paint_can (X=-56133.391 Y=-101870.047 Z=9004.720)
 
 Wood bridge :
 scrap_wood_bridge_1 (X=-66790.141 Y=-110340.367 Z=10454.417)
@@ -466,7 +466,7 @@ scrap_paul_house_8 (X=-66582.703 Y=-99092.461 Z=11630.082)
 scrap_paul_house_9 (X=-66798.164 Y=-99550.266 Z=11547.321)
 scrap_paul_house_10 (X=-66850.336 Y=-99682.844 Z=11543.618)
 paul_mission_start (dialog 6) -> remote_explosive (x8) (14)
-paul_mission_end (dialog 3) -> temple_key (21)
+(14) paul_mission_end (dialog 3) -> temple_key (20)
 
 Gertrude (NPCGertrude X=-74426.000 Y=-88454.258 Z=9935.104) :
 gertrude_mission_start (dialog 4) -> broken_bob (15)
@@ -492,7 +492,7 @@ scrap_beach_12 (X=-84363.055 Y=-87497.938 Z=7582.647)
 scrap_beach_13 (X=-86556.266 Y=-89748.484 Z=7297.274)
 
 Church :
-paint_can_black (X=-67628.172 Y=-83801.375 Z=9865.983)
+black_paint_can (X=-67628.172 Y=-83801.375 Z=9865.983)
 scrap_church_1 (X=-64009.039 Y=-84252.156 Z=10258.335)
 scrap_church_2 (X=-66870.719 Y=-85202.180 Z=9843.936)
 scrap_church_3 (X=-68588.352 Y=-84041.867 Z=9790.541)
@@ -566,7 +566,7 @@ scrap_ronny_towers_24 (X=-24068.221 Y=-27874.443 Z=12819.666)
 scrap_ronny_towers_25 (X=-23525.330 Y=-27770.035 Z=12612.871)
 scrap_ronny_towers_26 (X=-23472.215 Y=-27617.404 Z=13213.256)
 scrap_ronny_towers_27 (X=-23981.588 Y=-27984.385 Z=13219.854)
-paint_can_lime (X=-22288.555 Y=-26022.281 Z=11835.892)
+lime_paint_can (X=-22288.555 Y=-26022.281 Z=11835.892)
 employment_contracts (X=-24081.414 Y=-27637.459 Z=13679.163) (17)
 (17) ronny_mission_end (dialog 3) -> 1_scraps_reward
 
@@ -590,7 +590,7 @@ scrap_north_frank_fisher_16 (X=-90241.328 Y=-136381.000 Z=7199.622)
 scrap_north_frank_fisher_17 (X=-91728.680 Y=-135288.203 Z=7319.699)
 scrap_north_frank_fisher_18 (X=-88789.039 Y=-135461.719 Z=7305.800)
 scrap_north_frank_fisher_19 (X=-88572.078 Y=-135970.734 Z=7302.674)
-paint_can_light_blue (X=-91706.805 Y=-134988.453 Z=7347.827)
+light_blue_paint_can (X=-91706.805 Y=-134988.453 Z=7347.827)
 
 Hidden_hole :
 (4) scrap_hidden_hole_1 (X=-17360.789 Y=-74064.367 Z=8038.313)
@@ -635,7 +635,7 @@ scrap_mob_camp_15 (X=-31757.953 Y=-57179.258 Z=11295.150)
 scrap_mob_camp_16 (X=-29137.043 Y=-54824.797 Z=12418.673)
 (18) scrap_mob_camp_17 (X=-31736.459 Y=-59761.465 Z=11211.379)
 (18) scrap_mob_camp_18 (X=-32150.889 Y=-59879.594 Z=11297.058)
-Bob_Clickbox (X=-31771.172 Y=-59892.449 Z=11323.562) (18)(15) -> bob
+stolen_bob (Bob_Clickbox X=-31771.172 Y=-59892.449 Z=11323.562) (18)(15) -> bob
 
 Mine elevator exit :
 scrap_mine_elevator_exit_1 (X=-29587.271 Y=-42650.797 Z=12515.042)
@@ -686,7 +686,7 @@ Mountain ruin inside :
 (16) scrap_mountain_ruin_inside_16 (X=-28636.996 Y=-46745.340 Z=7430.463)
 (16) scrap_mountain_ruin_inside_17 (X=-27752.643 Y=-47453.973 Z=7445.047)
 (16) red_egg (X=-28254.400 Y=-45702.844 Z=7551.568)
-(16)(4) paint_can_red (X=-31391.293 Y=-44953.223 Z=7448.648)
+(16)(4) red_paint_can (X=-31391.293 Y=-44953.223 Z=7448.648)
 
 Prism temple :
 (4) scrap_prism_temple_1 (X=12659.641 Y=-27827.016 Z=10930.621)
@@ -725,7 +725,7 @@ scrap_prism_temple_33 (X=16998.229 Y=-23241.652 Z=11055.539)
 scrap_prism_temple_34 (X=17613.518 Y=-23799.813 Z=11057.277)
 scrap_prism_temple_35 (X=15342.375 Y=-24807.357 Z=11024.192)
 scrap_prism_temple_36 (X=15963.284 Y=-24834.156 Z=11021.444)
-(6)(12)(16)(21) boss_battle => end_game
+boss_battle (Go mode) => end_game
 
 Pickle lady (NPCPickleLady X=59264.563 Y=24290.965 Z=11400.475) :
 scrap_pickle_lady_1 (X=60402.582 Y=25252.434 Z=11151.982)
@@ -749,11 +749,11 @@ scrap_pickle_lady_18 (X=44672.641 Y=20936.520 Z=12198.017)
 scrap_pickle_lady_19 (X=42844.730 Y=22869.387 Z=12832.900)
 scrap_pickle_lady_20 (X=43397.758 Y=26367.248 Z=13005.097)
 scrap_pickle_lady_21 (X=39352.430 Y=32668.316 Z=14494.778)
-paint_can_purple (X=40394.855 Y=31546.465 Z=13472.573)
+purple_paint_can (X=40394.855 Y=31546.465 Z=13472.573)
 (4) jar_of_pickles (X=38227.535 Y=30234.848 Z=13593.506) (19)
-(19) pickle_lady_mission_end (dialog 4) (20) -> 30_scraps_reward
-(20) scrap_pickle_lady_21 (X=59688.781 Y=25266.756 Z=11425.324)
-(20) scrap_pickle_lady_22 (X=59197.871 Y=24760.773 Z=11425.324)
+(19) pickle_lady_mission_end (dialog 4) -> 30_scraps_reward
+(19) scrap_pickle_lady_21 (X=59688.781 Y=25266.756 Z=11425.324)
+(19) scrap_pickle_lady_22 (X=59197.871 Y=24760.773 Z=11425.324)
 
 Temple shrine :
 scrap_temple_shrine_1 (X=-4675.183 Y=-21143.846 Z=11984.782)
@@ -766,16 +766,16 @@ Morse Refuge :
 (4) scrap_morse_refuge_3 (X=-47953.637 Y=-85426.172 Z=10592.347)
 (4) scrap_morse_refuge_4 (X=-47958.691 Y=-85444.805 Z=10587.060)
 (4) scrap_morse_refuge_5 (X=-47953.617 Y=-85426.172 Z=10574.149)
-scrap_morse_refuge_1 (X=-48336.863 Y=-85458.453 Z=10574.537)
-scrap_morse_refuge_2 (X=-48253.844 Y=-84944.609 Z=10573.793)
-scrap_morse_refuge_3 (X=-47272.422 Y=-84549.945 Z=10543.671)
-scrap_morse_refuge_4 (X=-47080.836 Y=-85268.281 Z=10564.355)
-scrap_morse_refuge_5 (X=-47913.855 Y=-85234.258 Z=10819.314)
-scrap_morse_refuge_6 (X=-46410.227 Y=-83293.742 Z=10361.746)
-scrap_morse_refuge_7 (X=-45204.199 Y=-84841.211 Z=10329.200)
-scrap_morse_refuge_8 (X=-43895.801 Y=-83794.750 Z=10265.661)
-scrap_morse_refuge_9 (X=-45163.078 Y=-80832.828 Z=10090.777)
-scrap_morse_refuge_10 (X=-46782.027 Y=-82284.805 Z=10289.180)
-scrap_morse_refuge_11 (X=-49240.047 Y=-83654.961 Z=10898.540)
-scrap_morse_refuge_12 (X=-46571.930 Y=-85962.773 Z=10697.339)
+scrap_morse_refuge_6 (X=-48336.863 Y=-85458.453 Z=10574.537)
+scrap_morse_refuge_7 (X=-48253.844 Y=-84944.609 Z=10573.793)
+scrap_morse_refuge_8 (X=-47272.422 Y=-84549.945 Z=10543.671)
+scrap_morse_refuge_9 (X=-47080.836 Y=-85268.281 Z=10564.355)
+scrap_morse_refuge_10 (X=-47913.855 Y=-85234.258 Z=10819.314)
+scrap_morse_refuge_11 (X=-46410.227 Y=-83293.742 Z=10361.746)
+scrap_morse_refuge_12 (X=-45204.199 Y=-84841.211 Z=10329.200)
+scrap_morse_refuge_13 (X=-43895.801 Y=-83794.750 Z=10265.661)
+scrap_morse_refuge_14 (X=-45163.078 Y=-80832.828 Z=10090.777)
+scrap_morse_refuge_15 (X=-46782.027 Y=-82284.805 Z=10289.180)
+scrap_morse_refuge_16 (X=-49240.047 Y=-83654.961 Z=10898.540)
+scrap_morse_refuge_17 (X=-46571.930 Y=-85962.773 Z=10697.339)
 

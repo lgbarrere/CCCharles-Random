@@ -15,3 +15,5 @@ Ideas :
 > Make a compass (could be found in a check if enabled in yaml) to find the closest check to do
 > Implement a scrap count by area if possible, always displayed in the screen/map (all counts displayed on the map)
 > Make some checks to enable the train upgrade
+> Highlight the close scraps to the player
+> DeathDuck has an untextured eye, the Archipelago logo could be added to it
