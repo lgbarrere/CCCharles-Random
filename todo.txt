@@ -6,7 +6,7 @@ TODO :
 > Disable the given items (original) by the missions
 > Update "DeathDuck" to give multiworld items and hints
 > Test the inputs of "Use Item"/"Gather Item" with specific items (pages, paint cans, weapons, ...)
-> Add some trapped-scraps ("Unscrap" remove scraps from inventory, "Derailed" fix the train to 10 HP, ...)
+> Add some trapped DeathDuck ("Unscrap" remove scraps from inventory, "Derailed" lower the train HP by 40, "Guru" spawn a cultist near the player for a short while, ...)
 > Check if "Spawn Rumble Actor" can be used for weapons and paint cans
 
 Ideas :
@@ -17,3 +17,4 @@ Ideas :
 > Make some checks to enable the train upgrade
 > Highlight the close scraps to the player
 > DeathDuck has an untextured eye, the Archipelago logo could be added to it
+> Make an additional check to randomize the access to the train

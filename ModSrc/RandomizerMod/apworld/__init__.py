@@ -1,11 +1,11 @@
 import typing
 import os
 import json
-from .Items import item_table, scrap_item_table, CCCharlesItem
+from .Items import unique_item_dict, full_item_list, item_groups, CCCharlesItem
 from .Locations import location_table, CCCharlesLocation
 from .Options import CCCharlesOptions
 from .Rules import set_rules
-from .Regions import create_regions, CCCharlesLevels
+from .Regions import CCCharlesRegion
 from BaseClasses import Item, Tutorial, ItemClassification, Region
 from AutoWorld import World, WebWorld
 
@@ -44,14 +44,9 @@ class CCCharlesWorld(World):
 
     web = CCCharlesWeb()
 
-    item_name_to_id = item_table
+    item_name_to_id = unique_item_dict
     location_name_to_id = location_table
-
-    # Max int : 32767 (necessary for IDs)
-    # item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
-    # location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
-    # locked_locations = {name: data for name, data in location_table.items() if data.locked_item}
-    # item_name_groups = item_groups
+    item_name_groups = item_groups
 
     # this gives the generator all the definitions for our options
     options_dataclass = CCCharlesOptions
@@ -60,11 +55,23 @@ class CCCharlesWorld(World):
 
     topology_present = True  # show path to required location checks in spoiler
 
-    def create_item(self, name: str) -> Item:
-        item_id = item_table[name]
+    def create_regions(self) -> None :
+        cccregion = CCCharlesRegion(self.multiworld, self.player)
+        self.multiworld.regions += [cccregion.regions]
+
+    def create_item(self, name: str) -> CCCharlesItem:
+        item_id = unique_item_dict[name]
 
         match name:
             case "Scraps" :
+                classification = ItemClassification.useful
+            case "30 Scraps Reward" :
+                classification = ItemClassification.useful
+            case "25 Scraps Reward" :
+                classification = ItemClassification.useful
+            case "35 Scraps Reward" :
+                classification = ItemClassification.useful
+            case "40 Scraps Reward" :
                 classification = ItemClassification.useful
             case "South Mine Key" :
                 classification = ItemClassification.progression
@@ -136,6 +143,8 @@ class CCCharlesWorld(World):
                 classification = ItemClassification.progression
             case "Remote Explosive" :
                 classification = ItemClassification.progression
+            case "Remote Explosive x8" :
+                classification = ItemClassification.progression
             case "Temple Key" :
                 classification = ItemClassification.progression
             case "Bug spray" :
@@ -143,7 +152,14 @@ class CCCharlesWorld(World):
             case _:
                 classification = ItemClassification.filler
 
-        item = CCCharlesItem(name, classification, item_id, self.player)
+        return CCCharlesItem(name, classification, item_id, self.player)
+    
+    def create_items(self) -> None:
+        self.multiworld.itempool += [self.create_item(item) for item in full_item_list]
 
-        return item
-
+        # Include Boss Beaten event
+        victory_loc = CCCharlesLocation(self.player, "Boss Beaten", None)
+        victory_loc.place_locked_item(CCCharlesItem("Boss Beaten", ItemClassification.progression, None, self.player))
+    
+    def set_rules(self) -> None:
+        set_rules(self.multiworld, self.options, self.player)

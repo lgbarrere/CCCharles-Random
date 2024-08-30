@@ -15,56 +15,55 @@ from .Locations import loc_start_camp, loc_tony_tiddle_mission, loc_candice_miss
     loc_pickle_lady_mission, loc_temple_shrine, loc_morse_refuge, location_table
 
 
-class CCCharlesAreas(Enum):
-    START_CAMP = 10000,
-    TONY_TIDDLE_BARN = 100001,
-    CANDICE_HOUSE = 100002,
-    SWAMP = 100003,
-    SHACK = 100004,
-    JUNKYARD = 100005,
-    DIANNE_HOUSE = 100006,
-    HELEN_HOUSE = 100007,
-    MILITARY_BASE = 100008,
-    SOUTH_MINE_OUTSIDE = 100009,
-    SOUTH_MINE_INSIDE = 100010,
-    THEODORE_STATION = 100011,
-    THEODORE_CANYON = 100012,
-    OBSERVATORY = 100013,
-    GHOST_BOULDER_FIELD = 100014,
-    SASHA_HOUSE = 100015,
-    SANTIAGO_HOUSE = 100016,
-    SANTIAGO_PORT = 100017,
-    TRENCH_HOUSE = 100018,
-    DOLL_WOODS = 100019,
-    FOREST_LOST_STAIRS = 100020,
-    FAR_EAST_HOUSE = 100021,
-    EXPLOSIVE_TRAINING = 100022,
-    JOHN_SMITH_WORKSHOP = 100023,
-    GREG_TOWER = 100024,
-    LIGHTHOUSE = 100025,
-    OUTSIDE_NORTH_MINE = 100026,
-    INSIDE_NORTH_MINE = 100027,
-    WOOD_BRIDGE = 100028,
-    PAUL_MUSEUM = 100029,
-    GERTRUDE_BASE = 100030,
-    BEACH = 100031,
-    CHRUCH = 100032,
-    GALE_HOUSE = 100033,
-    CARAVAN = 100034,
-    ABANDONNED_HOUSE = 100035,
-    RONNY_TOWERS = 100036,
-    NORTH_FRANK_FISHER = 100037,
-    HIDDEN_HOLE = 100038,
-    MOB_CAMP = 100039,
-    MINE_ELEVATOR_EXIT = 100040,
-    MOUNTAIN_RUIN_OUTSIDE = 100041,
-    MOUNTAIN_RUIN_INSIDE = 100042,
-    PRISM_TEMPLE = 100043,
-    PICKLE_LADY_HOUSE = 100044,
-    TEMPLE_SHRINE = 100045,
-    MORSE_REFUGE = 100046
-
-
 class CCCharlesRegion(Region):
-    subregions: typing.List[Region] = []
+    regions = []
 
+    def __init__(self, world: MultiWorld, player: int):
+        self.regions.append(Region("Menu", player, world, "Eugene's Boat"))
+        self.regions.append(Region("Start Camp", player, world))
+        self.regions.append(Region("Tony Tiddle Barn", player, world))
+        self.regions.append(Region("Candice House", player, world))
+        self.regions.append(Region("Swamp", player, world))
+        self.regions.append(Region("Shack", player, world))
+        self.regions.append(Region("Junkyard", player, world))
+        self.regions.append(Region("Dianne House", player, world))
+        self.regions.append(Region("Helen House", player, world))
+        self.regions.append(Region("Military Base", player, world))
+        self.regions.append(Region("South Mine Outside", player, world))
+        self.regions.append(Region("South Mine Inside", player, world))
+        self.regions.append(Region("Theodore Station", player, world))
+        self.regions.append(Region("Theodore Canyon", player, world))
+        self.regions.append(Region("Observation", player, world))
+        self.regions.append(Region("Ghost Boulder Field", player, world))
+        self.regions.append(Region("Sasha House", player, world))
+        self.regions.append(Region("Santiago House", player, world))
+        self.regions.append(Region("Santiago PORT", player, world))
+        self.regions.append(Region("Trench House", player, world))
+        self.regions.append(Region("Doll Woods", player, world))
+        self.regions.append(Region("Forest Lost Stairs", player, world))
+        self.regions.append(Region("Far East House", player, world))
+        self.regions.append(Region("Explosive Training", player, world))
+        self.regions.append(Region("John Smith Workshop", player, world))
+        self.regions.append(Region("Greg Tower", player, world))
+        self.regions.append(Region("Lighthouse", player, world))
+        self.regions.append(Region("Outside North Mine", player, world))
+        self.regions.append(Region("Inside North Mine", player, world))
+        self.regions.append(Region("Wood Bridge", player, world))
+        self.regions.append(Region("Paul Museum", player, world))
+        self.regions.append(Region("Gertrude Base", player, world))
+        self.regions.append(Region("Beach", player, world))
+        self.regions.append(Region("Church", player, world))
+        self.regions.append(Region("Gale House", player, world))
+        self.regions.append(Region("Caravane", player, world))
+        self.regions.append(Region("Abandonned House", player, world))
+        self.regions.append(Region("Ronny Towers", player, world))
+        self.regions.append(Region("North Frank Fisher", player, world))
+        self.regions.append(Region("Hidden Hole", player, world))
+        self.regions.append(Region("Mob Camp", player, world))
+        self.regions.append(Region("Mine Elevator Exit", player, world))
+        self.regions.append(Region("Mountain Ruin Outside", player, world))
+        self.regions.append(Region("Mountain Ruin Inside", player, world))
+        self.regions.append(Region("Prism Temple", player, world))
+        self.regions.append(Region("Pickle Lady House", player, world))
+        self.regions.append(Region("Temple Shrine", player, world))
+        self.regions.append(Region("Morse Refuge", player, world))
