@@ -17,3 +17,4 @@ ModSrc/RandomizerMod/AutoWorld.py
 ModSrc/RandomizerMod/BaseClasses.py
 ModSrc/RandomizerMod/generic/Rules.py
 ModSrc/RandomizerMod/apworld/test/bases.py
+/.xmake

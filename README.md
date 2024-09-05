@@ -94,4 +94,5 @@ Follow the comments in this script to fill it properly.
 * See "todo.txt" for details
 
 ## Known Issues
-Any affects the mod developers : the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
+* Only affects the mod developers : the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
+* Sometimes, when the game is launched, it may enter in infinite loop for undefined reason. This is random but it seems to not occur 2 times in a row. Until a fix is done, the only way to pass through this step is unfortunately to kill the process of the game (Task Manager is your friend) and restart the game.

@@ -2,6 +2,7 @@
 #include <DynamicOutput/DynamicOutput.hpp>
 #include <Unreal/UObjectGlobals.hpp>
 #include <Unreal/UObject.hpp>
+#include <Unreal/Hooks.hpp>
 /*
 #include <Runtime/Core/Public/Misc/Paths.hpp>
 #include <Runtime/Core/Public/HAL/PlatformFilemanager.hpp>
@@ -9,7 +10,8 @@
 #include <Unreal/FString.hpp>
 #include <Unreal/BPMacros.hpp>
 
-#include <../APCpp/Archipelago.h>
+#include "../APCpp/Archipelago.h"
+#include "ModConsole.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
@@ -34,6 +36,7 @@ public:
     {
     }
 
+    // This function is to rework, to be called in the Blueprints to load a file with all locations
     // TArray<FString> LoadFileToStringArray(FString fileName)
     // {
     //     TArray<FString> result;
@@ -51,8 +54,9 @@ public:
 
     void StartArchipelagoConnexion(const char* ipAddress, const char* gameName, const char* playerName, const char* password)
     {
-        // IP example from (after /connect archipelago.gg:) 59157
-        AP_Init("localhost", "Choo-Choo charles", "YaranCCC", "");
+        // IP example from /connect archipelago.gg:38281 : IP = archipelago.gg:38281
+        // AP_Init("", "Choo-Choo charles", "YaranCCC", "");
+        AP_Init(ipAddress, gameName, playerName, password);
     }
 
     auto on_unreal_init() -> void override
@@ -60,6 +64,31 @@ public:
         // You are allowed to use the 'Unreal' namespace in this function and anywhere else after this function has fired.
         auto Object = UObjectGlobals::StaticFindObject<UObject*>(nullptr, nullptr, STR("/Script/CoreUObject.Object"));
         Output::send<LogLevel::Verbose>(STR("Object Name: {}\n"), Object->GetFullName());
+
+        Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool
+        {
+            if (command[0] == '/' || command[0] == '!') {
+                command++; // Exclude the first character from the array
+
+                int same = ModConsole::CheckCommand(Ar, command);
+
+                if(same == 1)
+                {
+                    Output::send<LogLevel::Verbose>(STR("Command detected with success : {} {}\n"), command, same);
+                    Output::send<LogLevel::Verbose>(STR("connection accepted !\n"));
+                }
+                else
+                {
+                    Output::send<LogLevel::Verbose>(STR("Command detected with difference : {} {}\n"), command, same);
+                }
+
+                return true;
+            }
+
+            Output::send<LogLevel::Verbose>(STR("Command undetected\n"));
+            // StartArchipelagoConnexion("localhost", "Choo-Choo charles", "YaranCCC", "");
+            return false;
+        });
     }
 
     auto on_update() -> void override
