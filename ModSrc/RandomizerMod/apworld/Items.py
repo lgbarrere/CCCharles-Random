@@ -1,5 +1,5 @@
 from BaseClasses import Item
-from BaseID import base_id
+from .BaseID import base_id
 
 
 class CCCharlesItem(Item):
@@ -73,7 +73,7 @@ item_groups = {
             "Blue Paint Can",
             "Black Paint Can",
             "Lime Paint Can",
-            "Light Blue Paint",
+            "Light Blue Paint Can",
             "Red Paint Can",
             "Purple Paint Can"
         },
@@ -116,6 +116,7 @@ item_groups = {
             "Red Egg"
         }
     }
+
 
 # All items excepted the duplications (no item amount)
 unique_item_dict = {**optional_items, **useless_items, **progression_items}

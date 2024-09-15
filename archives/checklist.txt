@@ -304,12 +304,12 @@ scrap_trench_house_15 (X=75286.289 Y=-51164.098 Z=7957.081)
 scrap_trench_house_16 (X=68413.258 Y=-56872.816 Z=9349.443)
 scrap_trench_house_17 (X=67281.281 Y=-59201.371 Z=9254.457)
 scrap_trench_house_18 (X=69064.219 Y=-48796.352 Z=9770.164)
-(4) scrap_trench_house_1 (X=75042.141 Y=-50830.891 Z=8005.156)
-(4) scrap_trench_house_2 (X=75066.516 Y=-50824.398 Z=7995.000)
-(4) scrap_trench_house_3 (X=75072.789 Y=-50818.441 Z=7986.979)
-(4) scrap_trench_house_4 (X=75038.656 Y=-50827.566 Z=7973.354)
-(4) scrap_trench_house_5 (X=75060.406 Y=-50828.102 Z=7965.915)
-(4) scrap_trench_house_6 (X=75056.648 Y=-50818.125 Z=7959.868)
+(4) scrap_trench_house_19 (X=75042.141 Y=-50830.891 Z=8005.156)
+(4) scrap_trench_house_20 (X=75066.516 Y=-50824.398 Z=7995.000)
+(4) scrap_trench_house_21 (X=75072.789 Y=-50818.441 Z=7986.979)
+(4) scrap_trench_house_22 (X=75038.656 Y=-50827.566 Z=7973.354)
+(4) scrap_trench_house_23 (X=75060.406 Y=-50828.102 Z=7965.915)
+(4) scrap_trench_house_24 (X=75056.648 Y=-50818.125 Z=7959.868)
 
 Doll woods :
 scrap_doll_woods_1 (X=60126.234 Y=-49668.906 Z=9970.880)
@@ -324,8 +324,8 @@ scrap_doll_woods_9 (X=68406.664 Y=-45721.813 Z=10021.356)
 scrap_doll_woods_10 (X=62898.469 Y=-47565.703 Z=10744.431)
 
 Forest lost stairs :
-scrap_lost_strairs_1 (X=47087.617 Y=-53476.547 Z=9103.093)
-scrap_lost_strairs_2 (X=47162.238 Y=-55318.094 Z=9127.096)
+scrap_lost_stairs_1 (X=47087.617 Y=-53476.547 Z=9103.093)
+scrap_lost_stairs_2 (X=47162.238 Y=-55318.094 Z=9127.096)
 
 Far East house :
 scrap_far_east_house_1 (X=97507.664 Y=-53201.270 Z=9174.678)
@@ -530,13 +530,13 @@ scrap_caravan_9 (X=-42711.363 Y=-39141.523 Z=11173.905)
 (4) scrap_caravan_13 (X=-42911.680 Y=-38315.254 Z=11204.225)
 (4) scrap_caravan_14 (X=-42905.090 Y=-38279.828 Z=11192.738)
 
-Abandonned house :
-scrap_abandonned_house_1 (X=-50702.449 Y=-38850.020 Z=10810.316)
-scrap_abandonned_house_2 (X=-51365.684 Y=-38502.379 Z=10875.761)
-scrap_abandonned_house_3 (X=-52397.570 Y=-37530.145 Z=10873.624)
-scrap_abandonned_house_4 (X=-50625.746 Y=-37916.758 Z=10886.909)
-scrap_abandonned_house_5 (X=-51201.051 Y=-37467.137 Z=10910.795)
-scrap_abandonned_house_6 (X=-51891.320 Y=-40549.492 Z=10675.211)
+Abandoned house :
+scrap_abandoned_house_1 (X=-50702.449 Y=-38850.020 Z=10810.316)
+scrap_abandoned_house_2 (X=-51365.684 Y=-38502.379 Z=10875.761)
+scrap_abandoned_house_3 (X=-52397.570 Y=-37530.145 Z=10873.624)
+scrap_abandoned_house_4 (X=-50625.746 Y=-37916.758 Z=10886.909)
+scrap_abandoned_house_5 (X=-51201.051 Y=-37467.137 Z=10910.795)
+scrap_abandoned_house_6 (X=-51891.320 Y=-40549.492 Z=10675.211)
 
 Ronny (NPCRonny X=-24704.291 Y=-25843.980 Z=11499.881) :
 scrap_ronny_towers_1 (X=-24434.766 Y=-25708.373 Z=11200.865)
@@ -613,7 +613,7 @@ scrap_hidden_hole_17 (X=-12390.332 Y=-77620.320 Z=7324.504)
 scrap_hidden_hole_18 (X=-10969.702 Y=-77961.477 Z=7297.171)
 scrap_hidden_hole_20 (X=-9888.596 Y=-78208.930 Z=7269.473)
 scrap_hidden_hole_21 (X=-8865.696 Y=-79063.977 Z=7247.677)
-scrap_hidden_hole_21 (X=-8143.984 Y=-79764.617 Z=7222.096)
+scrap_hidden_hole_22 (X=-8143.984 Y=-79764.617 Z=7222.096)
 
 Mob camp :
 mob_camp_key (X=-29114.480 Y=-53608.520 Z=12839.528) (18)
@@ -713,8 +713,8 @@ scrap_pickle_lady_21 (X=39352.430 Y=32668.316 Z=14494.778)
 purple_paint_can (X=40394.855 Y=31546.465 Z=13472.573)
 (4) jar_of_pickles (X=38227.535 Y=30234.848 Z=13593.506) (19)
 (19) pickle_lady_mission_end (dialog 4) -> 30_scraps_reward
-(19) scrap_pickle_lady_21 (X=59688.781 Y=25266.756 Z=11425.324)
-(19) scrap_pickle_lady_22 (X=59197.871 Y=24760.773 Z=11425.324)
+(19) scrap_pickle_lady_22 (X=59688.781 Y=25266.756 Z=11425.324)
+(19) scrap_pickle_lady_23 (X=59197.871 Y=24760.773 Z=11425.324)
 
 Temple shrine :
 scrap_temple_shrine_1 (X=-4675.183 Y=-21143.846 Z=11984.782)

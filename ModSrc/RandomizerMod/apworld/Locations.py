@@ -1,9 +1,9 @@
 from BaseClasses import Location
-from BaseID import base_id
+from .BaseID import base_id
 
 
 class CCCharlesLocation(Location):
-    game = "Choo-Choo Charles"
+    game: str = "Choo-Choo Charles"
 
 
 loc_start_camp = {
@@ -72,7 +72,7 @@ loc_swamp = {
     "scrap_swamp_32" : base_id + 1053 # (X=93992.992 Y=50773.484 Z=10238.064)
 }
 
-loc_lizebth_murkwater_mission = {
+loc_lizbeth_murkwater_mission = {
     "scrap_shack_swamp_1" : base_id + 1054, # (X=87685.797 Y=69754.008 Z=9629.617)
     "scrap_shack_swamp_2" : base_id + 1055, # (X=87308.883 Y=69096.789 Z=9624.543)
     "scrap_swamp_isle_1" : base_id + 1056, # (X=88101.219 Y=64553.148 Z=9557.692)
@@ -285,7 +285,7 @@ loc_santiago_house = {
     "journal" : base_id + 1227 # (X=34690.777 Y=-49788.359 Z=10214.353)
 }
 
-loc_stantiago_mission = {
+loc_santiago_mission = {
     "gray_paint_can" : base_id + 1228, # (X=74641.648 Y=-11320.948 Z=7551.767)
     "scrap_santiago_1" : base_id + 1229, # (X=67315.281 Y=-13828.055 Z=10101.339)
     "scrap_santiago_2" : base_id + 1230, # (X=67679.508 Y=-14127.952 Z=10061.037)
@@ -326,12 +326,12 @@ loc_trench_house = {
     "scrap_trench_house_16" : base_id + 1262, # (X=68413.258 Y=-56872.816 Z=9349.443)
     "scrap_trench_house_17" : base_id + 1263, # (X=67281.281 Y=-59201.371 Z=9254.457)
     "scrap_trench_house_18" : base_id + 1264, # (X=69064.219 Y=-48796.352 Z=9770.164)
-    "scrap_trench_house_1" : base_id + 1265, # (X=75042.141 Y=-50830.891 Z=8005.156)
-    "scrap_trench_house_2" : base_id + 1266, # (X=75066.516 Y=-50824.398 Z=7995.000)
-    "scrap_trench_house_3" : base_id + 1267, # (X=75072.789 Y=-50818.441 Z=7986.979)
-    "scrap_trench_house_4" : base_id + 1268, # (X=75038.656 Y=-50827.566 Z=7973.354)
-    "scrap_trench_house_5" : base_id + 1269, # (X=75060.406 Y=-50828.102 Z=7965.915)
-    "scrap_trench_house_6" : base_id + 1270 # (X=75056.648 Y=-50818.125 Z=7959.868)
+    "scrap_trench_house_19" : base_id + 1265, # (X=75042.141 Y=-50830.891 Z=8005.156)
+    "scrap_trench_house_20" : base_id + 1266, # (X=75066.516 Y=-50824.398 Z=7995.000)
+    "scrap_trench_house_21" : base_id + 1267, # (X=75072.789 Y=-50818.441 Z=7986.979)
+    "scrap_trench_house_22" : base_id + 1268, # (X=75038.656 Y=-50827.566 Z=7973.354)
+    "scrap_trench_house_23" : base_id + 1269, # (X=75060.406 Y=-50828.102 Z=7965.915)
+    "scrap_trench_house_24" : base_id + 1270 # (X=75056.648 Y=-50818.125 Z=7959.868)
 }
 
 loc_doll_woods = {
@@ -348,8 +348,8 @@ loc_doll_woods = {
 }
 
 loc_forest_lost_stairs = {
-    "scrap_lost_strairs_1" : base_id + 1281, # (X=47087.617 Y=-53476.547 Z=9103.093)
-    "scrap_lost_strairs_2" : base_id + 1282 # (X=47162.238 Y=-55318.094 Z=9127.096)
+    "scrap_lost_stairs_1" : base_id + 1281, # (X=47087.617 Y=-53476.547 Z=9103.093)
+    "scrap_lost_stairs_2" : base_id + 1282 # (X=47162.238 Y=-55318.094 Z=9127.096)
 }
 
 loc_far_east_house = {
@@ -569,13 +569,13 @@ loc_caravan = {
     "scrap_caravan_14" : base_id + 1457 # (X=-42905.090 Y=-38279.828 Z=11192.738)
 }
 
-loc_abandonned_house = {
-    "scrap_abandonned_house_1" : base_id + 1458, # (X=-50702.449 Y=-38850.020 Z=10810.316)
-    "scrap_abandonned_house_2" : base_id + 1459, # (X=-51365.684 Y=-38502.379 Z=10875.761)
-    "scrap_abandonned_house_3" : base_id + 1460, # (X=-52397.570 Y=-37530.145 Z=10873.624)
-    "scrap_abandonned_house_4" : base_id + 1461, # (X=-50625.746 Y=-37916.758 Z=10886.909)
-    "scrap_abandonned_house_5" : base_id + 1462, # (X=-51201.051 Y=-37467.137 Z=10910.795)
-    "scrap_abandonned_house_6" : base_id + 1463 # (X=-51891.320 Y=-40549.492 Z=10675.211)
+loc_abandoned_house = {
+    "scrap_abandoned_house_1" : base_id + 1458, # (X=-50702.449 Y=-38850.020 Z=10810.316)
+    "scrap_abandoned_house_2" : base_id + 1459, # (X=-51365.684 Y=-38502.379 Z=10875.761)
+    "scrap_abandoned_house_3" : base_id + 1460, # (X=-52397.570 Y=-37530.145 Z=10873.624)
+    "scrap_abandoned_house_4" : base_id + 1461, # (X=-50625.746 Y=-37916.758 Z=10886.909)
+    "scrap_abandoned_house_5" : base_id + 1462, # (X=-51201.051 Y=-37467.137 Z=10910.795)
+    "scrap_abandoned_house_6" : base_id + 1463 # (X=-51891.320 Y=-40549.492 Z=10675.211)
 }
 
 loc_ronny_mission = {
@@ -655,7 +655,7 @@ loc_hidden_hole = {
     "scrap_hidden_hole_18" : base_id + 1531, # (X=-10969.702 Y=-77961.477 Z=7297.171)
     "scrap_hidden_hole_20" : base_id + 1532, # (X=-9888.596 Y=-78208.930 Z=7269.473)
     "scrap_hidden_hole_21" : base_id + 1533, # (X=-8865.696 Y=-79063.977 Z=7247.677)
-    "scrap_hidden_hole_21" : base_id + 1534 # (X=-8143.984 Y=-79764.617 Z=7222.096)
+    "scrap_hidden_hole_22" : base_id + 1534 # (X=-8143.984 Y=-79764.617 Z=7222.096)
 }
 
 loc_mob_camp = {
@@ -760,8 +760,8 @@ loc_pickle_lady_mission = {
     "purple_paint_can" : base_id + 1621, # (X=40394.855 Y=31546.465 Z=13472.573)
     "jar_of_pickles" : base_id + 1622, # (X=38227.535 Y=30234.848 Z=13593.506)
     "pickle_lady_mission_end" : base_id + 1623,
-    "scrap_pickle_lady_21" : base_id + 1624, # (X=59688.781 Y=25266.756 Z=11425.324)
-    "scrap_pickle_lady_22" : base_id + 1625 # (X=59197.871 Y=24760.773 Z=11425.324)
+    "scrap_pickle_lady_22" : base_id + 1624, # (X=59688.781 Y=25266.756 Z=11425.324)
+    "scrap_pickle_lady_23" : base_id + 1625 # (X=59197.871 Y=24760.773 Z=11425.324)
 }
 
 loc_temple_shrine = {
@@ -776,18 +776,18 @@ loc_morse_refuge = {
     "scrap_morse_refuge_3" : base_id + 1631, # (X=-47953.637 Y=-85426.172 Z=10592.347)
     "scrap_morse_refuge_4" : base_id + 1632, # (X=-47958.691 Y=-85444.805 Z=10587.060)
     "scrap_morse_refuge_5" : base_id + 1633, # (X=-47953.617 Y=-85426.172 Z=10574.149)
-    "scrap_morse_refuge_1" : base_id + 1634, # (X=-48336.863 Y=-85458.453 Z=10574.537)
-    "scrap_morse_refuge_2" : base_id + 1635, # (X=-48253.844 Y=-84944.609 Z=10573.793)
-    "scrap_morse_refuge_3" : base_id + 1636, # (X=-47272.422 Y=-84549.945 Z=10543.671)
-    "scrap_morse_refuge_4" : base_id + 1637, # (X=-47080.836 Y=-85268.281 Z=10564.355)
-    "scrap_morse_refuge_5" : base_id + 1638, # (X=-47913.855 Y=-85234.258 Z=10819.314)
-    "scrap_morse_refuge_6" : base_id + 1639, # (X=-46410.227 Y=-83293.742 Z=10361.746)
-    "scrap_morse_refuge_7" : base_id + 1640, # (X=-45204.199 Y=-84841.211 Z=10329.200)
-    "scrap_morse_refuge_8" : base_id + 1641, # (X=-43895.801 Y=-83794.750 Z=10265.661)
-    "scrap_morse_refuge_9" : base_id + 1642, # (X=-45163.078 Y=-80832.828 Z=10090.777)
-    "scrap_morse_refuge_10" : base_id + 1643, # (X=-46782.027 Y=-82284.805 Z=10289.180)
-    "scrap_morse_refuge_11" : base_id + 1644, # (X=-49240.047 Y=-83654.961 Z=10898.540)
-    "scrap_morse_refuge_12" : base_id + 1645 # (X=-46571.930 Y=-85962.773 Z=10697.339)
+    "scrap_morse_refuge_6" : base_id + 1634, # (X=-48336.863 Y=-85458.453 Z=10574.537)
+    "scrap_morse_refuge_7" : base_id + 1635, # (X=-48253.844 Y=-84944.609 Z=10573.793)
+    "scrap_morse_refuge_8" : base_id + 1636, # (X=-47272.422 Y=-84549.945 Z=10543.671)
+    "scrap_morse_refuge_9" : base_id + 1637, # (X=-47080.836 Y=-85268.281 Z=10564.355)
+    "scrap_morse_refuge_10" : base_id + 1638, # (X=-47913.855 Y=-85234.258 Z=10819.314)
+    "scrap_morse_refuge_11" : base_id + 1639, # (X=-46410.227 Y=-83293.742 Z=10361.746)
+    "scrap_morse_refuge_12" : base_id + 1640, # (X=-45204.199 Y=-84841.211 Z=10329.200)
+    "scrap_morse_refuge_13" : base_id + 1641, # (X=-43895.801 Y=-83794.750 Z=10265.661)
+    "scrap_morse_refuge_14" : base_id + 1642, # (X=-45163.078 Y=-80832.828 Z=10090.777)
+    "scrap_morse_refuge_15" : base_id + 1643, # (X=-46782.027 Y=-82284.805 Z=10289.180)
+    "scrap_morse_refuge_16" : base_id + 1644, # (X=-49240.047 Y=-83654.961 Z=10898.540)
+    "scrap_morse_refuge_17" : base_id + 1645 # (X=-46571.930 Y=-85962.773 Z=10697.339)
 }
 
 loc_prism_temple = {
@@ -826,16 +826,17 @@ loc_prism_temple = {
     "scrap_prism_temple_33" : base_id + 1678, # (X=16998.229 Y=-23241.652 Z=11055.539)
     "scrap_prism_temple_34" : base_id + 1679, # (X=17613.518 Y=-23799.813 Z=11057.277)
     "scrap_prism_temple_35" : base_id + 1680, # (X=15342.375 Y=-24807.357 Z=11024.192)
-    "scrap_prism_temple_36" : base_id + 1681, # (X=15963.284 Y=-24834.156 Z=11021.444)
+    "scrap_prism_temple_36" : base_id + 1681 # (X=15963.284 Y=-24834.156 Z=11021.444)
 }
 
+
 ## All locations
-location_table = {
+location_table: dict[str, int] = {
     **loc_start_camp,
     **loc_tony_tiddle_mission,
     **loc_candice_mission,
     **loc_swamp,
-    **loc_lizebth_murkwater_mission,
+    **loc_lizbeth_murkwater_mission,
     **loc_daryl_mission,
     **loc_dianne_house,
     **loc_helen_mission,
@@ -848,7 +849,7 @@ location_table = {
     **loc_ghost_boulder_field,
     **loc_sasha_mission,
     **loc_santiago_house,
-    **loc_stantiago_mission,
+    **loc_santiago_mission,
     **loc_trench_house,
     **loc_doll_woods,
     **loc_forest_lost_stairs,
@@ -866,7 +867,7 @@ location_table = {
     **loc_church,
     **loc_gale_mission,
     **loc_caravan,
-    **loc_abandonned_house,
+    **loc_abandoned_house,
     **loc_ronny_mission,
     **loc_north_frank_fisher,
     **loc_hidden_hole,

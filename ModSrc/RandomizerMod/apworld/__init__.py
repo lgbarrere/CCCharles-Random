@@ -1,18 +1,15 @@
-import typing
-import os
-import json
-from .Items import unique_item_dict, full_item_list, item_groups, CCCharlesItem
-from .Locations import location_table, CCCharlesLocation
+from .Items import CCCharlesItem, unique_item_dict, full_item_list, item_groups
+from .Locations import CCCharlesLocation, location_table
 from .Options import CCCharlesOptions
 from .Rules import set_rules
-from .Regions import CCCharlesRegion
-from BaseClasses import Item, Tutorial, ItemClassification, Region
-from AutoWorld import World, WebWorld
+from .Regions import CCCharlesRegion, create_regions
+from BaseClasses import Tutorial, ItemClassification
+from worlds.AutoWorld import World, WebWorld
 
 
 class CCCharlesWeb(WebWorld):
     """
-    Choo-Choo Charles is an horror game.
+    Choo-Choo Charles is a horror game.
     A devil spider train from hell called Charles chases any person it finds on an island.
     The goal is to gather scraps to upgrade a train to fight Charles and travel with this train to find 3 eggs
     to lead Charles to a brutal death and save the island.
@@ -34,7 +31,7 @@ class CCCharlesWeb(WebWorld):
 
 class CCCharlesWorld(World):
     """ 
-    An independant 3D horror game, taking place on an island.
+    An independent 3D horror game, taking place on an island.
     The main gameplay is composed of 2 phases :
     > Traveling and fighting a monster on board a train
     > Walking disarmed to gather resources
@@ -56,8 +53,7 @@ class CCCharlesWorld(World):
     topology_present = True  # show path to required location checks in spoiler
 
     def create_regions(self) -> None :
-        cccregion = CCCharlesRegion(self.multiworld, self.player)
-        self.multiworld.regions += [cccregion.regions]
+        create_regions(self.multiworld, self.options, self.player)
 
     def create_item(self, name: str) -> CCCharlesItem:
         item_id = unique_item_dict[name]
@@ -147,9 +143,9 @@ class CCCharlesWorld(World):
                 classification = ItemClassification.progression
             case "Temple Key" :
                 classification = ItemClassification.progression
-            case "Bug spray" :
+            case "Bug spray":
                 classification = ItemClassification.progression
-            case _:
+            case _: # Should not occur
                 classification = ItemClassification.filler
 
         return CCCharlesItem(name, classification, item_id, self.player)
@@ -157,9 +153,5 @@ class CCCharlesWorld(World):
     def create_items(self) -> None:
         self.multiworld.itempool += [self.create_item(item) for item in full_item_list]
 
-        # Include Boss Beaten event
-        victory_loc = CCCharlesLocation(self.player, "Boss Beaten", None)
-        victory_loc.place_locked_item(CCCharlesItem("Boss Beaten", ItemClassification.progression, None, self.player))
-    
     def set_rules(self) -> None:
         set_rules(self.multiworld, self.options, self.player)

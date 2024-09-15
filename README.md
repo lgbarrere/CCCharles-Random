@@ -57,6 +57,13 @@ If needed, link the Github account to the Epic Game account and [setup the ssh k
 7. A legal copy of the Choo-Choo Charles original game (can be found on [Steam](https://store.steampowered.com/))
 8. Clone this project with ``git clone https://github.com/lgbarrere/CCCharles-Random.git``
 
+**Note** : For unknown reason, updating Microsoft Visual Studio Community 2022 to a recent version causes build errors.
+
+This can be fixed by using the following known working tools or by manually installing the Microsoft Visual Studio Community 2022 at the version **17.10.5** :
+Rust version 1.79.0
+Microsoft C/C++ Compiler (x64) version 19.40.33815
+Microsoft C/C++ Compiler Toolset version 14.40.33807
+
 **IMPORTANT** : To build this project, a short path should be used to avoid the [Maximum Path Length Limitation](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry) to be reached during the compilation (try to not exceed a length of 50 char for the project path).
 
 Then do the following commands (don't forget to replace \<ProjectFolder\> by your own path)

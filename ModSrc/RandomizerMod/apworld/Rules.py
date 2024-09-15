@@ -1,14 +1,9 @@
-from typing import Callable, Union, Dict, Set
-
 from BaseClasses import MultiWorld
 from ..generic.Rules import set_rule
-from .Locations import location_table
 from .Options import CCCharlesOptions
-from .Regions import CCCharlesRegion
-from .Items import useless_items
 
 
-def set_rules(self, world: MultiWorld, options: CCCharlesOptions, player: int) -> None:
+def set_rules(world: MultiWorld, options: CCCharlesOptions, player: int) -> None:
     # Tony
     set_rule(world.get_location("scrap_tony_tiddle_1", player),
         lambda state: state.has("Barn Key", player))
@@ -189,7 +184,8 @@ def set_rules(self, world: MultiWorld, options: CCCharlesOptions, player: int) -
 
     # Paul
     set_rule(world.get_location("paul_mission_end", player),
-        lambda state: state.has("Remote Explosive", player, 8))
+             lambda state: state.has("Remote Explosive x8", player))
+        # lambda state: state.has("Remote Explosive", player, 8)) # TODO : Add an option to split remote explosives
 
     # Beach
     set_rule(world.get_location("scrap_beach_1", player),
@@ -304,7 +300,7 @@ def set_rules(self, world: MultiWorld, options: CCCharlesOptions, player: int) -
         lambda state: state.has("Lockpicks", player))
     set_rule(world.get_location("scrap_prism_temple_3", player),
         lambda state: state.has("Lockpicks", player))
-    
+
     # Pickle
     set_rule(world.get_location("jar_of_pickles", player),
         lambda state: state.has("Lockpicks", player))
@@ -326,3 +322,6 @@ def set_rules(self, world: MultiWorld, options: CCCharlesOptions, player: int) -
         lambda state: state.has("Lockpicks", player))
     set_rule(world.get_location("scrap_morse_refuge_5", player),
         lambda state: state.has("Lockpicks", player))
+
+    # Place "Victory" at "Final Boss" and set collection as win condition
+    world.completion_condition[player] = lambda state: state.has("Victory", player)
