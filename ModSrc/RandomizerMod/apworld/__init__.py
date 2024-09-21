@@ -27,6 +27,7 @@ class CCCharlesWeb(WebWorld):
     )]
 
     game_info_languages = ["en", "fr"]
+    rich_text_options_doc = True
 
 
 class CCCharlesWorld(World):
@@ -45,9 +46,9 @@ class CCCharlesWorld(World):
     location_name_to_id = location_table
     item_name_groups = item_groups
 
-    # this gives the generator all the definitions for our options
+    # Options the player can set
     options_dataclass = CCCharlesOptions
-    # this gives us typing hints for all the options we defined
+    # Typing hints for all the options we defined
     options: CCCharlesOptions
 
     topology_present = True  # show path to required location checks in spoiler

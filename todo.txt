@@ -15,6 +15,11 @@ Ideas :
 > Make a compass (could be found in a check if enabled in yaml) to find the closest check to do
 > Implement a scrap count by area if possible, always displayed in the screen/map (all counts displayed on the map)
 > Make some checks to enable the train upgrade
-> Highlight the close scraps to the player
 > DeathDuck has an untextured eye, the Archipelago logo could be added to it
 > Make an additional check to randomize the access to the train
+> Make the player start with a random weapon (among the 4 weapons)
+> Give an option to see randomized items or not (replaced by DeathDuck)
+> Paint can could apply a passive effect (positive or negative) or trap
+> Add an option to randomize the NPCs
+> Add an option to make the train come back to the start if its HP becomes 0
+> Add categories of scraps to repair / buff the speed / buff the damage / buff the armor

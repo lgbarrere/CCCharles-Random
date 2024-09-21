@@ -1,5 +1,5 @@
 # CCCharles base ID
-base_id = 9758067000
+base_id = 6660000000
 
 # Existing others games IDs : 
 # adventure 118_000_000
