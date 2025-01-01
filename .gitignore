@@ -1,21 +1,25 @@
-
+# Binaries
 /Obscure/Binaries
 /Obscure/Build
-/Obscure/Content/StarterContent
 /Obscure/Intermediate
-/Obscure/Saved
-/ModSrc/.xmake
 /ModSrc/Binaries
 /ModSrc/Intermediates
-/Obscure/.vs
 /Obscure/PackagedMod/WindowsNoEditor/Engine
-Obscure/PackagedMod/WindowsNoEditor/Obscure.exe
 /Obscure/PackagedMod/WindowsNoEditor/Obscure/Binaries
+
+# Unused
+/Obscure/Content/StarterContent
+/Obscure/Saved
 Obscure/PackagedMod/WindowsNoEditor/Manifest_NonUFSFiles_Win64.txt
 Obscure/PackagedMod/WindowsNoEditor/Obscure/Content/Paks/pakchunk0-WindowsNoEditor.pak
 ModSrc/RandomizerMod/AutoWorld.py
 ModSrc/RandomizerMod/BaseClasses.py
 ModSrc/RandomizerMod/generic/Rules.py
 ModSrc/RandomizerMod/apworld/test/bases.py
+Obscure/PackagedMod/WindowsNoEditor/Obscure.exe
+
+# Configurations
+/ModSrc/.xmake
 /.xmake
 /ModSrc/RandomizerMod/apworld/test/__pycache__
+/.vs

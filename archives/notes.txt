@@ -10,6 +10,21 @@ Game/_GAME/Blueprints/MissionsDataTable.uasset
 Game/_GAME/Blueprints/SubtitlesStruct.uasset
 Game/EasySave/easySaveObject.uasset
 
+Possibly important BP/functions (possible whitespace in function names) :
+SpawnRumbleActor(class UForceFeedbackEffect* ForceFeedbackEffect, class USceneComponent* Attach to component, FVector Location, float Intensity , class UForceFeedbackComponent*& ForceFeedbackRef);
+IDamageInterface_C : Damage(float DamageApplied, float SlowingMultiplier, class UActorComponent* HitComponent);
+DeathScreen_C
+AGhostAI_C : TeleportPlayer(); | SetStats(int32 PageCount);
+PlayerTrain
+TrainUpgradeStats
+UpgradesMenu
+ScrapCountTutorialMissions
+MainUI
+
+Scenarios in Boulder fields :
+- Pick a first Pages_Drawing inside Boulder fields => Ghost appears
+- Pick a first Pages_Drawing outside Boulder fields => Ghost does not appear
+
 Global pickable items name :
 - Loot boxes => ScrapCratePoint
 - Scraps inside loot boxes => ItemPickup_C
