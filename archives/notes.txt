@@ -9,25 +9,37 @@ Game/_GAME/Blueprints/NPC.uasset => MissionID
 Game/_GAME/Blueprints/MissionsDataTable.uasset
 Game/_GAME/Blueprints/SubtitlesStruct.uasset
 Game/EasySave/easySaveObject.uasset
+Game/_GAME/Blueprints/GunStatsDataTable.uasset
 
 Possibly important BP/functions (possible whitespace in function names) :
-SpawnRumbleActor(class UForceFeedbackEffect* ForceFeedbackEffect, class USceneComponent* Attach to component, FVector Location, float Intensity , class UForceFeedbackComponent*& ForceFeedbackRef);
 IDamageInterface_C : Damage(float DamageApplied, float SlowingMultiplier, class UActorComponent* HitComponent);
 DeathScreen_C
 AGhostAI_C : TeleportPlayer(); | SetStats(int32 PageCount);
-PlayerTrain
+ABP_NMCharacter_C
+UNotification_C
+APhotorealistic_Island_C
+PlayerTrain : GunHook | GunHook<1..3> | Teal to Grey (paint cans)
 TrainUpgradeStats
 UpgradesMenu
 ScrapCountTutorialMissions
 MainUI
 
-Scenarios in Boulder fields :
+Local scales of guns collisions :
+FlameThrower X=0.432 Y=0.732 Z=1.50
+RocketLauncher X=0.432 Y=0.712 Z=1.508
+RangeGun X=0.237 Y=0.789 Z=2.684
+
+Usefull functions from PlayerTrain for paint cans :
+void Update Unlocked Paint Cans();
+void Set collision Yellow();
+
+Scenarios in Boulder fields (list of all scenarios still TODO) :
 - Pick a first Pages_Drawing inside Boulder fields => Ghost appears
 - Pick a first Pages_Drawing outside Boulder fields => Ghost does not appear
 
 Global pickable items name :
 - Loot boxes => ScrapCratePoint
-- Scraps inside loot boxes => ItemPickup_C
+- Scraps inside loot boxes => ItemPickup
 - Scraps => ItemPickup
 - Mission Items (talkable characters) => NPC<Name>
 
@@ -40,6 +52,14 @@ player_distance_interaction = 290
 
 Miscellaneous :
 If "Use Item" is called with a negative amount, the items are added to inventory instead of being removed
+
+To get a working local world :
+1) Package the <apworld>/ folder (here cccharles) and name it <apworld>.apworld (the archipelago logo should be displayed)
+2) Double-click the <apworld>.apworld package to automatically install the world locally
+3) Launch the Archipelago launcher and click "Generate Template Options"
+4) Put the generated template from Archipelago/Players/Templates/ to Archipelago/Players/ and edit it manually
+5) In the Archipelago launcher, click "Generate" to setup a game with the yaml in the Archipelago/ouput/ folder
+6) The game can now be hosted with "Host" in the Archipelago launcher by using the generated game in Archipelago/output/
 
 All Item Names :
 01_KeyTony

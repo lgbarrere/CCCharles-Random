@@ -23,3 +23,6 @@ Obscure/PackagedMod/WindowsNoEditor/Obscure.exe
 /.xmake
 /ModSrc/RandomizerMod/apworld/test/__pycache__
 /.vs
+
+# Shortcuts
+*.lnk
