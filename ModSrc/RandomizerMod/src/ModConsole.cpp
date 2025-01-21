@@ -1,23 +1,25 @@
 #include "ModConsole.hpp"
 
 
-#define MAX_OPTION_LENGTH 50
+#define OPTION_MAX_LENGTH 50
 #define NB_MAX_OPTIONS 5
+#define ALL_OPTIONS_MAX_LENGTH NB_MAX_OPTIONS * (OPTION_MAX_LENGTH + 1) // Addition of all options +1 by option for '\0'
 
 
 /**
 *   @param command : The input command to compare and parse
 *   @param expectedCmd : The expected command name to compare with the input command
 *   @param outOptions : An out array copying the parsed options separated with '\0'
-*   @param outOptionPositions : An out array with the positions of all options in outOptions (-1 if no option at the position)
-*   @note If an option exceeds MAX_OPTION_LENGTH char or if more options than NB_MAX_OPTIONS are found, -1 is returned
-*   @note Get an option with outOptions[outOptionPositions[i]]) with i from 0 to the returned number of parsed options
+*   @param outOptionPositions : An out array with the positions of all options in outOptions (-1 for positions without option)
+*   @note If an option exceeds OPTION_MAX_LENGTH char or if more options than NB_MAX_OPTIONS are found, -1 is returned
+*   @note Get an option with getOptionAtindex()
 * 
-*   @todo This function should be optimized by comparing the input command wuth all known command names at once
-* 
-*   @return The number of parsed options, -1 if the command is not correct
+*   @return The number of parsed options, in error case :
+*               -1 if the command is not recognized
+*               -2 if the number of input options exceeds NB_MAX_OPTIONS
+*               -3 if an option exceeds OPTION_MAX_LENGTH char ('\0 included')
 */
-static int CompareAndParseCmd(const TCHAR* command, const char* expectedCmd, TCHAR outOptions[NB_MAX_OPTIONS * MAX_OPTION_LENGTH], int outOptionPositions[NB_MAX_OPTIONS])
+static int CompareAndParseCmd(const TCHAR* command, const char* expectedCmd, TCHAR outOptions[ALL_OPTIONS_MAX_LENGTH], int outOptionPositions[NB_MAX_OPTIONS])
 {
     const char separator = ' ';
     int i = 0, j = 0;
@@ -38,6 +40,7 @@ static int CompareAndParseCmd(const TCHAR* command, const char* expectedCmd, TCH
     while (command[i] != '\n' && command[i] != '\0')
     {
         outOptionPositions[numberOfParsedOptions] = j;
+        int optionLength = 1; // Count the number of char in an option to not exceed OPTION_MAX_LENGTH
 
         // Ignore trailing separators after comparision, the command name is recognized
         while (command[i] == separator)
@@ -45,27 +48,63 @@ static int CompareAndParseCmd(const TCHAR* command, const char* expectedCmd, TCH
             i++;
         }
 
+        // Error if the maximum number of expected options is reached and the command line is not ended
+        if (numberOfParsedOptions >= NB_MAX_OPTIONS && command[i] != '\n' && command[i] != '\0')
+        {
+            return -2;
+        }
+
         // Copy the found option until the next separator or the end of the command 
         while (command[i] != separator && command[i] != '\n' && command[i] != '\0')
         {
+            if (optionLength >= OPTION_MAX_LENGTH)
+            {
+                return -3;
+            }
+
             outOptions[j] = command[i];
             i++;
             j++;
+            optionLength++;
         }
 
-        outOptions[j] = '\0';
+        outOptions[j] = '\0'; // End an option by '\0'
         j++;
         numberOfParsedOptions++;
+    }
+
+    for (int k = numberOfParsedOptions; k < NB_MAX_OPTIONS; k++)
+    {
+        outOptionPositions[numberOfParsedOptions] = -1;
     }
 
     return numberOfParsedOptions;
 }
 
 
+/**
+*   @param options : An array with the options separated with '\0'
+*   @param optionPositions : An array with the positions of all options in outOptions
+*   @param index : The index of the option (should not exceed NB_MAX_OPTIONS)
+*   @note CompareAndParseCmd() should be called once before using this function
+*
+*   @return The option at the provided index, NULL otherwise (incorrect index or no option at this index)
+*/
+static TCHAR* getOptionAtindex(TCHAR options[ALL_OPTIONS_MAX_LENGTH], const int optionPositions[NB_MAX_OPTIONS], const unsigned int index)
+{
+    if (index >= NB_MAX_OPTIONS || optionPositions[index] == -1)
+    {
+        return NULL;
+    }
+
+    return options + optionPositions[index];
+}
+
+
 namespace ModConsole {
     int ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
     {
-        TCHAR outOptions[NB_MAX_OPTIONS * MAX_OPTION_LENGTH];
+        TCHAR outOptions[ALL_OPTIONS_MAX_LENGTH];
         int outOptionPositions[NB_MAX_OPTIONS];
 
         int numberOfOptions = CompareAndParseCmd(command, "help", outOptions, outOptionPositions);
@@ -95,11 +134,11 @@ namespace ModConsole {
         if (numberOfOptions >= 2) // At least 2 options are required for the "connect" command
         {
             Ar.Log(STR("Command recognized\n"));
-            TCHAR *optionIP = outOptions + outOptionPositions[0];
-            TCHAR *optionPlayerName = outOptions + outOptionPositions[1];
-            TCHAR *optionPassword = outOptions + outOptionPositions[2];
+            TCHAR *optionIP = getOptionAtindex(outOptions, outOptionPositions, 0);
+            TCHAR *optionPlayerName = getOptionAtindex(outOptions, outOptionPositions, 1);
+            TCHAR *optionPassword = getOptionAtindex(outOptions, outOptionPositions, 2);
             
-            // TODO : Remove this once the debug is finised
+            // TODO : Remove this once the debug is finished
             Ar.Log(STR("Option1 :\n"));
             Ar.Log(optionIP);
             Ar.Log(STR("Option2 :\n"));
