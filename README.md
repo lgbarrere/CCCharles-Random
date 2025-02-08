@@ -8,10 +8,10 @@ The currently used UE4SS version UE4SS_v3.0.1-98-g5c1bfc4.zip comes from [the ex
 ## Current features
 ### Blueprints
 Only test modules have been implemented to make the debugging and modding way easier and faster.
-No randomization is yet implemented.
+The randomization logic is a work in progress.
 
 ### C++
-No feature is yet implemented, the C++ only says "hello" in the logs to ensure it is injectable.
+APCpp is used to send a checked location to the Archipelago server or to receive items from any world. This work is still in progress.
 
 ### Utility Tools
 To make the modding easier to develop, an Overlay has been added and can be displayed by pressing "F1" while playing.
@@ -33,7 +33,7 @@ To :
 ```
 <GameFolder>\Obscure\Content\Paks\LogicMods\
 ```
-Then rename that file "TesterMod.pak"
+Then rename that file "MWRandomizerMod.pak"
 
 ## Mod installation for development
 ### Project Architecture
@@ -102,4 +102,3 @@ Follow the comments in this script to fill it properly.
 
 ## Known Issues
 * Only affects the mod developers : the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
-* Sometimes, when the game is launched, it may enter in infinite loop for undefined reason. This is random but it seems to not occur 2 times in a row. Until a fix is done, the only way to pass through this step is unfortunately to kill the process of the game (Task Manager is your friend) and restart the game.
