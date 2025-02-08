@@ -43,6 +43,12 @@ Global pickable items name :
 - Scraps => ItemPickup
 - Mission Items (talkable characters) => NPC<Name>
 
+Item count :
+- Scraps = 641
+- Gitched scraps = 3
+- Pages_Drawing = 8
+[TODO : continue the list]
+
 Usable classes :
 ItemPickup
 Pages_Drawing<number 1..8>

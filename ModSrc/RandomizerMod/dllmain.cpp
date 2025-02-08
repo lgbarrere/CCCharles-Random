@@ -14,7 +14,7 @@
 #include <Unreal/FString.hpp>
 #include <Unreal/BPMacros.hpp>
 
-#include "../APCpp/Archipelago.h"
+#include "Archipelago.h"
 #include "ModConsole.hpp"
 
 using namespace RC;
@@ -59,44 +59,48 @@ public:
     static auto CallbackFunctionHook([[maybe_unused]] Unreal::UObject* Context, Unreal::FFrame& Stack, [[maybe_unused]] void* RESULT_DECL) -> void
     {
         // In the callback, or anywhere else on or after on_unnreal_init.
-        static auto FuncNameToHook = FName(STR("FuncNameToHook"), FNAME_Add);
+        static auto FuncNameToHook = FName(STR("FuncNameToHook"), FNAME_Add); // TODO : Temporary for tests, to remove
+        static auto SendLocationIDHook = FName(STR("SendLocationID"), FNAME_Add);
         static auto FuncNameToCall = FName(STR("FuncNameToCall"), FNAME_Add);
 
         // Check the function name is correct in the callback
-        if (Stack.Node()->GetNamePrivate() != FuncNameToHook)
+        if (Stack.Node()->GetNamePrivate() == FuncNameToHook)
         {
-            // Unexpected function, so exit early
-            return;
+            // Get the parameters in order
+            FString* tmpParam = Stack.Node()->GetPropertyByName(STR("SomeParamHook"))->ContainerPtrToValuePtr<FString>(Stack.Locals());
+            int64_t* tmpParam2 = Stack.Node()->GetPropertyByName(STR("AnotherParamHook"))->ContainerPtrToValuePtr<int64_t>(Stack.Locals());
+
+            Output::send<LogLevel::Verbose>(STR("FuncNameToHook has been called with success\n"));
+            Output::send<LogLevel::Verbose>(STR("{}"), tmpParam->GetCharArray());
+            Output::send<LogLevel::Verbose>(STR("{}"), *tmpParam2);
+
+            // Call a BP function to pass parameters
+            FString itemName = FString(STR("Some_item"));
+            AP_SendItem(*tmpParam2);
+            Stack.Object()->ProcessEvent(Stack.Object()->GetFunctionByName(FuncNameToCall), &itemName);
         }
 
-        // The function name is correct, proceed
-        FString* tmpParam = Stack.Node()->GetPropertyByName(STR("SomeParamHook"))->ContainerPtrToValuePtr<FString>(Stack.Locals());
-        int32* tmpParam2 = Stack.Node()->GetPropertyByName(STR("AnotherParamHook"))->ContainerPtrToValuePtr<int32>(Stack.Locals());
-        int32* tmpRes = Stack.Node()->GetPropertyByName(STR("SomeResultHook"))->ContainerPtrToValuePtr<int32>(Stack.Locals());
+        else if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
+        {
+            Output::send<LogLevel::Verbose>(STR("SendLocationIDHook"));
+            int64_t* locationID = Stack.Node()->GetPropertyByName(STR("locationID"))->ContainerPtrToValuePtr<int64_t>(Stack.Locals());
+            Output::send<LogLevel::Verbose>(STR("{}"), *locationID);
 
-        int32* res = (int32*)RESULT_DECL;
-        *res = 4; // Not working
+            // If the ID is -1, no item was found, exit early
+            if (*locationID == -1)
+            {
+                Output::send<LogLevel::Verbose>(STR("Item not found"));
+                return;
+            }
 
-        Output::send<LogLevel::Verbose>(STR("{}"), tmpParam->GetCharArray());
-        Output::send<LogLevel::Verbose>(STR("{}"), *tmpParam2);
-
-        Output::send<LogLevel::Verbose>(STR("FuncNameToHook has been called with success\n"));
-
-        // Call a BP function to pass parameters
-        FString itemName = FString(STR("Some_item"));
-        Stack.Object()->ProcessEvent(Stack.Object()->GetFunctionByName(FuncNameToCall), &itemName);
-    }
-
-    void StartArchipelagoConnexion(const char* ipAddress, const char* gameName, const char* playerName, const char* password)
-    {
-        // IP example from /connect archipelago.gg:38281 : IP = archipelago.gg:38281
-        // AP_Init("localhost:38281", "Choo-Choo charles", "YaranCCC", ""); // Raw values for test
-        AP_Init(ipAddress, gameName, playerName, password); // Using variables filled by the user and Archipelago
+            AP_SendItem(*locationID);
+        }
     }
 
     static bool CallbackConsole(UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor)
     {
-        if (command[0] == '/' || command[0] == '!') {
+        if (command[0] == '/' || command[0] == '!')
+        {
             command++; // Exclude the first character from the array
 
             int same = ModConsole::CheckCommand(Ar, command);
@@ -115,7 +119,6 @@ public:
         }
 
         Output::send<LogLevel::Verbose>(STR("Command undetected\n"));
-        // StartArchipelagoConnexion("localhost:38281", "Choo-Choo charles", "YaranCCC", "");
         return false;
     }
 

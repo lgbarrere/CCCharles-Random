@@ -11,8 +11,13 @@ set "GameFolder=D:\Program Files (x86)\Steam\steamapps\common\Choo-Choo Charles\
 
 :: Inject the packaged Logic Mod
 xcopy /Y "%ProjectFolder%Obscure\PackagedMod\WindowsNoEditor\Obscure\Content\Paks\pakchunk1-WindowsNoEditor.pak" "%GameFolder%Obscure\Content\Paks\LogicMods\"
-del "%GameFolder%Obscure\Content\Paks\LogicMods\TesterMod.pak"
-ren "%GameFolder%Obscure\Content\Paks\LogicMods\pakchunk1-WindowsNoEditor.pak" "TesterMod.pak"
+del "%GameFolder%Obscure\Content\Paks\LogicMods\MWRandomizerMod.pak"
+ren "%GameFolder%Obscure\Content\Paks\LogicMods\pakchunk1-WindowsNoEditor.pak" "MWRandomizerMod.pak"
+
+:: The following line can be uncommented to overwrite original content of the game
+@REM xcopy /Y "%ProjectFolder%Obscure\PackagedMod\WindowsNoEditor\Obscure\Content\Paks\pakchunk2-WindowsNoEditor.pak" "%GameFolder%Obscure\Content\Paks\mods\"
+@REM del "%GameFolder%Obscure\Content\Paks\mods\OverwriteGameContent_P.pak"
+@REM ren "%GameFolder%Obscure\Content\Paks\mods\pakchunk2-WindowsNoEditor.pak" "OverwriteGameContent_P.pak"
 
 :: Inject the C++ DLL Mod
 xcopy /Y "%ProjectFolder%ModSrc\Binaries\Game__Shipping__Win64\RandomizerMod\RandomizerMod.dll" "%GameFolder%Obscure\Binaries\Win64\ue4ss\Mods\RandomizerMod\dlls\"

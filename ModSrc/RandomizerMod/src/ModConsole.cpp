@@ -1,10 +1,27 @@
+#include <Mod/CppUserModBase.hpp>
+#include <DynamicOutput/DynamicOutput.hpp>
+#include <Unreal/UObjectGlobals.hpp>
+#include <Unreal/UObject.hpp>
+#include <Unreal/Hooks.hpp>
+#include <Unreal/UFunction.hpp>
+#include <Unreal/UFunctionStructs.hpp>
+#include <Unreal/FProperty.hpp>
+#include <Unreal/FString.hpp>
+#include <Unreal/BPMacros.hpp>
+#include <Unreal/NameTypes.hpp>
+
 #include "ModConsole.hpp"
+#include "Archipelago.h"
+#include "Helpers/String.hpp"
 
 
 #define OPTION_MAX_LENGTH 50
 #define NB_MAX_OPTIONS 5
-#define ALL_OPTIONS_MAX_LENGTH NB_MAX_OPTIONS * (OPTION_MAX_LENGTH + 1) // Addition of all options +1 by option for '\0'
+#define ALL_OPTIONS_MAX_LENGTH (NB_MAX_OPTIONS * (OPTION_MAX_LENGTH + 1)) // Addition of all options, +1 by option for '\0'
 
+using namespace std;
+using namespace RC;
+using namespace RC::Unreal;
 
 /**
 *   @param command : The input command to compare and parse
@@ -19,7 +36,7 @@
 *               -2 if the number of input options exceeds NB_MAX_OPTIONS
 *               -3 if an option exceeds OPTION_MAX_LENGTH char ('\0 included')
 */
-static int CompareAndParseCmd(const TCHAR* command, const char* expectedCmd, TCHAR outOptions[ALL_OPTIONS_MAX_LENGTH], int outOptionPositions[NB_MAX_OPTIONS])
+static int CompareAndParseCmd(const char* command, const char* expectedCmd, char outOptions[ALL_OPTIONS_MAX_LENGTH], int outOptionPositions[NB_MAX_OPTIONS])
 {
     const char separator = ' ';
     int i = 0, j = 0;
@@ -90,7 +107,7 @@ static int CompareAndParseCmd(const TCHAR* command, const char* expectedCmd, TCH
 *
 *   @return The option at the provided index, NULL otherwise (incorrect index or no option at this index)
 */
-static TCHAR* getOptionAtindex(TCHAR options[ALL_OPTIONS_MAX_LENGTH], const int optionPositions[NB_MAX_OPTIONS], const unsigned int index)
+static char* GetOptionAtindex(char options[ALL_OPTIONS_MAX_LENGTH], const int optionPositions[NB_MAX_OPTIONS], const unsigned int index)
 {
     if (index >= NB_MAX_OPTIONS || optionPositions[index] == -1)
     {
@@ -101,13 +118,72 @@ static TCHAR* getOptionAtindex(TCHAR options[ALL_OPTIONS_MAX_LENGTH], const int 
 }
 
 
+/**
+*   @brief Clear all the collected items from the player's inventory
+*   @notimplemented Used by AP_SetItemClearCallback but is not necessary
+*/
+static void ClearInventoryCallback()
+{
+
+}
+
+
+/**
+*   @brief Receive an item from any world
+*   @param itemID : The ID of the received item
+*   @param notifyPlayer : Pass true to notify the player about the received item, false otherwise
+*/
+static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
+{
+    auto ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
+
+    if (!ItemManager) {
+        Output::send<LogLevel::Error>(STR("ItemManager not found\n"));
+        return;
+    }
+    Output::send<LogLevel::Verbose>(STR("ItemManager found\n"));
+
+    static auto ItemReceived = FName(STR("ItemReceived"), FNAME_Add);
+    auto ItemReceivedFunc = ItemManager->GetFunctionByName(ItemReceived);
+    if (!ItemReceivedFunc)
+    {
+        Output::send<LogLevel::Error>(STR("ItemReceived not found\n"));
+        return;
+    }
+    Output::send<LogLevel::Verbose>(STR("ItemReceived found\n"));
+    ItemManager->ProcessEvent(ItemReceivedFunc, &itemID);
+}
+
+
+/**
+*   @brief Mark a given location as checked
+*   @param locationID : The ID of the checked location
+*/
+static void LocationCheckedCallback(int64_t locationID)
+{
+    // TODO
+}
+
+
+/**
+*   @brief Convert the passed char* to TCHAR*
+*   @param charStr : The char* to convert
+*/
+static const TCHAR* CharStrToConstTcharStr(char* charStr)
+{
+    string str(charStr);
+    return RC::to_wstring(str).c_str();
+}
+
+
 namespace ModConsole {
     int ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
     {
-        TCHAR outOptions[ALL_OPTIONS_MAX_LENGTH];
+        char outOptions[ALL_OPTIONS_MAX_LENGTH];
         int outOptionPositions[NB_MAX_OPTIONS];
 
-        int numberOfOptions = CompareAndParseCmd(command, "help", outOptions, outOptionPositions);
+        const char* commandCharStr = RC::to_string(command).c_str();
+        int numberOfOptions = CompareAndParseCmd(commandCharStr, "help", outOptions, outOptionPositions);
         if (numberOfOptions != -1)
         {
             // Print in console
@@ -130,55 +206,56 @@ namespace ModConsole {
         }
         // Check if the use input is "/connect [...]"
         // Example : /connect archipelago.gg:59157 YaranCCC
-        numberOfOptions = CompareAndParseCmd(command, "connect", outOptions, outOptionPositions);
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "connect", outOptions, outOptionPositions);
         if (numberOfOptions >= 2) // At least 2 options are required for the "connect" command
         {
             Ar.Log(STR("Command recognized\n"));
-            TCHAR *optionIP = getOptionAtindex(outOptions, outOptionPositions, 0);
-            TCHAR *optionPlayerName = getOptionAtindex(outOptions, outOptionPositions, 1);
-            TCHAR *optionPassword = getOptionAtindex(outOptions, outOptionPositions, 2);
+            char* ipAddress = GetOptionAtindex(outOptions, outOptionPositions, 0);
+            char* playerName = GetOptionAtindex(outOptions, outOptionPositions, 1);
+            char* password = GetOptionAtindex(outOptions, outOptionPositions, 2);
             
             // TODO : Remove this once the debug is finished
             Ar.Log(STR("Option1 :\n"));
-            Ar.Log(optionIP);
+            Ar.Log(CharStrToConstTcharStr(ipAddress));
             Ar.Log(STR("Option2 :\n"));
-            Ar.Log(optionPlayerName);
+            Ar.Log(CharStrToConstTcharStr(playerName));
             Ar.Log(STR("Option3 :\n"));
-            Ar.Log(optionPassword);
+            Ar.Log(CharStrToConstTcharStr(password));
             
-            // To use after being connected
-            // AP_SetItemClearCallback(void (*f_itemclr)());
-            // AP_SetItemRecvCallback(void (*f_itemrecv)(int,bool));
-            // AP_SetLocationCheckedCallback(void (*f_locrecv)(int));
-            // AP_Start();
+            AP_Init(ipAddress, "Choo-Choo Charles", playerName, password);
+            AP_SetItemClearCallback(ClearInventoryCallback);
+            AP_SetItemRecvCallback(ItemReceivedCallback);
+            AP_SetLocationCheckedCallback(LocationCheckedCallback);
+            AP_SetDeathLinkSupported(false);
+            AP_Start();
 
             return 1;
         }
-        else if (CompareAndParseCmd(command, "disconnect", outOptions, outOptionPositions))
+        else if (CompareAndParseCmd(commandCharStr, "disconnect", outOptions, outOptionPositions))
+        {
+            AP_Shutdown();
+        }
+        else if (CompareAndParseCmd(commandCharStr, "release", outOptions, outOptionPositions))
         {
             /* code */
         }
-        else if (CompareAndParseCmd(command, "release", outOptions, outOptionPositions))
+        else if (CompareAndParseCmd(commandCharStr, "collect", outOptions, outOptionPositions))
         {
             /* code */
         }
-        else if (CompareAndParseCmd(command, "collect", outOptions, outOptionPositions))
+        else if (CompareAndParseCmd(commandCharStr, "hint", outOptions, outOptionPositions))
         {
             /* code */
         }
-        else if (CompareAndParseCmd(command, "hint", outOptions, outOptionPositions))
+        else if (CompareAndParseCmd(commandCharStr, "hint_location", outOptions, outOptionPositions))
         {
             /* code */
         }
-        else if (CompareAndParseCmd(command, "hint_location", outOptions, outOptionPositions))
+        else if (CompareAndParseCmd(commandCharStr, "remaining", outOptions, outOptionPositions))
         {
             /* code */
         }
-        else if (CompareAndParseCmd(command, "remaining", outOptions, outOptionPositions))
-        {
-            /* code */
-        }
-		else if (CompareAndParseCmd(command, "get", outOptions, outOptionPositions)) // get an item as done check
+		else if (CompareAndParseCmd(commandCharStr, "get", outOptions, outOptionPositions)) // get an item as done check
         {
             /* code */
         }
