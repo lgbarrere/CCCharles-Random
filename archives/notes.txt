@@ -24,6 +24,25 @@ UpgradesMenu
 ScrapCountTutorialMissions
 MainUI
 
+All saves can be bound at :
+%LOCALAPPDATA%\Obscure\Saved\SaveGames\
+    /!\ The alpha implementation will ignore the received items when the "ItemReceived" boolean is false,
+    which leads to an issue if the player dies in Nightmare mode (= game reset),
+    resets the game manually or by accident (crash, corrupted save, new computer, ...).
+    /!\ In a further implementation, the game should look for "gameResetEvent",
+    then receive the items if some "gameReset" boolean (active once the Train_Key is clicked) is true
+    and if the player is connected to Archipelago,
+    whatever the "itemReceived" boolean is. If no "gameReset", no item must be received :
+    if "itemReceived" == false, return the callback immediately.
+    /!\ TODO : Make a datastorage to send locally found items when reconnected to Archipelago
+
+Hook code example :
+    // Get the parameters in order (example)
+    FString* param1 = Stack.Node()->GetPropertyByName(STR("ParamHook1"))->ContainerPtrToValuePtr<FString>(Stack.Locals());
+    int64_t* param2 = Stack.Node()->GetPropertyByName(STR("ParamHook2"))->ContainerPtrToValuePtr<int64_t>(Stack.Locals());
+    Output::send<LogLevel::Verbose>(STR("{}"), param1->GetCharArray());
+    Output::send<LogLevel::Verbose>(STR("{}"), *param2);
+
 Local scales of guns collisions :
 FlameThrower X=0.432 Y=0.732 Z=1.50
 RocketLauncher X=0.432 Y=0.712 Z=1.508
@@ -45,9 +64,12 @@ Global pickable items name :
 
 Item count :
 - Scraps = 641
-- Gitched scraps = 3
+- Gitched scraps = 4
 - Pages_Drawing = 8
 [TODO : continue the list]
+
+Secret Gear place  :
+LeverBox_3 Mine2_Interior2 (X=-54399.375 Y=-98903.109 Z=8848.902)
 
 Usable classes :
 ItemPickup

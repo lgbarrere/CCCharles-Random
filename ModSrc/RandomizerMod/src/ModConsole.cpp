@@ -23,6 +23,10 @@ using namespace std;
 using namespace RC;
 using namespace RC::Unreal;
 
+static UObject* ItemManager = NULL;
+static UFunction* GetGameSeedEvent = NULL;
+static UFunction* ItemReceivedEvent = NULL;
+
 /**
 *   @param command : The input command to compare and parse
 *   @param expectedCmd : The expected command name to compare with the input command
@@ -128,6 +132,13 @@ static void ClearInventoryCallback()
 }
 
 
+typedef struct
+{
+    FString seed;
+    int64_t itemID;
+}ItemSeedParameter;
+
+
 /**
 *   @brief Receive an item from any world
 *   @param itemID : The ID of the received item
@@ -135,33 +146,52 @@ static void ClearInventoryCallback()
 */
 static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 {
-    auto ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
-
-    if (!ItemManager) {
-        Output::send<LogLevel::Error>(STR("ItemManager not found\n"));
-        return;
-    }
-    Output::send<LogLevel::Verbose>(STR("ItemManager found\n"));
-
-    static auto ItemReceived = FName(STR("ItemReceived"), FNAME_Add);
-    auto ItemReceivedFunc = ItemManager->GetFunctionByName(ItemReceived);
-    if (!ItemReceivedFunc)
+    // If notifyPlayer is false, the item has already be received once => don't receive that again
+    if (!notifyPlayer)
     {
-        Output::send<LogLevel::Error>(STR("ItemReceived not found\n"));
         return;
     }
-    Output::send<LogLevel::Verbose>(STR("ItemReceived found\n"));
-    ItemManager->ProcessEvent(ItemReceivedFunc, &itemID);
+    
+    // Get ItemManager reference if not done, leave the function if it cannot be found
+    if (!ItemManager) {
+        ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
+        if (!ItemManager) {
+            Output::send<LogLevel::Error>(STR("ItemManager not found\n"));
+            return;
+        }
+    }
+
+    // Get ItemReceived event reference (to add itemID to inventory) if not done, leave the function if it cannot be found
+    static auto ItemReceived = FName(STR("ItemReceived"), FNAME_Add);
+    if (!ItemReceivedEvent)
+    {
+        ItemReceivedEvent = ItemManager->GetFunctionByName(ItemReceived);
+        if (!ItemReceivedEvent)
+        {
+            Output::send<LogLevel::Error>(STR("ItemReceived not found\n"));
+            return;
+        }
+    }
+
+    AP_RoomInfo roomInfo;
+    AP_GetRoomInfo(&roomInfo);
+    ItemSeedParameter itemReceivedParameter;
+    itemReceivedParameter.seed = FString(to_wstring(roomInfo.seed_name).c_str());
+    itemReceivedParameter.itemID = itemID;
+    Output::send<LogLevel::Verbose>(STR("Seed : {}\n"), itemReceivedParameter.seed.GetCharArray());
+
+    ItemManager->ProcessEvent(ItemReceivedEvent, &itemReceivedParameter);
 }
 
 
 /**
 *   @brief Mark a given location as checked
 *   @param locationID : The ID of the checked location
+*   @notimplemented Used by AP_SetItemClearCallback but is not necessary
 */
 static void LocationCheckedCallback(int64_t locationID)
 {
-    // TODO
+    
 }
 
 

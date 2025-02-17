@@ -27,69 +27,63 @@ public:
     {
         ModName = STR("RandomizerMod");
         ModVersion = STR("1.0");
-        ModDescription = STR("Choo-Choo Charles randomizer file loader");
+        ModDescription = STR("Choo-Choo Charles randomizer");
         ModAuthors = STR("Yaranorgoth");
         // Do not change this unless you want to target a UE4SS version
         // other than the one you're currently building with somehow.
         //ModIntendedSDKVersion = STR("2.6");
 
-        Output::send<LogLevel::Verbose>(STR("RandomizerMod says hello\n"));
+        Output::send<LogLevel::Verbose>(STR("Mod name : {}\n"), ModName);
+        Output::send<LogLevel::Verbose>(STR("Version : {}\n"), ModVersion);
+        Output::send<LogLevel::Verbose>(ModDescription);
+        Output::send<LogLevel::Verbose>(STR("Author : {}\n"), ModAuthors);
     }
 
     ~RandomizerMod() override
     {
     }
 
-    // This function is to rework, to be called in the Blueprints to load a file with all locations
-    // TArray<FString> LoadFileToStringArray(FString fileName)
-    // {
-    //     TArray<FString> result;
-    //     FString directory = FPaths::ProjectContentDir();
-    //     IPlatformFile& file = FPlatformFileManager::Get().GetPlatformFile();
-
-    //     if (file.CreateDirectory(*directory))
-    //     {
-    //         FString myFile = directory + "/" + fileName;
-    //         FFileHelper::LoadFileToStringArray(result, *myFile);
-    //     }
-
-    //     return result;
-    // }
-
     static auto CallbackFunctionHook([[maybe_unused]] Unreal::UObject* Context, Unreal::FFrame& Stack, [[maybe_unused]] void* RESULT_DECL) -> void
     {
-        // In the callback, or anywhere else on or after on_unnreal_init.
-        static auto FuncNameToHook = FName(STR("FuncNameToHook"), FNAME_Add); // TODO : Temporary for tests, to remove
-        static auto SendLocationIDHook = FName(STR("SendLocationID"), FNAME_Add);
-        static auto FuncNameToCall = FName(STR("FuncNameToCall"), FNAME_Add);
+        // Set the hooked functions/events names once
+        static auto QuerySeedHook = FName(STR("QuerySeed"), FNAME_Add); // The Archipelago room seed must be sent in BP with GetGameSeed
+        static auto GetGameSeedEvent = FName(STR("GetGameSeed"), FNAME_Add); // Send seed in BP as queried by QuerySeed
+        static auto SendLocationIDHook = FName(STR("SendLocationID"), FNAME_Add); // Send locationID to Archipelago
 
-        // Check the function name is correct in the callback
-        if (Stack.Node()->GetNamePrivate() == FuncNameToHook)
+        // Check the hooked function/event names are correct
+        if (Stack.Node()->GetNamePrivate() == QuerySeedHook)
         {
-            // Get the parameters in order
-            FString* tmpParam = Stack.Node()->GetPropertyByName(STR("SomeParamHook"))->ContainerPtrToValuePtr<FString>(Stack.Locals());
-            int64_t* tmpParam2 = Stack.Node()->GetPropertyByName(STR("AnotherParamHook"))->ContainerPtrToValuePtr<int64_t>(Stack.Locals());
+            // If the Archipelago connection is not established yet, exit early
+            if (AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+            {
+                Output::send<LogLevel::Verbose>(STR("The player is not authenticated yet\n"));
+                return;
+            }
 
-            Output::send<LogLevel::Verbose>(STR("FuncNameToHook has been called with success\n"));
-            Output::send<LogLevel::Verbose>(STR("{}"), tmpParam->GetCharArray());
-            Output::send<LogLevel::Verbose>(STR("{}"), *tmpParam2);
-
-            // Call a BP function to pass parameters
-            FString itemName = FString(STR("Some_item"));
-            AP_SendItem(*tmpParam2);
-            Stack.Object()->ProcessEvent(Stack.Object()->GetFunctionByName(FuncNameToCall), &itemName);
+            // The player has interacted with the key of his train, send him the seed of the server room
+            AP_RoomInfo roomInfo;
+            AP_GetRoomInfo(&roomInfo);
+            FString seed = FString(to_wstring(roomInfo.seed_name).c_str());
+            Stack.Object()->ProcessEvent(Stack.Object()->GetFunctionByName(GetGameSeedEvent), &seed);
         }
-
         else if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
         {
+            // If the Archipelago connection is not established yet, exit early
+            if (AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+            {
+                Output::send<LogLevel::Verbose>(STR("The player is not authenticated yet\n"));
+                return;
+            }
+
             Output::send<LogLevel::Verbose>(STR("SendLocationIDHook"));
+            // Get the parameters in order
             int64_t* locationID = Stack.Node()->GetPropertyByName(STR("locationID"))->ContainerPtrToValuePtr<int64_t>(Stack.Locals());
             Output::send<LogLevel::Verbose>(STR("{}"), *locationID);
 
             // If the ID is -1, no item was found, exit early
             if (*locationID == -1)
             {
-                Output::send<LogLevel::Verbose>(STR("Item not found"));
+                Output::send<LogLevel::Error>(STR("Item not found : locationID == -1"));
                 return;
             }
 
@@ -130,12 +124,11 @@ public:
 
         Hook::RegisterProcessConsoleExecCallback(CallbackConsole);
 
-        /// TEST OF HOOKS
+        // Callback for all hooked functions and events
         if (UObject::ProcessLocalScriptFunctionInternal.is_ready() && Unreal::Version::IsAtLeast(4, 22))
         {
-            Output::send(STR("Enabling custom events\n"));
+            Output::send(STR("Enabling custom event hooks\n"));
             Hook::RegisterProcessLocalScriptFunctionPostCallback(CallbackFunctionHook);
-            // UObjectGlobals::RegisterHook("FuncNameToHook", NULL, NULL, NULL);
         }
     }
 
