@@ -1,7 +1,11 @@
 #pragma once
 
-#include "Unreal/UnrealCoreStructs.hpp"
-#include "Unreal/FOutputDevice.hpp"
+using namespace RC;
+using namespace RC::Unreal;
+
+extern bool gameReload;
+extern UObject* ItemManager;
+extern UFunction* ItemReceivedEvent;
 
 namespace ModConsole {
     using RC::Unreal::FOutputDevice;

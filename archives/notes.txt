@@ -48,10 +48,6 @@ FlameThrower X=0.432 Y=0.732 Z=1.50
 RocketLauncher X=0.432 Y=0.712 Z=1.508
 RangeGun X=0.237 Y=0.789 Z=2.684
 
-Usefull functions from PlayerTrain for paint cans :
-void Update Unlocked Paint Cans();
-void Set collision Yellow();
-
 Scenarios in Boulder fields (list of all scenarios still TODO) :
 - Pick a first Pages_Drawing inside Boulder fields => Ghost appears
 - Pick a first Pages_Drawing outside Boulder fields => Ghost does not appear
@@ -70,10 +66,6 @@ Item count :
 
 Secret Gear place  :
 LeverBox_3 Mine2_Interior2 (X=-54399.375 Y=-98903.109 Z=8848.902)
-
-Usable classes :
-ItemPickup
-Pages_Drawing<number 1..8>
 
 Reproduced game features :
 player_distance_interaction = 290

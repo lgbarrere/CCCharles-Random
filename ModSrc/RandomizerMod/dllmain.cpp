@@ -1,24 +1,14 @@
 #include <Mod/CppUserModBase.hpp>
-#include <DynamicOutput/DynamicOutput.hpp>
-#include <Unreal/UObjectGlobals.hpp>
-#include <Unreal/UObject.hpp>
-#include <Unreal/Hooks.hpp>
 #include <Unreal/UFunction.hpp>
-#include <Unreal/UFunctionStructs.hpp>
 #include <Unreal/FProperty.hpp>
-
-/*
-#include <Runtime/Core/Public/Misc/Paths.hpp>
-#include <Runtime/Core/Public/HAL/PlatformFilemanager.hpp>
-*/
-#include <Unreal/FString.hpp>
-#include <Unreal/BPMacros.hpp>
 
 #include "Archipelago.h"
 #include "ModConsole.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
+
+UFunction* AuthenticatedEvent = NULL;
 
 class RandomizerMod : public RC::CppUserModBase
 {
@@ -49,6 +39,8 @@ public:
         static auto QuerySeedHook = FName(STR("QuerySeed"), FNAME_Add); // The Archipelago room seed must be sent in BP with GetGameSeed
         static auto GetGameSeedEvent = FName(STR("GetGameSeed"), FNAME_Add); // Send seed in BP as queried by QuerySeed
         static auto SendLocationIDHook = FName(STR("SendLocationID"), FNAME_Add); // Send locationID to Archipelago
+        static auto GameReloadedHook = FName(STR("GameReloaded"), FNAME_Add); // The game was reloaded, reset gameReload
+        static auto CharlesDeathHook = FName(STR("CharlesDeath"), FNAME_Add); // Function from the game (TO TEST) called if Charles died
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == QuerySeedHook)
@@ -88,6 +80,17 @@ public:
             }
 
             AP_SendItem(*locationID);
+        }
+        else if (Stack.Node()->GetNamePrivate() == GameReloadedHook)
+        {
+            gameReload = true;
+            ItemManager = NULL;
+            AuthenticatedEvent = NULL;
+            ItemReceivedEvent = NULL;
+        }
+        else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
+        {
+            AP_StoryComplete();
         }
     }
 
@@ -134,6 +137,42 @@ public:
 
     auto on_update() -> void override
     {
+        // Send the game seed at first authentication
+        if (gameReload && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated)
+        {
+            // Get ItemManager reference if not done, leave the function if it cannot be found
+            if (!ItemManager) {
+                ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
+                if (!ItemManager) {
+                    Output::send<LogLevel::Error>(STR("ItemManager not found\n"));
+                    return;
+                }
+            }
+
+            // Get Authenticated event reference (to add itemID to inventory) if not done, leave the function if it cannot be found
+            static auto Authenticated = FName(STR("Authenticated"), FNAME_Add);
+            if (!AuthenticatedEvent)
+            {
+                AuthenticatedEvent = ItemManager->GetFunctionByName(Authenticated);
+                if (!AuthenticatedEvent)
+                {
+                    Output::send<LogLevel::Error>(STR("Authenticated not found\n"));
+                    return;
+                }
+            }
+
+            gameReload = false;
+
+            AP_RoomInfo roomInfo;
+            AP_GetRoomInfo(&roomInfo);
+            FString seed = FString(to_wstring(roomInfo.seed_name).c_str());
+            ItemManager->ProcessEvent(AuthenticatedEvent, &seed);
+        }
+        // Otherwise, if disconnected, reset gameReload to send the seed once re-authenticated
+        else if (!gameReload && AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+        {
+            gameReload = true;
+        }
     }
 };
 

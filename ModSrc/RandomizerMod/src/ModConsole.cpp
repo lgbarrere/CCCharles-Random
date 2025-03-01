@@ -1,14 +1,4 @@
-#include <Mod/CppUserModBase.hpp>
-#include <DynamicOutput/DynamicOutput.hpp>
-#include <Unreal/UObjectGlobals.hpp>
 #include <Unreal/UObject.hpp>
-#include <Unreal/Hooks.hpp>
-#include <Unreal/UFunction.hpp>
-#include <Unreal/UFunctionStructs.hpp>
-#include <Unreal/FProperty.hpp>
-#include <Unreal/FString.hpp>
-#include <Unreal/BPMacros.hpp>
-#include <Unreal/NameTypes.hpp>
 
 #include "ModConsole.hpp"
 #include "Archipelago.h"
@@ -19,13 +9,24 @@
 #define NB_MAX_OPTIONS 5
 #define ALL_OPTIONS_MAX_LENGTH (NB_MAX_OPTIONS * (OPTION_MAX_LENGTH + 1)) // Addition of all options, +1 by option for '\0'
 
+#define UNDEFINED_COMMAND -1
+#define MAX_OPTIONS_REACHED -2
+#define OPTION_LENGTH_REACHED -3
+
 using namespace std;
 using namespace RC;
 using namespace RC::Unreal;
 
-static UObject* ItemManager = NULL;
-static UFunction* GetGameSeedEvent = NULL;
-static UFunction* ItemReceivedEvent = NULL;
+bool gameReload = false;
+UObject* ItemManager = NULL;
+UFunction* ItemReceivedEvent = NULL;
+
+typedef struct
+{
+    FString seed;
+    int64_t itemID;
+}ItemSeedParameter;
+
 
 /**
 *   @param command : The input command to compare and parse
@@ -36,9 +37,9 @@ static UFunction* ItemReceivedEvent = NULL;
 *   @note Get an option with getOptionAtindex()
 * 
 *   @return The number of parsed options, in error case :
-*               -1 if the command is not recognized
-*               -2 if the number of input options exceeds NB_MAX_OPTIONS
-*               -3 if an option exceeds OPTION_MAX_LENGTH char ('\0 included')
+*               UNDEFINED_COMMAND if the command is not recognized
+*               MAX_OPTIONS_REACHED if the number of input options exceeds NB_MAX_OPTIONS
+*               OPTION_LENGTH_REACHED if an option exceeds OPTION_MAX_LENGTH char ('\0 included')
 */
 static int CompareAndParseCmd(const char* command, const char* expectedCmd, char outOptions[ALL_OPTIONS_MAX_LENGTH], int outOptionPositions[NB_MAX_OPTIONS])
 {
@@ -52,7 +53,7 @@ static int CompareAndParseCmd(const char* command, const char* expectedCmd, char
         // If a char is different, the command is not recognized
         if (command[i] != expectedCmd[i])
         {
-            return -1;
+            return UNDEFINED_COMMAND;
         }
         i++;
     }
@@ -72,7 +73,7 @@ static int CompareAndParseCmd(const char* command, const char* expectedCmd, char
         // Error if the maximum number of expected options is reached and the command line is not ended
         if (numberOfParsedOptions >= NB_MAX_OPTIONS && command[i] != '\n' && command[i] != '\0')
         {
-            return -2;
+            return MAX_OPTIONS_REACHED;
         }
 
         // Copy the found option until the next separator or the end of the command 
@@ -80,7 +81,7 @@ static int CompareAndParseCmd(const char* command, const char* expectedCmd, char
         {
             if (optionLength >= OPTION_MAX_LENGTH)
             {
-                return -3;
+                return OPTION_LENGTH_REACHED;
             }
 
             outOptions[j] = command[i];
@@ -130,13 +131,6 @@ static void ClearInventoryCallback()
 {
 
 }
-
-
-typedef struct
-{
-    FString seed;
-    int64_t itemID;
-}ItemSeedParameter;
 
 
 /**
@@ -214,7 +208,7 @@ namespace ModConsole {
 
         const char* commandCharStr = RC::to_string(command).c_str();
         int numberOfOptions = CompareAndParseCmd(commandCharStr, "help", outOptions, outOptionPositions);
-        if (numberOfOptions != -1)
+        if (numberOfOptions != UNDEFINED_COMMAND)
         {
             // Print in console
             Ar.Log(STR("/help\n"));
@@ -234,7 +228,7 @@ namespace ModConsole {
             Ar.Log(STR("/get <item>\n"));
             Ar.Log(STR("        Get the given <item> and add it to inventory.\n"));
         }
-        // Check if the use input is "/connect [...]"
+        // Check if the used command is "/connect [...]"
         // Example : /connect archipelago.gg:59157 YaranCCC
         numberOfOptions = CompareAndParseCmd(commandCharStr, "connect", outOptions, outOptionPositions);
         if (numberOfOptions >= 2) // At least 2 options are required for the "connect" command
@@ -243,14 +237,6 @@ namespace ModConsole {
             char* ipAddress = GetOptionAtindex(outOptions, outOptionPositions, 0);
             char* playerName = GetOptionAtindex(outOptions, outOptionPositions, 1);
             char* password = GetOptionAtindex(outOptions, outOptionPositions, 2);
-            
-            // TODO : Remove this once the debug is finished
-            Ar.Log(STR("Option1 :\n"));
-            Ar.Log(CharStrToConstTcharStr(ipAddress));
-            Ar.Log(STR("Option2 :\n"));
-            Ar.Log(CharStrToConstTcharStr(playerName));
-            Ar.Log(STR("Option3 :\n"));
-            Ar.Log(CharStrToConstTcharStr(password));
             
             AP_Init(ipAddress, "Choo-Choo Charles", playerName, password);
             AP_SetItemClearCallback(ClearInventoryCallback);
