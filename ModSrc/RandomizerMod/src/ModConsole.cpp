@@ -21,12 +21,6 @@ bool gameReload = false;
 UObject* ItemManager = NULL;
 UFunction* ItemReceivedEvent = NULL;
 
-typedef struct
-{
-    FString seed;
-    int64_t itemID;
-}ItemSeedParameter;
-
 
 /**
 *   @param command : The input command to compare and parse
@@ -167,14 +161,9 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
         }
     }
 
-    AP_RoomInfo roomInfo;
-    AP_GetRoomInfo(&roomInfo);
-    ItemSeedParameter itemReceivedParameter;
-    itemReceivedParameter.seed = FString(to_wstring(roomInfo.seed_name).c_str());
-    itemReceivedParameter.itemID = itemID;
-    Output::send<LogLevel::Verbose>(STR("Seed : {}\n"), itemReceivedParameter.seed.GetCharArray());
-
-    ItemManager->ProcessEvent(ItemReceivedEvent, &itemReceivedParameter);
+    Output::send<LogLevel::Verbose>(STR("Calling ProcessEvent...\n"));
+    ItemManager->ProcessEvent(ItemReceivedEvent, &itemID);
+    Output::send<LogLevel::Verbose>(STR("ProcessEvent finished.\n"));
 }
 
 

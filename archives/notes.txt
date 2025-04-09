@@ -23,18 +23,24 @@ TrainUpgradeStats
 UpgradesMenu
 ScrapCountTutorialMissions
 MainUI
+ALighthouse_Details_C
+
+Not found scraps :
+    scrap_santiago_18 (looks only available in Nightmare mode)
+
+TODO :
+    1) Use EasySaveValue() for scraps, Otherwise GatherItem() and UseItem()
+    2) Make a datastorage to send locally found items when reconnected to Archipelago (*)
+    3) Fix issue of eggs removed from inventory at death (see RecoverGatheredEggs)
+    4) Fix issue of mission starting (instead of ending) if the player has the required ending items
+    5) Remove the scrap_santiago_18 (glitched) from the list of checks
+    (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 All saves can be bound at :
 %LOCALAPPDATA%\Obscure\Saved\SaveGames\
-    /!\ The alpha implementation will ignore the received items when the "ItemReceived" boolean is false,
-    which leads to an issue if the player dies in Nightmare mode (= game reset),
-    resets the game manually or by accident (crash, corrupted save, new computer, ...).
-    /!\ In a further implementation, the game should look for "gameResetEvent",
-    then receive the items if some "gameReset" boolean (active once the Train_Key is clicked) is true
-    and if the player is connected to Archipelago,
-    whatever the "itemReceived" boolean is. If no "gameReset", no item must be received :
-    if "itemReceived" == false, return the callback immediately.
-    /!\ TODO : Make a datastorage to send locally found items when reconnected to Archipelago
+
+Archipelago output :
+    D:\ProgramData\Archipelago\output\
 
 Hook code example :
     // Get the parameters in order (example)
