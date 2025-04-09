@@ -11,7 +11,7 @@ List of spots :
 => scrap_start_camp_2 ItemPickup140_8 Camp (X=23951.754 Y=54897.230 Z=10895.235)
 
 "Tony Tiddle" NPCTony Mission_1_HouseMain (X=62696.375 Y=58081.004 Z=11903.188) :
-tony_tiddle_mission_start (dialog 4) -> barn_key (1)
+tony_tiddle_mission_start (dialog 5) -> barn_key (1)
 => (1) scrap_tony_tiddle_1 ItemPickup12 Photorealistic_Island (X=70582.805 Y=52591.066 Z=11976.719)
 => (1) scrap_tony_tiddle_2 ItemPickup4_2 Photorealistic_Island (X=70536.641 Y=51890.633 Z=11986.488)
 => (1) scrap_tony_tiddle_3 ItemPickup6 Photorealistic_Island (X=70750.336 Y=52275.828 Z=11994.434)

@@ -29,15 +29,13 @@ Not found scraps :
     scrap_santiago_18 (looks only available in Nightmare mode)
 
 TODO :
-    1) Use EasySaveValue() for scraps, Otherwise GatherItem() and UseItem()
-    2) Make a datastorage to send locally found items when reconnected to Archipelago (*)
-    3) Fix issue of eggs removed from inventory at death (see RecoverGatheredEggs)
-    4) Fix issue of mission starting (instead of ending) if the player has the required ending items
-    5) Remove the scrap_santiago_18 (glitched) from the list of checks
+    1) Make a datastorage to send locally found items when reconnected to Archipelago (*)
+    2) Fix issue of mission starting (instead of ending) if the player has the required ending items
+    3) Remove the scrap_santiago_18 (glitched) from the list of checks
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 All saves can be bound at :
-%LOCALAPPDATA%\Obscure\Saved\SaveGames\
+    %LOCALAPPDATA%\Obscure\Saved\SaveGames\
 
 Archipelago output :
     D:\ProgramData\Archipelago\output\
