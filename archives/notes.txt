@@ -26,12 +26,13 @@ MainUI
 ALighthouse_Details_C
 
 Not found scraps :
-    scrap_santiago_18 (looks only available in Nightmare mode)
+    scrap_santiago_18 (does not appear in some games)
 
 TODO :
-    1) Make a datastorage to send locally found items when reconnected to Archipelago (*)
-    2) Fix issue of mission starting (instead of ending) if the player has the required ending items
-    3) Remove the scrap_santiago_18 (glitched) from the list of checks
+    1) Remove the scrap_santiago_18 (glitched) from the list of checks
+    2) The door at Pickle Lady House can be opened without constraint => to change in randomization logic
+    3) Change the randomization logic of mission ends
+    4) Make a datastorage to send locally found items when reconnected to Archipelago (*)
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 All saves can be bound at :
@@ -97,17 +98,17 @@ Mine3_Egg
 Mine3_Key
 Tutorial2_Key
 Boomer_Dynamite
-Boomer_Rockets
+Boomer_Rockets (Boomer_RocketsPickup)
 Bob_BobPiece
 Bob_Key
-Canyon_BlueBox
+Canyon_BlueBox (Canyon_BlueBoxPickup)
 Lighthouse_Breaker
-Port_Journal
-Pages_Drawing
-Towers_Files
+Port_Journal (Port_Journal_Pickup)
+Pages_Drawing (Pages_Drawing<1...8>)
+Towers_Files (Towers_Files_Pickup)
 Junkyard_LockPicks
-Junkyard_Tablet
-Swamp_Fish
+Junkyard_Tablet (Junkyard_TabletPickup)
+Swamp_Fish (Swamp_FishPickup)
 Pickles_Jar
 Train_Key
 Bridge_Dynamite

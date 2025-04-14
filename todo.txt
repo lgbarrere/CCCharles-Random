@@ -4,8 +4,8 @@ TODO :
 ! It is not possible to get the mission_start from Darly if the ancient_tablet is in inventory => to handle
 * Define a distance to randomize the items on the ground
 > Disable the given items (original) by the missions
-> Update "DeathDuck" to give multiworld items and hints
-> Add some trapped DeathDuck ("Unscrap" remove scraps from inventory, "Derailed" lower the train HP by 40, "Guru" spawn a cultist near the player for a short while, ...)
+* Update "DeathDuck" to give multiworld items and hints
+* Add some trapped DeathDuck ("Unscrap" remove scraps from inventory, "Derailed" lower the train HP by 40, "Guru" spawn a cultist near the player for a short while, ...)
 
 Ideas :
 > Change the scrap checks from single to 1-5 (yaml reliant) scraps to get one check, making the scraps more important to check

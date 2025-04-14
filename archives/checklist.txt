@@ -724,11 +724,11 @@ stolen_bob (Bob_Clickbox X=-31771.172 Y=-59892.449 Z=11323.562) (18)(15) -> bob
 => scrap_pickle_lady_19 ItemPickup307_2 Pickles_EnvironmentDetails (X=42844.730 Y=22869.387 Z=12832.900)
 => scrap_pickle_lady_20 ItemPickup315_24 Pickles_EnvironmentDetails (X=43397.758 Y=26367.248 Z=13005.097)
 => scrap_pickle_lady_21 ItemPickup322_45 Pickles_EnvironmentDetails (X=39352.430 Y=32668.316 Z=14494.778)
+=> scrap_pickle_lady_22 ItemPickup313 Pickles_EnvironmentDetails (X=59688.781 Y=25266.756 Z=11425.324)
+=> scrap_pickle_lady_23 ItemPickup312_17 Pickles_EnvironmentDetails (X=59197.871 Y=24760.773 Z=11425.324)
 => purple_paint_can PaintCan_7 Pickles_EnvironmentDetails (X=40394.855 Y=31546.465 Z=13472.573)
 => (4) jar_of_pickles Pickles_Pickup Pickles_Cave (X=38227.535 Y=30234.848 Z=13593.506) (19)
 (19) pickle_lady_mission_end (dialog 4) -> 30_scraps_reward
-=> (19) scrap_pickle_lady_22 ItemPickup313 Pickles_EnvironmentDetails (X=59688.781 Y=25266.756 Z=11425.324)
-=> (19) scrap_pickle_lady_23 ItemPickup312_17 Pickles_EnvironmentDetails (X=59197.871 Y=24760.773 Z=11425.324)
 
 "Shrine Near Temple" :
 => scrap_shrine_near_temple_1 ItemPickup3 Photorealistic_Island (X=-4675.183 Y=-21143.846 Z=11984.782)
