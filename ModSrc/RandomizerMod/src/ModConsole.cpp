@@ -189,6 +189,11 @@ static const TCHAR* CharStrToConstTcharStr(char* charStr)
 }
 
 
+void LogFromAPCpp(std::string message) {
+    Output::send<LogLevel::Verbose>(TEXT("LogFromAPCpp: {}\n"), RC::to_wstring(message).c_str());
+}
+
+
 namespace ModConsole {
     int ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
     {
@@ -223,10 +228,10 @@ namespace ModConsole {
         if (numberOfOptions >= 2) // At least 2 options are required for the "connect" command
         {
             Ar.Log(STR("Command recognized\n"));
-            char* ipAddress = GetOptionAtindex(outOptions, outOptionPositions, 0);
-            char* playerName = GetOptionAtindex(outOptions, outOptionPositions, 1);
-            char* password = GetOptionAtindex(outOptions, outOptionPositions, 2);
-            
+            const char* ipAddress = GetOptionAtindex(outOptions, outOptionPositions, 0);
+            const char* playerName = GetOptionAtindex(outOptions, outOptionPositions, 1);
+            const char* password = numberOfOptions == 2 ? "" : GetOptionAtindex(outOptions, outOptionPositions, 2);
+
             AP_Init(ipAddress, "Choo-Choo Charles", playerName, password);
             AP_SetItemClearCallback(ClearInventoryCallback);
             AP_SetItemRecvCallback(ItemReceivedCallback);

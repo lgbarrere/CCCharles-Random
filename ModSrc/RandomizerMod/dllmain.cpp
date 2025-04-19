@@ -88,7 +88,6 @@ public:
             if (same == 1)
             {
                 Output::send<LogLevel::Verbose>(STR("Command detected with success : {} {}\n"), command, same);
-                Output::send<LogLevel::Verbose>(STR("connection accepted !\n"));
             }
             else
             {

@@ -7,6 +7,8 @@ extern bool gameReload;
 extern UObject* ItemManager;
 extern UFunction* ItemReceivedEvent;
 
+void LogFromAPCpp(std::string message);
+
 namespace ModConsole {
     using RC::Unreal::FOutputDevice;
 	using RC::Unreal::TCHAR;

@@ -1,6 +1,6 @@
 Number of unlockable items types (exept scraps) : 22
 Progression basically necessary items : (6)(12)(16)(20)(21)
-Go mode : egg_green + egg_blue + egg_red + remote_explosive (x8) + temple_key + bug_spray (nightmare only)
+Go mode : egg_green + egg_blue + egg_red + temple_key + bug_spray (+ remote_explosive x8 but the base game ignores it)
 
 List of spots :
 "First Station" :
