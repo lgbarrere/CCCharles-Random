@@ -17,6 +17,12 @@ ModSrc/RandomizerMod/BaseClasses.py
 ModSrc/RandomizerMod/generic/Rules.py
 ModSrc/RandomizerMod/apworld/test/bases.py
 Obscure/PackagedMod/WindowsNoEditor/Obscure.exe
+/result/ue4ss/CXXHeaderDump
+/result/ue4ss/UHTHeaderDump
+/result/ue4ss/liveview
+result/ue4ss/UE4SS.log
+result/ue4ss/UE4SS_ObjectDump.txt
+result/ue4ss/watches/watches.meta.json
 
 # Configurations
 /ModSrc/.xmake
