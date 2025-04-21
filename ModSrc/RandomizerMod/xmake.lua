@@ -1,17 +1,31 @@
 local projectName = "RandomizerMod"
 
-target(projectName)
-    add_rules("ue4ss.mod")
-    add_includedirs("./")
+package("APCpp")
+    add_deps("cmake")
+    set_sourcedir(path.join(os.scriptdir(), "../APCpp"))
+    on_install(function (package)
+        local configs = {}
+        table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
+        table.insert(configs, "-DBUILD_SHARED_LIBS=" .. (package:config("shared") and "ON" or "OFF"))
+        table.insert(configs, "-DBUNDLED_JSONCPP=ON")
+        import("package.tools.cmake").install(package, configs)
+    end)
+package_end()
 
-    add_includedirs("../APCpp/")
-    add_includedirs("../APCpp/IXWebSocket/")
-    add_includedirs("../APCpp/jsoncpp/include/")
+add_requires("APCpp")
+
+-- Define the main target for the project
+target(projectName)
+    -- Add rules for UE4SS mod
+    add_rules("ue4ss.mod")
+
+    -- Add APCpp package
+    set_kind("binary")
+    add_packages("APCpp")
+
+    -- Include directories
+    add_includedirs("./", "./include/")
     add_includedirs("../RE-UE4SS/deps/first/Helpers/include/")
-    add_files("../APCpp/jsoncpp/src/lib_json/*.cpp")
-    add_files("../APCpp/IXWebSocket/ixwebsocket/*.cpp")
-    add_files("../APCpp/Archipelago.cpp")
-    
-    add_includedirs("./include/")
-    add_files("src/*.cpp")
-    add_files("dllmain.cpp")
+
+    -- Add source files for the project
+    add_files("dllmain.cpp", "src/*.cpp")

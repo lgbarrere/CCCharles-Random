@@ -41,6 +41,9 @@ All saves can be bound at :
 Archipelago output :
     D:\ProgramData\Archipelago\output\
 
+APCpp build (can change) :
+    D:\UEProject\CCCharles-Random\ModSrc\Intermediates\.packages\a\apcpp\latest\cache\build_b1caf5ae\Release\
+
 Hook code example :
     // Get the parameters in order (example)
     FString* param1 = Stack.Node()->GetPropertyByName(STR("ParamHook1"))->ContainerPtrToValuePtr<FString>(Stack.Locals());
