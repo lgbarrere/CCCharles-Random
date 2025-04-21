@@ -1,21 +1,22 @@
 # CCCharles-Random
 This project is a randomizer mod for Choo-Choo Charles that works with the multi-game multi-world randomizer [Archipelago](https://archipelago.gg/).
 The development of this randomizer is currently in progress and actively updated.
-This documentation can be updated at any moment, as the project is currently under complete reorganization.
-The randomization logic is not yet available, however several useful test modules have been implemented to facilitate the development.
+The game is considered playable, however it is an alpha version and it is not yet released on Archipelago.
+Several useful test modules have been implemented to facilitate the development.
 The currently used UE4SS version UE4SS_v3.0.1-98-g5c1bfc4.zip comes from [the experimental RE-UE4SS](https://github.com/UE4SS-RE/RE-UE4SS/releases/tag/experimental).
 
 ## Current features
 ### Blueprints
-Only test modules have been implemented to make the debugging and modding way easier and faster.
-The randomization logic is a work in progress.
+All items from missions and items on the ground (mainly scraps) are randomized.
+The randomization logic is a work in progress, no randomization option is available for the moment.
 
 ### C++
-APCpp is used to send a checked location to the Archipelago server or to receive items from any world. This work is still in progress.
+APCpp is used to send a checked location to the Archipelago server or to receive items from any world.
+A consolidation of the code is in progress.
 
 ### Utility Tools
 To make the modding easier to develop, an Overlay has been added and can be displayed by pressing "F1" while playing.
-The Overlay gives a list of useful shortcuts to test newly added features (Speed boost, teleportation, item swap, ...)
+The Overlay gives a list of useful shortcuts to test newly added features (speed boost, teleportation, item swap, ...).
 
 ## Recommendations
 For a better understanding of how to setup this project, some paths in this documentation are replaced by keywords as follows and should be known :
@@ -27,13 +28,22 @@ For a better understanding of how to setup this project, some paths in this docu
 
 Copy the packed file from :
 ```
-<ProjectFolder>\Obscure\PackagedMod\WindowsNoEditor\Obscure\Content\Paks\pakchunk1-WindowsNoEditor.pak
+<ProjectFolder>/Obscure/PackagedMod/WindowsNoEditor/Obscure/Content/Paks/pakchunk1-WindowsNoEditor.pak
 ```
 To :
 ```
-<GameFolder>\Obscure\Content\Paks\LogicMods\
+<GameFolder>/Obscure/Content/Paks/LogicMods/
 ```
 Then rename that file "MWRandomizerMod.pak"
+
+Finally, copy :
+```
+<ProjectFolder>/archives/APCpp build patch/APCpp.dll
+```
+Near **Obscure-Win64-Shipping.exe** in :
+```
+<GameFolder>/Obscure/Binaries/Win64/
+```
 
 ## Mod installation for development
 ### Project Architecture
@@ -43,7 +53,7 @@ Before setting this project up for development, it is highly recommended to know
 * [**RE-UE4SS**](https://github.com/UE4SS-RE/RE-UE4SS) which contains all necessary tools to inject the C++ code as Mod in the game
 * **RandomizerMod** which is the folder containing all the C++ source files to convert to DLLs and to inject as Mod in the game
 2. **Obscure** which is the folder containing all the Blueprint files to inject as Mod in the game. Only the **Content** folder should be modified to Mod the game properly
-3. **result** is the folder containing all the elements to copy in the \<GameFolder\> in order to setup and automatically activate the Mod.
+3. **result** is the folder containing all the elements to copy in the \<GameFolder\> in order to setup and automatically activate the Mod (see **Mod Installation for testing purposes** for details).
 
 ### Requirements
 This section is inspired by the [UE4SS Documentation](https://docs.ue4ss.com/dev/index.html), check it out for details.
@@ -66,30 +76,31 @@ Microsoft C/C++ Compiler Toolset version 14.40.33807
 
 **IMPORTANT** : To build this project, a short path should be used to avoid the [Maximum Path Length Limitation](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry) to be reached during the compilation (try to not exceed a length of 50 char for the project path).
 
-Then do the following commands (don't forget to replace \<ProjectFolder\> by your own path)
+Then do the following commands (don't forget to replace \<ProjectFolder\> by your own path) :
 ```
-cd '<ProjectFolder>\ModSrc\RE-UE4SS\'
+cd '<ProjectFolder>/ModSrc/RE-UE4SS/'
 git submodule update --init --recursive
-cd ..\APCpp\
+cd ../APCpp/
 git submodule update --init --recursive
-mkdir build
-cd .\build\
-cmake .. -DWIN32=1 -DUSE_ZLIB=OFF
-cmake --build .
 ```
 
 ### How to use and build the project
 #### Packaging a Blueprint
-1. If there is no folder named "PackagedMod" in \<RootProjectFolder\>/Obscure/, create it (will contain the packaged Blueprints with UE4)
+1. If there is no folder named "PackagedMod" in \<RootProjectFolder\>/Obscure/, create it : this folder will contain the packaged Blueprints with UE4
 2. Open the "Obscure.uproject" file in \<RootProjectFolder\>/Obscure/ to launch the project with UE4 or locate it manually through UE4
 3. Edit the Blueprints as you want to Mod things
-4. Package the project with `File \> Package Project \> Windows (64-bits)` and prefer \<RootProjectFolder\>/Obscure/PackagedMod/ as result folder
+4. Package the project with `File > Package Project > Windows (64-bits)` and prefer \<RootProjectFolder\>/Obscure/PackagedMod/ as result folder
 #### Building the C++
-Go to your \<ProjectFolder\>, for instance ``cd 'D:\UEProject\CCCharles-Random\ModSrc\'`` and execute the following commands to compile in order :
+1. Make sure to copy :
+``<ProjectFolder>/archives/APCpp build patch/CMakeLists.txt``
+In :
+``<ProjectFolder>/ModSrc/APCpp`` (replace the existing CMakeLists.txt in any)
+2. Go to your \<ProjectFolder\>, for instance ``cd 'D:/UEProject/CCCharles-Random/ModSrc/'`` and execute the following commands to compile in order :
 ```
 xmake f -m "Game__Shipping__Win64"
 xmake
 ```
+If asked while building, press "y" in the console, then "enter".
 
 #### Injection of the Mod in the game
 The **launchCCCmod.bat** script has been made to facilitate the injection of the built C++ and Blueprints. It should be updated with your own paths corresponding to your project and game setups.
@@ -97,8 +108,8 @@ The **launchCCCmod.bat** script has been made to facilitate the injection of the
 Follow the comments in this script to fill it properly.
 
 ## Planned updates
-* Update of the text files and documentations according to the new Projet organization
 * See "todo.txt" for details
 
 ## Known Issues
 * Only affects the mod developers : the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
+* Sometimes an item reception can fail (rare case), it is highly recommended to no use ``/collect`` or ``/release`` yet because massive receptions can trigger this issue and the item will be lost.
