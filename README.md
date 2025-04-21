@@ -19,7 +19,8 @@ To make the modding easier to develop, an Overlay has been added and can be disp
 The Overlay gives a list of useful shortcuts to test newly added features (speed boost, teleportation, item swap, ...).
 
 ## Recommendations
-For a better understanding of how to setup this project, some paths in this documentation are replaced by keywords as follows and should be known :
+> [!TIP]
+> For a better understanding of how to setup this project, some paths in this documentation are replaced by keywords as follows and should be known :
 * **\<ProjectFolder\>** is the path to this project once it is downloaded, for instance **D:/UEProject/CCCharles-Random/**
 * **\<GameFolder\>** is the path to folder containing all the files necessary to launch the game, for instance **D:/Program Files (x86)/Steam/steamapps/common/Choo-Choo Charles/**
 
@@ -47,7 +48,8 @@ Near **Obscure-Win64-Shipping.exe** in :
 
 ## Mod installation for development
 ### Project Architecture
-Before setting this project up for development, it is highly recommended to know how this project is structured.
+> [!TIP]
+> Before setting this project up for development, it is highly recommended to know how this project is structured.
 1. **ModSrc** : Contains all the C++ dependencies of the Mod, including
 * [**APCpp**](https://github.com/N00byKing/APCpp) which is used to establish a connection between the game and Archipelago.
 * [**RE-UE4SS**](https://github.com/UE4SS-RE/RE-UE4SS) which contains all necessary tools to inject the C++ code as Mod in the game
@@ -67,14 +69,17 @@ If needed, link the Github account to the Epic Game account and [setup the ssh k
 7. A legal copy of the Choo-Choo Charles original game (can be found on [Steam](https://store.steampowered.com/))
 8. Clone this project with ``git clone https://github.com/lgbarrere/CCCharles-Random.git``
 
-**Note** : For unknown reason, updating Microsoft Visual Studio Community 2022 to a recent version causes build errors.
-
-This can be fixed by using the following known working tools or by manually installing the Microsoft Visual Studio Community 2022 at the version **17.10.5** :
+> [!CAUTION]
+> For unknown reason, updating Microsoft Visual Studio Community 2022 to a recent version can cause build errors.
+> This can be fixed by using the following known working tools or by manually installing the Microsoft Visual Studio Community 2022 at the version **17.10.5** :
+```
 Rust version 1.79.0
 Microsoft C/C++ Compiler (x64) version 19.40.33815
 Microsoft C/C++ Compiler Toolset version 14.40.33807
+```
 
-**IMPORTANT** : To build this project, a short path should be used to avoid the [Maximum Path Length Limitation](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry) to be reached during the compilation (try to not exceed a length of 50 char for the project path).
+> [!WARNING]
+> To build this project, a short path should be used to avoid the [Maximum Path Length Limitation](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry) to be reached during the compilation (try to not exceed a length of 50 char for the project path).
 
 Then do the following commands (don't forget to replace \<ProjectFolder\> by your own path) :
 ```
@@ -100,12 +105,14 @@ In :
 xmake f -m "Game__Shipping__Win64"
 xmake
 ```
-If asked while building, press "y" in the console, then "enter".
+> [!NOTE]
+> If asked while building, press "y" in the console, then "enter".
 
 #### Injection of the Mod in the game
-The **launchCCCmod.bat** script has been made to facilitate the injection of the built C++ and Blueprints. It should be updated with your own paths corresponding to your project and game setups.
-
-Follow the comments in this script to fill it properly.
+The **launchCCCmod.bat** script has been made to facilitate the injection of the built C++ and Blueprints.
+> [!IMPORTANT]
+> This script should be updated with your own paths corresponding to your project and game setups.
+> Follow the comments in this script to fill it properly.
 
 ## Planned updates
 * See "todo.txt" for details
