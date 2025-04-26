@@ -25,14 +25,19 @@ ScrapCountTutorialMissions
 MainUI
 ALighthouse_Details_C
 
+Found bugs :
+    > In a new game, if i come back to a NPC who already gave its item, he gives the base item (randomization disabled)
+    > The delay between dialogs is wrong (too high)
+    > If the inventory is open and the players clicks on an ItemPickup, it's considered taken (it shouldn't)
+    > When a weapon is equipped, it's not hidden on equipper
+
 Not found scraps :
     scrap_santiago_18 (does not appear in some games)
 
 TODO :
     1) Remove the scrap_santiago_18 (glitched) from the list of checks
-    2) The door at Pickle Lady House can be opened without constraint => to change in randomization logic
-    3) Change the randomization logic of mission ends
-    4) Make a datastorage to send locally found items when reconnected to Archipelago (*)
+    2) Change the randomization logic of mission ends
+    3) Make a datastorage to send locally found items when reconnected to Archipelago (*)
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 All saves can be bound at :
