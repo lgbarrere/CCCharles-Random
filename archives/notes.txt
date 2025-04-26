@@ -27,8 +27,6 @@ ALighthouse_Details_C
 
 Found bugs :
     > In a new game, if i come back to a NPC who already gave its item, he gives the base item (randomization disabled)
-    > The delay between dialogs is wrong (too high)
-    > If the inventory is open and the players clicks on an ItemPickup, it's considered taken (it shouldn't)
     > When a weapon is equipped, it's not hidden on equipper
 
 Not found scraps :
@@ -82,6 +80,7 @@ LeverBox_3 Mine2_Interior2 (X=-54399.375 Y=-98903.109 Z=8848.902)
 
 Reproduced game features :
 player_distance_interaction = 290
+npc_dialog_delay = 0.1
 
 Miscellaneous :
 If "Use Item" is called with a negative amount, the items are added to inventory instead of being removed
