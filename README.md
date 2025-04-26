@@ -24,27 +24,14 @@ The Overlay gives a list of useful shortcuts to test newly added features (speed
 * **\<ProjectFolder\>** is the path to this project once it is downloaded, for instance **D:/UEProject/CCCharles-Random/**
 * **\<GameFolder\>** is the path to folder containing all the files necessary to launch the game, for instance **D:/Program Files (x86)/Steam/steamapps/common/Choo-Choo Charles/**
 
-## Mod Installation for testing purposes
-**There is currently no release** on this Mod. However a test of the current functionalities can be done by cloning this project with ``git clone https://github.com/lgbarrere/CCCharles-Random.git`` and by copying all the content from **result/** in \<GameFolder\>/Obscure/Binaries/Win64/
-
-Copy the packed file from :
-```
-<ProjectFolder>/Obscure/PackagedMod/WindowsNoEditor/Obscure/Content/Paks/pakchunk1-WindowsNoEditor.pak
-```
-To :
-```
-<GameFolder>/Obscure/Content/Paks/LogicMods/
-```
-Then rename that file "MWRandomizerMod.pak"
-
-Finally, copy :
-```
-<ProjectFolder>/archives/APCpp build patch/APCpp.dll
-```
-Near **Obscure-Win64-Shipping.exe** in :
-```
-<GameFolder>/Obscure/Binaries/Win64/
-```
+## Mod Installation for playing
+The releases of this game are currently unofficial. However, the Mod can be installed and played by following these instructions :
+1. Click the green "<> Code" button
+2. Click "Download ZIP" or clone this project.
+3. In **Release/**, copy the **Obscure/** folder to **\<GameFolder\>** (where the **Obscure/** folder and **Obscure.exe** are placed)
+4. Launch the game, the Mod should work
+> [!NOTE]
+> The content from the **Release/** folder can by manually placed while the paths to files are respected.
 
 ## Mod installation for development
 ### Project Architecture
@@ -55,7 +42,7 @@ Near **Obscure-Win64-Shipping.exe** in :
 * [**RE-UE4SS**](https://github.com/UE4SS-RE/RE-UE4SS) which contains all necessary tools to inject the C++ code as Mod in the game
 * **RandomizerMod** which is the folder containing all the C++ source files to convert to DLLs and to inject as Mod in the game
 2. **Obscure** which is the folder containing all the Blueprint files to inject as Mod in the game. Only the **Content** folder should be modified to Mod the game properly
-3. **result** is the folder containing all the elements to copy in the \<GameFolder\> in order to setup and automatically activate the Mod (see **Mod Installation for testing purposes** for details).
+3. **Release** is the folder containing all the elements to copy in the \<GameFolder\> in order to setup and automatically activate the Mod (see **Mod Installation for playing** for details).
 
 ### Requirements
 This section is inspired by the [UE4SS Documentation](https://docs.ue4ss.com/dev/index.html), check it out for details.
