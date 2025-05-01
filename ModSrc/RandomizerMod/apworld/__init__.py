@@ -11,7 +11,7 @@ class CCCharlesWeb(WebWorld):
     """
     Choo-Choo Charles is a horror game.
     A devil spider train from hell called Charles chases any person it finds on an island.
-    The goal is to gather scraps to upgrade a train to fight Charles and travel with this train to find 3 eggs
+    The goal is to gather scraps to upgrade a train to fight Charles and travel by train to find 3 eggs
     to lead Charles to a brutal death and save the island.
     """
 

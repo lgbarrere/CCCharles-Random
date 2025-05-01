@@ -3,14 +3,14 @@ from . import CCCharlesItem
 from .Options import CCCharlesOptions
 from .Locations import CCCharlesLocation, loc_start_camp, loc_tony_tiddle_mission, loc_candice_mission, loc_swamp, \
     loc_lizbeth_murkwater_mission, loc_daryl_mission, loc_dianne_house, loc_helen_mission, loc_sgt_flint_mission, \
-    loc_south_mine_outside, loc_south_mine_inside, loc_theodore_mission, loc_theodore_canyon, loc_observatory, \
+    loc_outside_south_mine, loc_inside_south_mine, loc_theodore_mission, loc_theodore_canyon, loc_watchtower, \
     loc_ghost_boulder_field, loc_sasha_mission, loc_santiago_house, loc_santiago_mission, loc_trench_house, \
     loc_doll_woods, loc_forest_lost_stairs, loc_far_east_house, loc_explosive_training, loc_john_smith_mission, \
     loc_greg_mission, loc_claire_mission, loc_outside_north_mine, loc_inside_north_mine, loc_wood_bridge, \
     loc_paul_mission, loc_gertrude_mission, loc_beach, loc_church, loc_gale_mission, loc_caravan, \
     loc_abandoned_house, loc_ronny_mission, loc_north_frank_fisher, loc_hidden_hole, loc_mob_camp, \
-    loc_mine_elevator_exit, loc_mountain_ruin_outside, loc_mountain_ruin_inside, loc_prism_temple, \
-    loc_pickle_lady_mission, loc_temple_shrine, loc_morse_refuge
+    loc_mine_elevator_exit, loc_outside_mountain_ruin, loc_inside_mountain_ruin, loc_prism_temple, \
+    loc_pickle_lady_mission, loc_shrine_near_temple, loc_morse_refuge
 
 
 class CCCharlesRegion(Region):
@@ -56,13 +56,13 @@ def create_regions(world: MultiWorld, options: CCCharlesOptions, player: int):
     military_base_region.add_locations(loc_sgt_flint_mission, CCCharlesLocation)
     world.regions.append(military_base_region)
 
-    south_mine_outside_region = Region("South Mine Outside", player, world)
-    south_mine_outside_region.add_locations(loc_south_mine_outside, CCCharlesLocation)
-    world.regions.append(south_mine_outside_region)
+    outside_south_mine_region = Region("Outside South Mine", player, world)
+    outside_south_mine_region.add_locations(loc_outside_south_mine, CCCharlesLocation)
+    world.regions.append(outside_south_mine_region)
 
-    south_mine_inside_region = Region("South Mine Inside", player, world)
-    south_mine_inside_region.add_locations(loc_south_mine_inside, CCCharlesLocation)
-    world.regions.append(south_mine_inside_region)
+    inside_south_mine_region = Region("Inside South Mine", player, world)
+    inside_south_mine_region.add_locations(loc_inside_south_mine, CCCharlesLocation)
+    world.regions.append(inside_south_mine_region)
 
     theodore_station_region = Region("Theodore Station", player, world)
     theodore_station_region.add_locations(loc_theodore_mission, CCCharlesLocation)
@@ -72,9 +72,9 @@ def create_regions(world: MultiWorld, options: CCCharlesOptions, player: int):
     theodore_canyon_region.add_locations(loc_theodore_canyon, CCCharlesLocation)
     world.regions.append(theodore_canyon_region)
 
-    observation_region = Region("Observation", player, world)
-    observation_region.add_locations(loc_observatory, CCCharlesLocation)
-    world.regions.append(observation_region)
+    watchtower_region = Region("Watchtower", player, world)
+    watchtower_region.add_locations(loc_watchtower, CCCharlesLocation)
+    world.regions.append(watchtower_region)
 
     ghost_boulder_field_region = Region("Ghost Boulder Field", player, world)
     ghost_boulder_field_region.add_locations(loc_ghost_boulder_field, CCCharlesLocation)
@@ -184,13 +184,13 @@ def create_regions(world: MultiWorld, options: CCCharlesOptions, player: int):
     mine_elevator_exit_region.add_locations(loc_mine_elevator_exit, CCCharlesLocation)
     world.regions.append(mine_elevator_exit_region)
 
-    mountain_ruin_outside_region = Region("Mountain Ruin Outside", player, world)
-    mountain_ruin_outside_region.add_locations(loc_mountain_ruin_outside, CCCharlesLocation)
-    world.regions.append(mountain_ruin_outside_region)
+    outside_mountain_ruin_region = Region("Outside Mountain Ruin", player, world)
+    outside_mountain_ruin_region.add_locations(loc_outside_mountain_ruin, CCCharlesLocation)
+    world.regions.append(outside_mountain_ruin_region)
 
-    mountain_ruin_inside_region = Region("Mountain Ruin Inside", player, world)
-    mountain_ruin_inside_region.add_locations(loc_mountain_ruin_inside, CCCharlesLocation)
-    world.regions.append(mountain_ruin_inside_region)
+    inside_mountain_ruin_region = Region("Inside Mountain Ruin", player, world)
+    inside_mountain_ruin_region.add_locations(loc_inside_mountain_ruin, CCCharlesLocation)
+    world.regions.append(inside_mountain_ruin_region)
 
     prism_temple_region = Region("Prism Temple", player, world)
     prism_temple_region.add_locations(loc_prism_temple, CCCharlesLocation)
@@ -200,9 +200,9 @@ def create_regions(world: MultiWorld, options: CCCharlesOptions, player: int):
     pickle_lady_house_region.add_locations(loc_pickle_lady_mission, CCCharlesLocation)
     world.regions.append(pickle_lady_house_region)
 
-    temple_shrine_region = Region("Temple Shrine", player, world)
-    temple_shrine_region.add_locations(loc_temple_shrine, CCCharlesLocation)
-    world.regions.append(temple_shrine_region)
+    shrine_near_temple_region = Region("Temple Shrine", player, world)
+    shrine_near_temple_region.add_locations(loc_shrine_near_temple, CCCharlesLocation)
+    world.regions.append(shrine_near_temple_region)
 
     morse_refuge_region = Region("Morse Refuge", player, world)
     morse_refuge_region.add_locations(loc_morse_refuge, CCCharlesLocation)
@@ -223,11 +223,11 @@ def create_regions(world: MultiWorld, options: CCCharlesOptions, player: int):
     menu_region.connect(dianne_house_region)
     menu_region.connect(helen_house_region)
     menu_region.connect(military_base_region)
-    menu_region.connect(south_mine_outside_region)
-    menu_region.connect(south_mine_inside_region)
+    menu_region.connect(outside_south_mine_region)
+    menu_region.connect(inside_south_mine_region)
     menu_region.connect(theodore_station_region)
     menu_region.connect(theodore_canyon_region)
-    menu_region.connect(observation_region)
+    menu_region.connect(watchtower_region)
     menu_region.connect(ghost_boulder_field_region)
     menu_region.connect(sasha_house_region)
     menu_region.connect(santiago_house_region)
@@ -255,9 +255,9 @@ def create_regions(world: MultiWorld, options: CCCharlesOptions, player: int):
     menu_region.connect(hidden_hole_region)
     menu_region.connect(mob_camp_region)
     menu_region.connect(mine_elevator_exit_region)
-    menu_region.connect(mountain_ruin_outside_region)
-    menu_region.connect(mountain_ruin_inside_region)
+    menu_region.connect(outside_mountain_ruin_region)
+    menu_region.connect(inside_mountain_ruin_region)
     menu_region.connect(prism_temple_region)
     menu_region.connect(pickle_lady_house_region)
-    menu_region.connect(temple_shrine_region)
+    menu_region.connect(shrine_near_temple_region)
     menu_region.connect(morse_refuge_region)
