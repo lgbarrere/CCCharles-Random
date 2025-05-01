@@ -12,18 +12,18 @@
 /Obscure/Saved
 Obscure/PackagedMod/WindowsNoEditor/Manifest_NonUFSFiles_Win64.txt
 Obscure/PackagedMod/WindowsNoEditor/Obscure/Content/Paks/pakchunk0-WindowsNoEditor.pak
+Obscure/PackagedMod/WindowsNoEditor/Obscure.exe
 ModSrc/RandomizerMod/AutoWorld.py
 ModSrc/RandomizerMod/BaseClasses.py
 ModSrc/RandomizerMod/generic/Rules.py
 ModSrc/RandomizerMod/apworld/test/bases.py
-Obscure/PackagedMod/WindowsNoEditor/Obscure.exe
-/Release/ue4ss/CustomGameConfigs
-/Release/ue4ss/CXXHeaderDump
-/Release/ue4ss/UHTHeaderDump
-/Release/ue4ss/liveview
-Release/ue4ss/UE4SS.log
-Release/ue4ss/UE4SS_ObjectDump.txt
-Release/ue4ss/watches/watches.meta.json
+/Release/Obscure/Binaries/Win64/ue4ss/CustomGameConfigs
+/Release/Obscure/Binaries/Win64/ue4ss/CXXHeaderDump
+/Release/Obscure/Binaries/Win64/ue4ss/UHTHeaderDump
+/Release/Obscure/Binaries/Win64/ue4ss/liveview
+/Release/Obscure/Binaries/Win64/ue4ss/watches
+Release/Obscure/Binaries/Win64/ue4ss/UE4SS_ObjectDump.txt
+Release/Obscure/Binaries/Win64/ue4ss/UE4SS.log
 
 # Configurations
 /ModSrc/.xmake

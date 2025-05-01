@@ -27,16 +27,38 @@ ALighthouse_Details_C
 
 Found bugs :
     > In a new game, if i come back to a NPC who already gave its item, he gives the base item (randomization disabled)
+    > When the player slides hover an item while picking it, sometimes it's not considered check (raycast issue) 
     > When a weapon is equipped, it's not hidden on equipper
+    > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at game reload
+        => Reactivate Boomer_ClickBox3 at game restart to fix it
 
 Not found scraps :
     scrap_santiago_18 (does not appear in some games)
 
 TODO :
     1) Remove the scrap_santiago_18 (glitched) from the list of checks
-    2) Change the randomization logic of mission ends
-    3) Make a datastorage to send locally found items when reconnected to Archipelago (*)
+    2) Make a datastorage to send locally found items when reconnected to Archipelago (*)
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
+
+End mission saves to read :
+Common logic : 1 = mission started, 2 ou 3 = marker added of the map, 4 = mission finished (if end)
+    Junkyard (Junkyard_Tablet) : 3.1 = end item found
+    Swamp (Swamp_Fish) : 3.1 = end item found
+    Pickles (Pickles_Jar) : 3.1 = end item found
+    Canyon (Canyon_BlueBox) : 3.1 = end item found
+    Pages (Pages_Drawing x8) : 3.1 = end item found
+    Port (Port_Journal) : 3.1 = end item found
+    Boomer (Boomer_Rockets) : 3.1 = out bunker door broken, 3.2 = in bunker door broken, 3.3 = end item found
+    Towers (Towers_Files) : 3.1 = end item found
+    Lighthouse : 3.1 = end item found
+    Bridge : 3.1 = end item found
+    TonyBarn
+    Tutorial2
+    Mine1
+    Bugspray : 3.1 = end item found
+    Mine2
+    Bob
+    Mine3
 
 All saves can be bound at :
     %LOCALAPPDATA%\Obscure\Saved\SaveGames\
