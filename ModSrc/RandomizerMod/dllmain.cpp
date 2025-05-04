@@ -9,6 +9,8 @@ using namespace RC;
 using namespace RC::Unreal;
 
 UFunction* AuthenticatedEvent = NULL;
+UFunction* ArchipelagoMessageEvent = NULL;
+UFunction* LostConnectionEvent = NULL;
 
 class RandomizerMod : public RC::CppUserModBase
 {
@@ -16,7 +18,7 @@ public:
     RandomizerMod() : CppUserModBase()
     {
         ModName = STR("RandomizerMod");
-        ModVersion = STR("1.0");
+        ModVersion = STR("0.0.1");
         ModDescription = STR("Choo-Choo Charles randomizer");
         ModAuthors = STR("Yaranorgoth");
         // Do not change this unless you want to target a UE4SS version
@@ -69,6 +71,8 @@ public:
             gameReload = true;
             ItemManager = NULL;
             AuthenticatedEvent = NULL;
+            ArchipelagoMessageEvent = NULL;
+            LostConnectionEvent = NULL;
             ItemReceivedEvent = NULL;
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
@@ -155,6 +159,51 @@ public:
         else if (!gameReload && connectionStatus != AP_ConnectionStatus::Authenticated)
         {
             gameReload = true;
+
+            static auto LostConnection = FName(STR("LostConnection"), FNAME_Add);
+            if (!LostConnectionEvent)
+            {
+                if (ItemManager)
+                {
+                    LostConnectionEvent = ItemManager->GetFunctionByName(LostConnection);
+                    if (!LostConnectionEvent)
+                    {
+                        Output::send<LogLevel::Error>(STR("Connection not found\n"));
+                        return;
+                    }
+                }
+            }
+            
+            if (ItemManager)
+            {
+                ItemManager->ProcessEvent(LostConnectionEvent, NULL);
+            }
+        }
+        else if (connectionStatus == AP_ConnectionStatus::Authenticated)
+        {
+            Output::send<LogLevel::Verbose>(STR("Checking pending message...\n"));
+            if (AP_IsMessagePending())
+            {
+                Output::send<LogLevel::Verbose>(STR("Pending message found\n"));
+                static auto ArchipelagoMessage = FName(STR("ArchipelagoMessage"), FNAME_Add);
+                if (!ArchipelagoMessageEvent)
+                {
+                    ArchipelagoMessageEvent = ItemManager->GetFunctionByName(ArchipelagoMessage);
+                    if (!ArchipelagoMessageEvent)
+                    {
+                        Output::send<LogLevel::Error>(STR("ArchipelagoMessage not found\n"));
+                        return;
+                    }
+                }
+
+                if (ItemManager)
+                {
+                    FString message = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
+                    Output::send<LogLevel::Verbose>(STR("{}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
+                    // Bug here due to game restart making ItemManager a wrong reference
+                    //ItemManager->ProcessEvent(ArchipelagoMessageEvent, &message);
+                }
+            }
         }
     }
 };
