@@ -35,6 +35,24 @@ public:
     {
     }
 
+    /*
+    * TODO : Starting Dataloader implementation, to adapt in Mod context
+    FString LoadFileToString(FString filename)
+    {
+        FString folder = FPaths::GameContentDir();
+        FString result;
+        IPlatformFile& file = FPlatformFileManager::Get().GetPlatformFile();
+
+        if (file.CreateDirectory(*folder))
+        {
+            FString saveFile = folder + "/" + filename;
+            FFileHelper::LoadFileToString(result, *saveFile);
+        }
+
+        return result;
+    }
+    */
+
     static auto CallbackFunctionHook([[maybe_unused]] Unreal::UObject* Context, Unreal::FFrame& Stack, [[maybe_unused]] void* RESULT_DECL) -> void
     {
         // Set the hooked functions/events names once
@@ -181,10 +199,10 @@ public:
         }
         else if (connectionStatus == AP_ConnectionStatus::Authenticated)
         {
-            Output::send<LogLevel::Verbose>(STR("Checking pending message...\n"));
+            //Output::send<LogLevel::Verbose>(STR("Checking pending message...\n"));
             if (AP_IsMessagePending())
             {
-                Output::send<LogLevel::Verbose>(STR("Pending message found\n"));
+                //Output::send<LogLevel::Verbose>(STR("Pending message found\n"));
                 static auto ArchipelagoMessage = FName(STR("ArchipelagoMessage"), FNAME_Add);
                 if (!ArchipelagoMessageEvent)
                 {
@@ -199,7 +217,7 @@ public:
                 if (ItemManager)
                 {
                     FString message = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
-                    Output::send<LogLevel::Verbose>(STR("{}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
+                    //Output::send<LogLevel::Verbose>(STR("{}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
                     // Bug here due to game restart making ItemManager a wrong reference
                     //ItemManager->ProcessEvent(ArchipelagoMessageEvent, &message);
                 }
