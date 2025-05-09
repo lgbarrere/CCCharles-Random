@@ -6,16 +6,11 @@ Several useful test modules have been implemented to facilitate the development.
 The currently used UE4SS version UE4SS_v3.0.1-98-g5c1bfc4.zip comes from [the experimental RE-UE4SS](https://github.com/UE4SS-RE/RE-UE4SS/releases/tag/experimental).
 
 ## Current features
-### Blueprints
-All items from missions and items on the ground (mainly scraps) are randomized.
+All items from missions and items on the ground (mainly scraps) are randomized by Mod Blueprints.
 The randomization logic is a work in progress, no randomization option is available for the moment.
-
-### C++
-APCpp is used to send a checked location to the Archipelago server or to receive items from any world.
+APCpp is used with C++ to send a checked location to the Archipelago server or to receive items from any world.
 A consolidation of the code is in progress.
-
-### Utility Tools
-To make the modding easier to develop, an Overlay has been added and can be displayed by pressing "F1" while playing.
+For developpers, a **Mod Debug Tool** is available to make the modding easier to develop, an Overlay has been added and can be displayed by pressing "F1" while playing.
 The Overlay gives a list of useful shortcuts to test newly added features (speed boost, teleportation, item swap, ...).
 
 ## Recommendations
@@ -42,7 +37,10 @@ The releases of this game are currently unofficial. However, the Mod can be inst
 * [**RE-UE4SS**](https://github.com/UE4SS-RE/RE-UE4SS) which contains all necessary tools to inject the C++ code as Mod in the game
 * **RandomizerMod** which is the folder containing all the C++ source files to convert to DLLs and to inject as Mod in the game
 2. **Obscure** which is the folder containing all the Blueprint files to inject as Mod in the game. Only the **Content** folder should be modified to Mod the game properly
-3. **Release** is the folder containing all the elements to copy in the \<GameFolder\> in order to setup and automatically activate the Mod (see **Mod Installation for playing** for details).
+3. **Release** is the folder containing all the elements to copy in the \<GameFolder\> in order to setup and automatically activate the Mod (see **Mod Installation for playing** for details). The **prepareRelease.bat** script can be launched to prepare a new release version of the Mod.
+> [!IMPORTANT]
+> This script should be updated with your own paths corresponding to your project and game setups.
+> Follow the comments in this script to fill it properly. Moreover, it is recommended to execute **launchCCCmod.bat** first to make the last built Mod as release.
 
 ### Requirements
 This section is inspired by the [UE4SS Documentation](https://docs.ue4ss.com/dev/index.html), check it out for details.
