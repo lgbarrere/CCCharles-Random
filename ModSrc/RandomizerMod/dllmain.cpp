@@ -59,6 +59,7 @@ public:
         static auto SendLocationIDHook = FName(STR("SendLocationID"), FNAME_Add); // Send locationID to Archipelago
         static auto GameReloadedHook = FName(STR("GameReloaded"), FNAME_Add); // The game was reloaded, reset gameReload
         static auto CharlesDeathHook = FName(STR("CharlesDeath"), FNAME_Add); // Function from the game called if Charles died
+        static auto CheckPendingMessageHook = FName(STR("CheckPendingMessage"), FNAME_Add); // Show the last Archipelago pending message
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
@@ -96,6 +97,31 @@ public:
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
         {
             AP_StoryComplete();
+        }
+        else if (Stack.Node()->GetNamePrivate() == CheckPendingMessageHook)
+        {
+            AP_ConnectionStatus connectionStatus = AP_GetConnectionStatus();
+            if (connectionStatus == AP_ConnectionStatus::Authenticated && AP_IsMessagePending())
+            {
+                if (ItemManager)
+                {
+                    if (!ArchipelagoMessageEvent)
+                    {
+                        static auto ArchipelagoMessage = FName(STR("ArchipelagoMessage"), FNAME_Add);
+                        ArchipelagoMessageEvent = ItemManager->GetFunctionByName(ArchipelagoMessage);
+                        if (!ArchipelagoMessageEvent)
+                        {
+                            Output::send<LogLevel::Error>(STR("ArchipelagoMessage not found\n"));
+                            return;
+                        }
+                    }
+
+                    FString message = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
+                    Output::send<LogLevel::Verbose>(STR("Pending message : {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
+                    ItemManager->ProcessEvent(ArchipelagoMessageEvent, &message);
+                    AP_ClearLatestMessage();
+                }
+            }
         }
     }
 
@@ -195,33 +221,6 @@ public:
             if (ItemManager)
             {
                 ItemManager->ProcessEvent(LostConnectionEvent, NULL);
-            }
-        }
-        else if (connectionStatus == AP_ConnectionStatus::Authenticated)
-        {
-            //Output::send<LogLevel::Verbose>(STR("Checking pending message...\n"));
-            if (AP_IsMessagePending())
-            {
-                //Output::send<LogLevel::Verbose>(STR("Pending message found\n"));
-                static auto ArchipelagoMessage = FName(STR("ArchipelagoMessage"), FNAME_Add);
-                if (!ArchipelagoMessageEvent)
-                {
-                    ArchipelagoMessageEvent = ItemManager->GetFunctionByName(ArchipelagoMessage);
-                    if (!ArchipelagoMessageEvent)
-                    {
-                        Output::send<LogLevel::Error>(STR("ArchipelagoMessage not found\n"));
-                        return;
-                    }
-                }
-
-                if (ItemManager)
-                {
-                    FString message = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
-                    Output::send<LogLevel::Verbose>(STR("Pending message : {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
-                    AP_ClearLatestMessage();
-                    // Bug here due to game restart making ItemManager a wrong reference
-                    //ItemManager->ProcessEvent(ArchipelagoMessageEvent, &message);
-                }
             }
         }
     }

@@ -122,7 +122,7 @@ class CCCharlesWorld(World):
                 classification = ItemClassification.filler
             case "Lime Paint Can" :
                 classification = ItemClassification.filler
-            case "Light Blue Paint Can" :
+            case "Teal Paint Can" :
                 classification = ItemClassification.filler
             case "Red Paint Can" :
                 classification = ItemClassification.filler

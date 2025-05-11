@@ -41,7 +41,7 @@ useless_items = {
     "Blue Paint Can" : base_id + 29,
     "Black Paint Can" : base_id + 30,
     "Lime Paint Can" : base_id + 31,
-    "Light Blue Paint Can" : base_id + 32,
+    "Teal Paint Can" : base_id + 32,
     "Red Paint Can" : base_id + 33,
     "Purple Paint Can" : base_id + 34,
     "The Boomer" : base_id + 35,
@@ -73,7 +73,7 @@ item_groups = {
             "Blue Paint Can",
             "Black Paint Can",
             "Lime Paint Can",
-            "Light Blue Paint Can",
+            "Teal Paint Can",
             "Red Paint Can",
             "Purple Paint Can"
         },
@@ -154,7 +154,7 @@ full_item_list += ["Gray Paint Can"] * 1
 full_item_list += ["Blue Paint Can"] * 1
 full_item_list += ["Black Paint Can"] * 1
 full_item_list += ["Lime Paint Can"] * 1
-full_item_list += ["Light Blue Paint Can"] * 1
+full_item_list += ["Teal Paint Can"] * 1
 full_item_list += ["Red Paint Can"] * 1
 full_item_list += ["Purple Paint Can"] * 1
 full_item_list += ["The Boomer"] * 1
