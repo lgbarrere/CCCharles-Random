@@ -108,9 +108,8 @@ daryl_mission_start (dialog 4) -> Lockpicks (4)
 => (4) scrap_dianne_chest_1 ItemPickup21 Secret12_Details (X=82079.922 Y=110808.602 Z=8739.324)
 => (4) scrap_dianne_chest_2 ItemPickup18 Secret12_Details (X=82102.664 Y=110813.664 Z=8726.308)
 => (4) scrap_dianne_chest_3 ItemPickup17 Secret12_Details (X=82091.547 Y=110810.906 Z=8721.354) \!/ Existing match 1
-=> (4) scrap_dianne_chest_4 ItemPickup16 Secret12_Details (X=82102.664 Y=110813.664 Z=8708.337) \!/ Existing match 2
-=> (4) scrap_dianne_chest_5 ItemPickup14 Secret12_Details (X=82091.516 Y=110810.898 Z=8701.793) \!/ Existing match 3
-=> (4) scrap_dianne_chest_6 ItemPickup13_7 Secret12_Details (X=82102.664 Y=110813.625 Z=8688.776)
+=> (4) scrap_dianne_chest_4 ItemPickup14 Secret12_Details (X=82091.516 Y=110810.898 Z=8701.793) \!/ Existing match 3
+=> (4) scrap_dianne_chest_5 ItemPickup13_7 Secret12_Details (X=82102.664 Y=110813.625 Z=8688.776)
 
 "Helen" NPCHelen Settlement_A_House_1 (X=98284.297 Y=84107.891 Z=9374.653) :
 helen_mission_start (dialog 8) -> south_mine_key (6)
@@ -289,8 +288,6 @@ scrap_theodore_station_glitch_2 ItemPickup438_37 (X=36101.633 Y=-10459.024 Z=113
 => scrap_santiago_15 ItemPickup324_2 Port_Main (X=78651.977 Y=-12233.159 Z=7439.514)
 => scrap_santiago_16 ItemPickup14_5 Port_Main (X=80336.297 Y=-12276.590 Z=7436.639)
 => scrap_santiago_17 ItemPickup325_5 Port_Main (X=79845.086 Y=-13410.705 Z=7440.597)
-=> scrap_santiago_18 ItemPickup13_2 Port_Main (X=76156.719 Y=-12816.718 Z=7439.269) \!/ Existing match 6
-=> scrap_santiago_19 ItemPickup16 Port_Main (X=80754.914 Y=-14055.545 Z=7445.339) \!/ Existing match 2
 (9) santiago_mission_end (dialog 3) -> 35_scraps_reward
 
 "Trench House" :

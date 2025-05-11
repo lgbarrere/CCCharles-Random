@@ -217,7 +217,8 @@ public:
                 if (ItemManager)
                 {
                     FString message = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
-                    //Output::send<LogLevel::Verbose>(STR("{}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
+                    Output::send<LogLevel::Verbose>(STR("Pending message : {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
+                    AP_ClearLatestMessage();
                     // Bug here due to game restart making ItemManager a wrong reference
                     //ItemManager->ProcessEvent(ArchipelagoMessageEvent, &message);
                 }

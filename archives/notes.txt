@@ -28,20 +28,14 @@ Found bugs :
     > When a weapon is equipped, it's not hidden on equipper
     > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at game reload
         => Reactivate Boomer_ClickBox3 at game restart to fix it
-    > Paul gives his temple key vanilla, to fix
     > The player cannot talk to NPCs with a key if a mine is exited with an egg in inventory
 
-Not found scraps :
-    scrap_santiago_18 (does not appear in some games)
-    scrap_dianne_chest_4 (does not appear in some games)
-
 TODO :
-    1) Remove the glitched scraps from the list of checks
-    2) Make a datastorage to send locally found items when reconnected to Archipelago (*)
+    1) Make a datastorage to send locally found items when reconnected to Archipelago (*)
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 End mission saves to read :
-Common logic : 1 = mission started, 2 ou 3 = marker added of the map, 4 = mission finished (if end)
+Common logic : 1 = mission started, 2 or 3 = marker added of the map, 4 = mission finished (if end)
     Junkyard (Junkyard_Tablet) : 3.1 = end item found
     Swamp (Swamp_Fish) : 3.1 = end item found
     Pickles (Pickles_Jar) : 3.1 = end item found
@@ -81,31 +75,17 @@ FlameThrower X=0.432 Y=0.732 Z=1.50
 RocketLauncher X=0.432 Y=0.712 Z=1.508
 RangeGun X=0.237 Y=0.789 Z=2.684
 
-Scenarios in Boulder fields (list of all scenarios still TODO) :
-- Pick a first Pages_Drawing inside Boulder fields => Ghost appears
-- Pick a first Pages_Drawing outside Boulder fields => Ghost does not appear
-
 Global pickable items name :
 - Loot boxes => ScrapCratePoint
 - Scraps inside loot boxes => ItemPickup
 - Scraps => ItemPickup
 - Mission Items (talkable characters) => NPC<Name>
 
-Item count :
-- Scraps = 641
-- Gitched scraps = 4
-- Pages_Drawing = 8
-[TODO : continue the list]
-
 Secret Gear place  :
 LeverBox_3 Mine2_Interior2 (X=-54399.375 Y=-98903.109 Z=8848.902)
 
 Reproduced game features :
 player_distance_interaction = 290
-npc_dialog_delay = 0.1
-
-Miscellaneous :
-If "Use Item" is called with a negative amount, the items are added to inventory instead of being removed
 
 To get a working local world :
 1) Package the <apworld>/ folder (here cccharles) and name it <apworld>.apworld (the archipelago logo should be displayed)
