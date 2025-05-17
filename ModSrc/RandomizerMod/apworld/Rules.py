@@ -2,6 +2,7 @@ from BaseClasses import MultiWorld
 from ..generic.Rules import set_rule
 from .Options import CCCharlesOptions
 
+# Go mode : egg_green + egg_blue + egg_red + temple_key + bug_spray (+ remote_explosive x8 but the base game ignores it)
 
 def set_rules(world: MultiWorld, options: CCCharlesOptions, player: int) -> None:
     # Tony
