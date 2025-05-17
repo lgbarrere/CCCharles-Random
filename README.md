@@ -24,9 +24,16 @@ The releases of this game are currently unofficial. However, the Mod can be inst
 1. Click the green "<> Code" button
 2. Click "Download ZIP" or clone this project.
 3. In **Release/**, copy the **Obscure/** folder to **\<GameFolder\>** (where the **Obscure/** folder and **Obscure.exe** are placed)
-4. Launch the game, the Mod should work
+4. Launch the game, if "OFFLINE" is written at the upper-right corner of the screen, the Mod is working
 > [!NOTE]
 > The content from the **Release/** folder can by manually placed while the paths to files are respected.
+
+## Connection to the Archipelago server room
+> [!NOTE]
+> Before playing, it is highly recommended to check out the **Known Issues** section
+* The game console must be opened to type Archipelago commands, press "`" (or "~") key in querty and "²" key in azerty
+* Type ``/connect <IP> <PlayerName>`` with \<IP\> and \<PlayerName\> found on the hosting Archipelago web page in the form ``archipelago.gg:XXXXX`` and ``CCCharles``
+* Disconnection is automatic at game closure but can be manually done with ``/disconnect``
 
 ## Mod installation for development
 ### Project Architecture
@@ -103,5 +110,10 @@ The **launchCCCmod.bat** script has been made to facilitate the injection of the
 * See "todo.txt" for details
 
 ## Known Issues
-* Only affects the mod developers : the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
-* Sometimes an item reception can fail (rare case), it is highly recommended to no use ``/collect`` or ``/release`` yet because massive receptions can trigger this issue and the item will be lost.
+* **Major :** The **Train Key** is currently used to identify a game reset (manual or player's death), but if the player receives items before interacting with the key, his inventory is duplicated. Make sure to connect to the server **after** interacting with the **Train Key** to not trigger the item recovery the first time.
+* **Major :** Sometimes, an item reception can fail (rare case), it is highly recommended to no use ``/collect`` or ``/release`` yet because massive receptions can trigger this issue and the item will be lost.
+* **Major :** Sometimes, item interactions are not recognized if the player hovers the item too fast. While this issue exists, make sure to click right on the item before moving on.
+* **Major :** When an egg is received, if the player goes to one of the three mine exits before talking to the NPC who gives its entry key, the player will no longer be able to interact with this NPC. Make sure to talk to them before approaching their respective mines.
+* **Minor :** Only affects mod developers, the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
+* **Minor :** If the player receives the **Box of Rockets**, the bunker at the **Training Explosive** region will be opened once loaded.
+* **Minor :** When the game is reloaded, an egg can sometimes be duplicated.
