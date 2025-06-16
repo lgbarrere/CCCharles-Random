@@ -23,10 +23,12 @@ UpgradesMenu
 MainUI
 ALighthouse_Details_C
 
+Extra items found : timed_dynamite box_of_rockets childs_drawing(3) eggs(RGB)
+
 Found bugs :
     > In a new game, if i come back to a NPC who already gave its item, he gives the base item (randomization disabled)
     > When a weapon is equipped, it's not hidden on equipper
-    > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at game reload
+    > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at level reload
         => Reactivate Boomer_ClickBox3 at game restart to fix it
     > The player cannot talk to NPCs with a key if a mine is exited with an egg in inventory
 
@@ -35,7 +37,7 @@ TODO :
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 End mission saves to read :
-Common logic : 1 = mission started, 2 or 3 = marker added of the map, 4 = mission finished (if end)
+Common logic : 1 = mission started, 2 = new map marker, 3 = map marker checked, 4 = mission finished
     Junkyard (Junkyard_Tablet) : 3.1 = end item found
     Swamp (Swamp_Fish) : 3.1 = end item found
     Pickles (Pickles_Jar) : 3.1 = end item found
@@ -70,11 +72,6 @@ Hook code example :
     Output::send<LogLevel::Verbose>(STR("{}"), param1->GetCharArray());
     Output::send<LogLevel::Verbose>(STR("{}"), *param2);
 
-Local scales of guns collisions :
-FlameThrower X=0.432 Y=0.732 Z=1.50
-RocketLauncher X=0.432 Y=0.712 Z=1.508
-RangeGun X=0.237 Y=0.789 Z=2.684
-
 Global pickable items name :
 - Loot boxes => ScrapCratePoint
 - Scraps inside loot boxes => ItemPickup
@@ -85,7 +82,12 @@ Secret Gear place  :
 LeverBox_3 Mine2_Interior2 (X=-54399.375 Y=-98903.109 Z=8848.902)
 
 Reproduced game features :
-player_distance_interaction = 290
+Player distance interaction :
+    player_distance_interaction = 290
+Local scales of guns collisions :
+    FlameThrower X=0.432 Y=0.732 Z=1.50
+    RocketLauncher X=0.432 Y=0.712 Z=1.508
+    RangeGun X=0.237 Y=0.789 Z=2.684
 
 To get a working local world :
 1) Package the <apworld>/ folder (here cccharles) and name it <apworld>.apworld (the archipelago logo should be displayed)
