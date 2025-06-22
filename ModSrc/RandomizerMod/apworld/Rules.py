@@ -65,7 +65,9 @@ def set_rules(world: MultiWorld, options: CCCharlesOptions, player: int) -> None
     set_rule(world.get_location("south_house_chest_scraps_4", player),
         lambda state: state.has("Lockpicks", player))
     set_rule(world.get_location("south_house_chest_scraps_5", player),
-        lambda state: state.has("Lockpicks", player))
+         lambda state: state.has("Lockpicks", player))
+    set_rule(world.get_location("south_house_chest_scraps_6", player),
+         lambda state: state.has("Lockpicks", player))
 
     # South Mine
     set_rule(world.get_location("south_mine_inside_scraps_1", player),

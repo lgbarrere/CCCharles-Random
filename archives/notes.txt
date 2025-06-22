@@ -23,10 +23,10 @@ UpgradesMenu
 MainUI
 ALighthouse_Details_C
 
-Extra items found : timed_dynamite box_of_rockets childs_drawing(3) eggs(RGB)
-
 Found bugs :
-    > In a new game, if i come back to a NPC who already gave its item, he gives the base item (randomization disabled)
+    > When the train_key is interacted, all already received items are received once again
+    > Eggs duplicate at game restart
+    > If the player goes to any mine exit with its egg in inventory, its mission states update making its NPC not giving his item
     > When a weapon is equipped, it's not hidden on equipper
     > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at level reload
         => Reactivate Boomer_ClickBox3 at game restart to fix it
@@ -101,26 +101,26 @@ All Item Names :
 01_KeyTony
 Mine1_Key
 05_Scraps
-Mine1_Egg
-Mine2_Egg
+Mine1_Egg (ItemPickup14_2)
+Mine2_Egg (Mine2_Egg)
 Mine2_Gear (unused)
 Mine2_Key
-Mine3_Egg
+Mine3_Egg (Mine3_EggPickup)
 Mine3_Key
 Tutorial2_Key
-Boomer_Dynamite
+Boomer_Dynamite (Boomer_DynamitePickup)
 Boomer_Rockets (Boomer_RocketsPickup)
 Bob_BobPiece
-Bob_Key
+Bob_Key (ItemPickup29_0)
 Canyon_BlueBox (Canyon_BlueBoxPickup)
-Lighthouse_Breaker
+Lighthouse_Breaker (ItemPickup13_2 ItemPickup14 ItemPickup16 ItemPickup17)
 Port_Journal (Port_Journal_Pickup)
 Pages_Drawing (Pages_Drawing<1...8>)
 Towers_Files (Towers_Files_Pickup)
 Junkyard_LockPicks
 Junkyard_Tablet (Junkyard_TabletPickup)
 Swamp_Fish (Swamp_FishPickup)
-Pickles_Jar
+Pickles_Jar (Pickles_Pickup)
 Train_Key
 Bridge_Dynamite
 Boss_ShrineKey
