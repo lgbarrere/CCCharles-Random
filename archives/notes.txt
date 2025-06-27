@@ -24,6 +24,8 @@ MainUI
 ALighthouse_Details_C
 
 Found bugs :
+    > caravan_scraps_3 did not spawn in a playtest, unknown scrap suspected to have the same name
+    > After game reset, mission states are not restored when the player had received the end item
     > When the train_key is interacted, all already received items are received once again
     > Eggs duplicate at game restart
     > If the player goes to any mine exit with its egg in inventory, its mission states update making its NPC not giving his item
