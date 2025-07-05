@@ -7,6 +7,15 @@ extern bool gameReload;
 extern UObject* ItemManager;
 extern UFunction* ItemReceivedEvent;
 
+typedef struct
+{
+    TArray<int32_t> ItemAmounts;
+    TArray<bool> UnlockedPaintCans;
+    TArray<bool> UnlockedWeapons;
+}ReceivedItems;
+
+extern ReceivedItems receivedItems;
+
 void LogFromAPCpp(std::string message);
 
 namespace ModConsole {
@@ -14,4 +23,5 @@ namespace ModConsole {
 	using RC::Unreal::TCHAR;
 
     int CheckCommand(FOutputDevice& Ar, const TCHAR* command);
+    void ResetItemAmounts();
 }

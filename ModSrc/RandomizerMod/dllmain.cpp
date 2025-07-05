@@ -11,6 +11,7 @@ using namespace RC::Unreal;
 UFunction* AuthenticatedEvent = NULL;
 UFunction* ArchipelagoMessageEvent = NULL;
 UFunction* LostConnectionEvent = NULL;
+UFunction* GetAllItemAmountsEvent = NULL;
 
 class RandomizerMod : public RC::CppUserModBase
 {
@@ -60,6 +61,7 @@ public:
         static auto GameReloadedHook = FName(STR("GameReloaded"), FNAME_Add); // The game was reloaded, reset gameReload
         static auto CharlesDeathHook = FName(STR("CharlesDeath"), FNAME_Add); // Function from the game called if Charles died
         static auto CheckPendingMessageHook = FName(STR("CheckPendingMessage"), FNAME_Add); // Show the last Archipelago pending message
+        static auto GameRestartHook = FName(STR("GameRestart"), FNAME_Add); // The player lost in Nightmare mode or restarted a new game
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
@@ -123,6 +125,34 @@ public:
                 }
             }
         }
+        else if (Stack.Node()->GetNamePrivate() == GameRestartHook)
+        {
+            Output::send<LogLevel::Verbose>(STR("GameRestartHook\n"));
+
+            if (AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+            {
+                Output::send<LogLevel::Verbose>(STR("The player is not authenticated yet\n"));
+                return;
+            }
+
+            if (!ItemManager) {
+                ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
+                if (!ItemManager) {
+                    Output::send<LogLevel::Error>(STR("ItemManager not found\n"));
+                    return;
+                }
+            }
+            
+            // If the game is restarted and connected to AP, get all IDs to recover received items
+            static auto GetAllItemAmounts = FName(STR("GetAllItemAmounts"), FNAME_Add);
+            GetAllItemAmountsEvent = ItemManager->GetFunctionByName(GetAllItemAmounts);
+            if (!GetAllItemAmountsEvent)
+            {
+                Output::send<LogLevel::Error>(STR("GetAllItemAmounts not found\n"));
+                return;
+            }
+            ItemManager->ProcessEvent(GetAllItemAmountsEvent, &receivedItems);
+        }
     }
 
     static bool CallbackConsole(UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor)
@@ -156,6 +186,10 @@ public:
         Output::send<LogLevel::Verbose>(STR("Object Name: {}\n"), Object->GetFullName());
 
         Hook::RegisterProcessConsoleExecCallback(CallbackConsole);
+        //ItemAmounts.SetNum(43);
+        receivedItems.ItemAmounts.SetNum(24);
+        receivedItems.UnlockedPaintCans.SetNum(11);
+        receivedItems.UnlockedWeapons.SetNum(3);
 
         // Callback for all hooked functions and events
         if (UObject::ProcessLocalScriptFunctionInternal.is_ready() && Unreal::Version::IsAtLeast(4, 22))
@@ -203,6 +237,7 @@ public:
         else if (!gameReload && connectionStatus != AP_ConnectionStatus::Authenticated)
         {
             gameReload = true;
+            ModConsole::ResetItemAmounts();
 
             static auto LostConnection = FName(STR("LostConnection"), FNAME_Add);
             if (!LostConnectionEvent)
@@ -212,7 +247,7 @@ public:
                     LostConnectionEvent = ItemManager->GetFunctionByName(LostConnection);
                     if (!LostConnectionEvent)
                     {
-                        Output::send<LogLevel::Error>(STR("Connection not found\n"));
+                        Output::send<LogLevel::Error>(STR("LostConnection not found\n"));
                         return;
                     }
                 }

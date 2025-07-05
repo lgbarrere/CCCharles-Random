@@ -13,13 +13,18 @@
 #define MAX_OPTIONS_REACHED -2
 #define OPTION_LENGTH_REACHED -3
 
+#define BASE_ID 6660000000
+#define MINIMUM_ID_INDEX (BASE_ID + 1)
+
 using namespace std;
 using namespace RC;
 using namespace RC::Unreal;
 
 bool gameReload = false;
+ReceivedItems receivedItems;
 UObject* ItemManager = NULL;
 UFunction* ItemReceivedEvent = NULL;
+
 
 
 /**
@@ -130,16 +135,151 @@ static void ClearInventoryCallback()
 /**
 *   @brief Receive an item from any world
 *   @param itemID : The ID of the received item
-*   @param notifyPlayer : Pass true to notify the player about the received item, false otherwise
+*   @param notifyPlayer : Id true, notify the player about the received item, false otherwise
 */
 static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 {
+    // Add 1 item from the received itemID to the inventory
+    int tmpIndex = (int)(itemID - MINIMUM_ID_INDEX);
+    switch (tmpIndex)
+    {
+    case 0: // Scraps
+        receivedItems.ItemAmounts[0] += 1;
+        break;
+    case 1: // Scraps (reward 30)
+        receivedItems.ItemAmounts[0] += 30;
+        break;
+    case 2: // Scraps (reward 25)
+        receivedItems.ItemAmounts[0] += 25;
+        break;
+    case 3: // Scraps (reward 35)
+        receivedItems.ItemAmounts[0] += 35;
+        break;
+    case 4: // Scraps (reward 40)
+        receivedItems.ItemAmounts[0] += 40;
+        break;
+    case 5: // South mine key
+        receivedItems.ItemAmounts[1] += 1;
+        break;
+    case 6: // North mine key
+        receivedItems.ItemAmounts[2] += 1;
+        break;
+    case 7: // Mountain ruin key
+        receivedItems.ItemAmounts[3] += 1;
+        break;
+    case 8: // Barn key
+        receivedItems.ItemAmounts[4] += 1;
+        break;
+    case 9: // Candice key
+        receivedItems.ItemAmounts[5] += 1;
+        break;
+    case 10: // Dead fish
+        receivedItems.ItemAmounts[6] += 1;
+        break;
+    case 11: // Lockpicks
+        receivedItems.ItemAmounts[7] += 1;
+        break;
+    case 12: // Ancient tablet
+        receivedItems.ItemAmounts[8] += 1;
+        break;
+    case 13: // Blue box
+        receivedItems.ItemAmounts[9] += 1;
+        break;
+    case 14: // Page Drawing
+        receivedItems.ItemAmounts[10] += 1;
+        break;
+    case 15: // Journal
+        receivedItems.ItemAmounts[11] += 1;
+        break;
+    case 16: // Dynamite
+        receivedItems.ItemAmounts[12] += 1;
+        break;
+    case 17: // Boomer rockets
+        receivedItems.ItemAmounts[13] += 1;
+        break;
+    case 18: // Breaker
+        receivedItems.ItemAmounts[14] += 1;
+        break;
+    case 19: // Broken Bob
+        receivedItems.ItemAmounts[15] += 1;
+        break;
+    case 20: // Employment contracts
+        receivedItems.ItemAmounts[16] += 1;
+        break;
+    case 21: // Mob camp key
+        receivedItems.ItemAmounts[17] += 1;
+        break;
+    case 22: // Pickles jar
+        receivedItems.ItemAmounts[18] += 1;
+        break;
+    case 23: // Orange Paint Can
+        receivedItems.UnlockedPaintCans[0] = true;
+        break;
+    case 24: // Green Paint Can
+        receivedItems.UnlockedPaintCans[1] = true;
+        break;
+    case 25: // White Paint Can
+        receivedItems.UnlockedPaintCans[2] = true;
+        break;
+    case 26: // Pink Paint Can
+        receivedItems.UnlockedPaintCans[3] = true;
+        break;
+    case 27: // Gray Paint Can
+        receivedItems.UnlockedPaintCans[4] = true;
+        break;
+    case 28: // Blue Paint Can
+        receivedItems.UnlockedPaintCans[5] = true;
+        break;
+    case 29: // Black Paint Can
+        receivedItems.UnlockedPaintCans[6] = true;
+        break;
+    case 30: // Lime Paint Can
+        receivedItems.UnlockedPaintCans[7] = true;
+        break;
+    case 31: // Light Blue Paint Can
+        receivedItems.UnlockedPaintCans[8] = true;
+        break;
+    case 32: // Red Paint Can
+        receivedItems.UnlockedPaintCans[9] = true;
+        break;
+    case 33: // Purple Paint Can
+        receivedItems.UnlockedPaintCans[10] = true;
+        break;
+    case 34: // The Boomer
+        receivedItems.UnlockedWeapons[0] = true;
+        break;
+    case 35: // Bob
+        receivedItems.UnlockedWeapons[1] = true;
+        break;
+    case 36: // Green egg
+        receivedItems.ItemAmounts[19] += 1;
+        break;
+    case 37: // Blue egg
+        receivedItems.ItemAmounts[20] += 1;
+        break;
+    case 38: // Red egg
+        receivedItems.ItemAmounts[21] += 1;
+        break;
+    case 39: // Remote explosives
+        receivedItems.ItemAmounts[22] += 1;
+        break;
+    case 40: // Remote explosives (x8)
+        receivedItems.ItemAmounts[22] += 8;
+        break;
+    case 41: // Temple key
+        receivedItems.ItemAmounts[23] += 1;
+        break;
+    case 42: // Bug spray
+        receivedItems.UnlockedWeapons[2] = true;
+        break;
+    }
+
     // If notifyPlayer is false, the item has already be received once => don't receive that again
     if (!notifyPlayer)
     {
         return;
     }
-    
+
     // Get ItemManager reference if not done, leave the function if it cannot be found
     if (!ItemManager) {
         ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
@@ -195,6 +335,15 @@ void LogFromAPCpp(std::string message) {
 
 
 namespace ModConsole {
+    void ModConsole::ResetItemAmounts()
+    {
+        for (int32_t Index = 0; Index != receivedItems.ItemAmounts.Num(); Index++)
+        {
+            receivedItems.ItemAmounts[Index] = 0;
+        }
+    }
+
+
     int ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
     {
         char outOptions[ALL_OPTIONS_MAX_LENGTH];
@@ -243,6 +392,7 @@ namespace ModConsole {
         }
         else if (CompareAndParseCmd(commandCharStr, "disconnect", outOptions, outOptionPositions))
         {
+            ModConsole::ResetItemAmounts();
             AP_Shutdown();
         }
         else if (CompareAndParseCmd(commandCharStr, "release", outOptions, outOptionPositions))

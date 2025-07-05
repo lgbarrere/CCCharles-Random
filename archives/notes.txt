@@ -36,6 +36,7 @@ Found bugs :
 
 TODO :
     1) Make a datastorage to send locally found items when reconnected to Archipelago (*)
+    2) Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 End mission saves to read :
@@ -66,6 +67,16 @@ Archipelago output :
 
 APCpp build (can change) :
     D:\UEProject\CCCharles-Random\ModSrc\Intermediates\.packages\a\apcpp\latest\cache\build_b1caf5ae\Release\
+
+Potentially useful generated files at game reboot :
+    05_Scraps.sav
+    Armor Level.sav
+    CharlesDead.sav
+    Damage Level.sav
+    Equipped Gun.sav
+    M_In Game Auto Save.sav
+    Scraps to Restore.sav
+    TutorialState.sav
 
 Hook code example :
     // Get the parameters in order (example)
