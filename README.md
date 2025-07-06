@@ -110,10 +110,10 @@ The **launchCCCmod.bat** script has been made to facilitate the injection of the
 * See "todo.txt" for details
 
 ## Known Issues
-* **Major :** The **Train Key** is currently used to identify a game reset (manual or player's death), but if the player receives items before interacting with the key, his inventory is duplicated. Make sure to connect to the server **after** interacting with the **Train Key** to not trigger the item recovery the first time.
-* **Major :** Sometimes, an item reception can fail (rare case), it is highly recommended to no use ``/collect`` or ``/release`` yet because massive receptions can trigger this issue and the item will be lost.
+* **Major :** Sometimes, an item reception can fail (rare case), it is highly recommended to not use ``/collect`` or ``/release`` yet because massive receptions can trigger this issue and the item will be lost.
 * **Major :** When an egg is received, if the player goes to one of the three mine exits before talking to the NPC who gives its entry key, the player will no longer be able to interact with this NPC. Make sure to talk to them before approaching their respective mines.
+* **Major :** If the player receives the **Box of Rockets**, the bunker at the **Training Explosive** region will be opened once loaded. It may be possible to break the mission state if the player interacts with elements in unexpected order.
 * **Minor :** Only affects mod developers, the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
-* **Minor :** If the player receives the **Box of Rockets**, the bunker at the **Training Explosive** region will be opened once loaded.
 * **Minor :** Sometimes, the unlocked weapons can look a bit "glitchy" or have a wrong color, the issue is only visual and does not affect the gameplay
 * **Minor :** When the game is reloaded, an egg can sometimes be duplicated.
+* **Minor :** The current version of the command parser does not accept console commands with a player names containing whitespaces. It is recommended to use underscores "_" instead, for instance : CCCharles_Player_1.
