@@ -126,12 +126,15 @@ The **launchCCCmod.bat** script has been made to facilitate the injection of the
 * See "todo.txt" for details
 
 ## Known Issues
-* **Major :** When an item is received while in loading screen, a crash sometimes occurrs. That bug does not break the game and a restart is sufficient, but it is recommended to connect after the game is started.
-* **Major :** If the player receives the **Box of Rockets**, the bunker at the **Training Explosive** region will be opened once loaded. It may be possible to break the mission state if the player interacts with elements in unexpected order.
-* **Major :** After game reset, mission states are not restored when the player had received the end item. There is currently no fix on that bug, ``/hint_location <Player> <Location>`` should be used in this case on the hosted Archipelago web page (or in the local console if played locally).
-* **Minor :** Only affects mod developers, the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
-* **Minor :** Sometimes, the unlocked weapons can look a bit "glitchy" or have a wrong color, the issue is only visual and does not affect the gameplay
-* **Minor :** When the game is reloaded, an egg can sometimes be duplicated.
-* **Minor :** The current version of the command parser does not accept console commands with a player names containing whitespaces. It is recommended to use underscores "_" instead, for instance : CCCharles_Player_1.
-* **Minor :** Sometimes, an item reception or sending a location can fail (rare cases). Reloading the game is supposed to respawn all items on the ground and restarting a new game retrieves all unlocked items from Archipelago, that can be used as workarounds.
-* **Minor :** When an egg is received, if the player goes to one of the three mine exits before talking to the NPC who gives its entry key, the player will no longer be able to interact with this NPC. Make sure to talk to them before approaching their respective mines. Restart a new game otherwise.
+### Major issues
+* When an item is received while in loading screen, a crash sometimes occurrs. That bug does not break the game and a restart is sufficient, but it is recommended to connect after the game is started.
+* If the player receives the **Box of Rockets**, the bunker at the **Training Explosive** region will be opened once loaded. It may be possible to break the mission state if the player interacts with elements in unexpected order.
+* After game reset, mission states are not restored when the player had received the end item. There is currently no fix on that bug, ``/hint_location <Player> <Location>`` should be used in this case on the hosted Archipelago web page (or in the local console if played locally).
+
+### Minor issues
+* Only affects mod developers, the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
+* Sometimes, the unlocked weapons can look a bit "glitchy" or have a wrong color, the issue is only visual and does not affect the gameplay
+* When the game is reloaded, an egg can sometimes be duplicated.
+* The current version of the command parser does not accept console commands with a player names containing whitespaces. It is recommended to use underscores "_" instead, for instance : CCCharles_Player_1.
+* Sometimes, an item reception or sending a location can fail (rare cases). Reloading the game is supposed to respawn all items on the ground and restarting a new game retrieves all unlocked items from Archipelago, that can be used as workarounds.
+* When an egg is received, if the player goes to one of the three mine exits before talking to the NPC who gives its entry key, the player will no longer be able to interact with this NPC. Make sure to talk to them before approaching their respective mines. Restart a new game otherwise.
