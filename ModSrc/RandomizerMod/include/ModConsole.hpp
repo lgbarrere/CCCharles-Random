@@ -15,6 +15,7 @@ typedef struct
 }ReceivedItems;
 
 extern ReceivedItems receivedItems;
+extern ReceivedItems pendingItems;
 
 void LogFromAPCpp(std::string message);
 

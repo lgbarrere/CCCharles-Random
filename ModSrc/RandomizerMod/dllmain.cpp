@@ -95,6 +95,8 @@ public:
             ArchipelagoMessageEvent = NULL;
             LostConnectionEvent = NULL;
             ItemReceivedEvent = NULL;
+            // Following line to move when ItemManager request will be reworked
+            //ItemManager->ProcessEvent(GetAllItemAmountsEvent, &receivedItems);
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
         {
@@ -178,10 +180,12 @@ public:
         Output::send<LogLevel::Verbose>(STR("Object Name: {}\n"), Object->GetFullName());
 
         Hook::RegisterProcessConsoleExecCallback(CallbackConsole);
-        //ItemAmounts.SetNum(43);
         receivedItems.ItemAmounts.SetNum(24);
         receivedItems.UnlockedPaintCans.SetNum(11);
         receivedItems.UnlockedWeapons.SetNum(3);
+        pendingItems.ItemAmounts.SetNum(24);
+        pendingItems.UnlockedPaintCans.SetNum(11);
+        pendingItems.UnlockedWeapons.SetNum(3);
 
         // Callback for all hooked functions and events
         if (UObject::ProcessLocalScriptFunctionInternal.is_ready() && Unreal::Version::IsAtLeast(4, 22))

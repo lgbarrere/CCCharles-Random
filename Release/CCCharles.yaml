@@ -1,0 +1,8 @@
+﻿name: CCCharles
+description: local Choo-Choo Charles generation test
+game: Choo-Choo Charles
+Choo-Choo Charles:
+  progression_balancing: 0
+  accessibility: locations
+  unscrap_trap: 0
+  death_link: 'false'

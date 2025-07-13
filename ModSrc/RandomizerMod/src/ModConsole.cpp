@@ -24,6 +24,7 @@ using namespace RC::Unreal;
 
 bool gameReload = false;
 ReceivedItems receivedItems;
+ReceivedItems pendingItems;
 UObject* ItemManager = NULL;
 UFunction* ItemReceivedEvent = NULL;
 
@@ -151,132 +152,175 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
     {
     case 0: // Scraps
         receivedItems.ItemAmounts[0] += 1;
+        pendingItems.ItemAmounts[0] += 1;
         break;
     case 1: // Scraps (reward 30)
         receivedItems.ItemAmounts[0] += 30;
+        pendingItems.ItemAmounts[0] += 30;
         break;
     case 2: // Scraps (reward 25)
         receivedItems.ItemAmounts[0] += 25;
+        pendingItems.ItemAmounts[0] += 25;
         break;
     case 3: // Scraps (reward 35)
         receivedItems.ItemAmounts[0] += 35;
+        pendingItems.ItemAmounts[0] += 35;
         break;
     case 4: // Scraps (reward 40)
         receivedItems.ItemAmounts[0] += 40;
+        pendingItems.ItemAmounts[0] += 40;
         break;
     case 5: // South mine key
         receivedItems.ItemAmounts[1] += 1;
+        pendingItems.ItemAmounts[1] += 1;
         break;
     case 6: // North mine key
         receivedItems.ItemAmounts[2] += 1;
+        pendingItems.ItemAmounts[2] += 1;
         break;
     case 7: // Mountain ruin key
         receivedItems.ItemAmounts[3] += 1;
+        pendingItems.ItemAmounts[3] += 1;
         break;
     case 8: // Barn key
         receivedItems.ItemAmounts[4] += 1;
+        pendingItems.ItemAmounts[4] += 1;
         break;
     case 9: // Candice key
         receivedItems.ItemAmounts[5] += 1;
+        pendingItems.ItemAmounts[5] += 1;
         break;
     case 10: // Dead fish
         receivedItems.ItemAmounts[6] += 1;
+        pendingItems.ItemAmounts[6] += 1;
         break;
     case 11: // Lockpicks
         receivedItems.ItemAmounts[7] += 1;
+        pendingItems.ItemAmounts[7] += 1;
         break;
     case 12: // Ancient tablet
         receivedItems.ItemAmounts[8] += 1;
+        pendingItems.ItemAmounts[8] += 1;
         break;
     case 13: // Blue box
         receivedItems.ItemAmounts[9] += 1;
+        pendingItems.ItemAmounts[9] += 1;
         break;
     case 14: // Page Drawing
         receivedItems.ItemAmounts[10] += 1;
+        pendingItems.ItemAmounts[10] += 1;
         break;
     case 15: // Journal
         receivedItems.ItemAmounts[11] += 1;
+        pendingItems.ItemAmounts[11] += 1;
         break;
     case 16: // Dynamite
         receivedItems.ItemAmounts[12] += 1;
+        pendingItems.ItemAmounts[12] += 1;
         break;
     case 17: // Boomer rockets
         receivedItems.ItemAmounts[13] += 1;
+        pendingItems.ItemAmounts[13] += 1;
         break;
     case 18: // Breaker
         receivedItems.ItemAmounts[14] += 1;
+        pendingItems.ItemAmounts[14] += 1;
         break;
     case 19: // Broken Bob
         receivedItems.ItemAmounts[15] += 1;
+        pendingItems.ItemAmounts[15] += 1;
         break;
     case 20: // Employment contracts
         receivedItems.ItemAmounts[16] += 1;
+        pendingItems.ItemAmounts[16] += 1;
         break;
     case 21: // Mob camp key
         receivedItems.ItemAmounts[17] += 1;
+        pendingItems.ItemAmounts[17] += 1;
         break;
     case 22: // Pickles jar
         receivedItems.ItemAmounts[18] += 1;
+        pendingItems.ItemAmounts[18] += 1;
         break;
     case 23: // Orange Paint Can
         receivedItems.UnlockedPaintCans[0] = true;
+        pendingItems.UnlockedPaintCans[0] = true;
         break;
     case 24: // Green Paint Can
         receivedItems.UnlockedPaintCans[1] = true;
+        pendingItems.UnlockedPaintCans[1] = true;
         break;
     case 25: // White Paint Can
         receivedItems.UnlockedPaintCans[2] = true;
+        pendingItems.UnlockedPaintCans[2] = true;
         break;
     case 26: // Pink Paint Can
         receivedItems.UnlockedPaintCans[3] = true;
+        pendingItems.UnlockedPaintCans[3] = true;
         break;
     case 27: // Gray Paint Can
         receivedItems.UnlockedPaintCans[4] = true;
+        pendingItems.UnlockedPaintCans[4] = true;
         break;
     case 28: // Blue Paint Can
         receivedItems.UnlockedPaintCans[5] = true;
+        pendingItems.UnlockedPaintCans[5] = true;
         break;
     case 29: // Black Paint Can
         receivedItems.UnlockedPaintCans[6] = true;
+        pendingItems.UnlockedPaintCans[6] = true;
         break;
     case 30: // Lime Paint Can
         receivedItems.UnlockedPaintCans[7] = true;
+        pendingItems.UnlockedPaintCans[7] = true;
         break;
     case 31: // Light Blue Paint Can
         receivedItems.UnlockedPaintCans[8] = true;
+        pendingItems.UnlockedPaintCans[8] = true;
         break;
     case 32: // Red Paint Can
         receivedItems.UnlockedPaintCans[9] = true;
+        pendingItems.UnlockedPaintCans[9] = true;
         break;
     case 33: // Purple Paint Can
         receivedItems.UnlockedPaintCans[10] = true;
+        pendingItems.UnlockedPaintCans[10] = true;
         break;
     case 34: // The Boomer
         receivedItems.UnlockedWeapons[0] = true;
+        pendingItems.UnlockedWeapons[0] = true;
         break;
     case 35: // Bob
         receivedItems.UnlockedWeapons[1] = true;
+        pendingItems.UnlockedWeapons[1] = true;
         break;
     case 36: // Green egg
         receivedItems.ItemAmounts[19] += 1;
+        pendingItems.ItemAmounts[19] += 1;
         break;
     case 37: // Blue egg
         receivedItems.ItemAmounts[20] += 1;
+        pendingItems.ItemAmounts[20] += 1;
         break;
     case 38: // Red egg
         receivedItems.ItemAmounts[21] += 1;
+        pendingItems.ItemAmounts[21] += 1;
         break;
     case 39: // Remote explosives
         receivedItems.ItemAmounts[22] += 1;
+        pendingItems.ItemAmounts[22] += 1;
         break;
     case 40: // Remote explosives (x8)
         receivedItems.ItemAmounts[22] += 8;
+        pendingItems.ItemAmounts[22] += 8;
         break;
     case 41: // Temple key
         receivedItems.ItemAmounts[23] += 1;
+        pendingItems.ItemAmounts[23] += 1;
         break;
     case 42: // Bug spray
         receivedItems.UnlockedWeapons[2] = true;
+        pendingItems.UnlockedWeapons[2] = true;
         break;
     }
 
@@ -324,12 +368,20 @@ static void LocationCheckedCallback(int64_t locationID)
 }
 
 
+/**
+*   @brief Log used to check APCpp messages, replace prints in APCpp code by call of this function
+*   @param message : The message to log
+*/
 void LogFromAPCpp(std::string message) {
     Output::send<LogLevel::Verbose>(TEXT("LogFromAPCpp: {}\n"), RC::to_wstring(message).c_str());
 }
 
 
 namespace ModConsole {
+    /**
+    *   @brief Log used to check APCpp messages, replace prints in APCpp code by call of this function
+    *   @param message : The message to log
+    */
     void ModConsole::ResetItemAmounts()
     {
         for (int32_t Index = 0; Index != receivedItems.ItemAmounts.Num(); Index++)
@@ -339,6 +391,11 @@ namespace ModConsole {
     }
 
 
+    /**
+    *   @brief Manage user commands written in the UE console to interact with Archipelago using APCpp
+    *   @param Ar : The used device (expecting UE console here)
+    *   @param command : The typed command by the user
+    */
     bool ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
     {
         // Conversion from const TCHAR* to const char*
