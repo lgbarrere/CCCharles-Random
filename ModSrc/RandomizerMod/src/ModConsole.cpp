@@ -1,4 +1,6 @@
 #include <Unreal/UObject.hpp>
+#include <cstring>
+#include <Windows.h>
 
 #include "ModConsole.hpp"
 #include "Archipelago.h"
@@ -45,6 +47,10 @@ static int CompareAndParseCmd(const char* command, const char* expectedCmd, char
     const char separator = ' ';
     int i = 0, j = 0;
     int numberOfParsedOptions = 0;
+
+    // Reset the outOptions and outOptionPositions arrays for security purpose
+    memset(outOptions, '\0', ALL_OPTIONS_MAX_LENGTH * sizeof(char));
+    memset(outOptionPositions, 0, NB_MAX_OPTIONS * sizeof(int));
 
     // Check if the first word of the command is known (correctly written)
     while (expectedCmd[i] != '\0')
@@ -318,17 +324,6 @@ static void LocationCheckedCallback(int64_t locationID)
 }
 
 
-/**
-*   @brief Convert the passed char* to TCHAR*
-*   @param charStr : The char* to convert
-*/
-static const TCHAR* CharStrToConstTcharStr(char* charStr)
-{
-    string str(charStr);
-    return RC::to_wstring(str).c_str();
-}
-
-
 void LogFromAPCpp(std::string message) {
     Output::send<LogLevel::Verbose>(TEXT("LogFromAPCpp: {}\n"), RC::to_wstring(message).c_str());
 }
@@ -344,13 +339,29 @@ namespace ModConsole {
     }
 
 
-    int ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
+    bool ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
     {
+        // Conversion from const TCHAR* to const char*
+        // Must first be converted to string : while the exists, the const char* will be valid
+        string commandStr = to_string(command);
+        const char* commandCharStr = commandStr.c_str();
+
+        // If no '/' and '!' starts the entry, do not consider it as a command and exit early
+        if (commandCharStr[0] != '/' && commandCharStr[0] != '!')
+        {
+            Output::send<LogLevel::Verbose>(STR("Entry with no command found : {}\n"), command);
+            Output::send<LogLevel::Verbose>(STR("Put \'/\' or \'!\' at the start of your command to detect it\n"));
+            Output::send<LogLevel::Verbose>(STR("Try /help for details\n"));
+
+            return false;
+        }
+        commandCharStr++; // Command detected, exclude the first character from the array
+
         char outOptions[ALL_OPTIONS_MAX_LENGTH];
         int outOptionPositions[NB_MAX_OPTIONS];
+        int numberOfOptions = 0;
 
-        const char* commandCharStr = RC::to_string(command).c_str();
-        int numberOfOptions = CompareAndParseCmd(commandCharStr, "help", outOptions, outOptionPositions);
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "help", outOptions, outOptionPositions);
         if (numberOfOptions != UNDEFINED_COMMAND)
         {
             // Print in console
@@ -366,17 +377,22 @@ namespace ModConsole {
             Ar.Log(STR("        Get all your items from each player.\n"));
             Ar.Log(STR("/hint <item>\n"));
             Ar.Log(STR("        Get a hint on the given <item>.\n"));
-            Ar.Log(STR("/hint_location\n"));
+            Ar.Log(STR("/hint_location <location>\n"));
             Ar.Log(STR("        Get a hint on the given <location>.\n"));
-            Ar.Log(STR("/get <item>\n"));
-            Ar.Log(STR("        Get the given <item> and add it to inventory.\n"));
+            Ar.Log(STR("/remaining\n"));
+            Ar.Log(STR("        Show all remaining locations (still not checked).\n"));
+            Ar.Log(STR("/send <location>\n"));
+            Ar.Log(STR("        Send the given <location>, considering it as checked.\n"));
+
+            return true;
         }
+
         // Check if the used command is "/connect [...]"
         // Example : /connect archipelago.gg:59157 YaranCCC
         numberOfOptions = CompareAndParseCmd(commandCharStr, "connect", outOptions, outOptionPositions);
         if (numberOfOptions >= 2) // At least 2 options are required for the "connect" command
         {
-            Ar.Log(STR("Command recognized\n"));
+            Ar.Log(STR("Connect\n"));
             const char* ipAddress = GetOptionAtindex(outOptions, outOptionPositions, 0);
             const char* playerName = GetOptionAtindex(outOptions, outOptionPositions, 1);
             const char* password = numberOfOptions == 2 ? "" : GetOptionAtindex(outOptions, outOptionPositions, 2);
@@ -388,38 +404,73 @@ namespace ModConsole {
             AP_SetDeathLinkSupported(false);
             AP_Start();
 
-            return 1;
+            return true;
         }
-        else if (CompareAndParseCmd(commandCharStr, "disconnect", outOptions, outOptionPositions))
+
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "disconnect", outOptions, outOptionPositions);
+        if (numberOfOptions >= 0)
         {
+            Ar.Log(STR("Disconnect\n"));
             ModConsole::ResetItemAmounts();
             AP_Shutdown();
+
+            return true;
         }
-        else if (CompareAndParseCmd(commandCharStr, "release", outOptions, outOptionPositions))
+
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "release", outOptions, outOptionPositions);
+        if (numberOfOptions >= 0)
         {
             /* code */
+            Ar.Log(STR("Release\n"));
+
+            return true;
         }
-        else if (CompareAndParseCmd(commandCharStr, "collect", outOptions, outOptionPositions))
+
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "collect", outOptions, outOptionPositions);
+        if (numberOfOptions >= 0)
         {
             /* code */
+            Ar.Log(STR("Collect\n"));
+
+            return true;
         }
-        else if (CompareAndParseCmd(commandCharStr, "hint", outOptions, outOptionPositions))
+
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "hint", outOptions, outOptionPositions);
+        if (numberOfOptions >= 1)
         {
             /* code */
+            Ar.Log(STR("Hint\n"));
+
+            return true;
         }
-        else if (CompareAndParseCmd(commandCharStr, "hint_location", outOptions, outOptionPositions))
+
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "hint_location", outOptions, outOptionPositions);
+        if (numberOfOptions >= 1)
         {
             /* code */
+            Ar.Log(STR("Hint location\n"));
+
+            return true;
         }
-        else if (CompareAndParseCmd(commandCharStr, "remaining", outOptions, outOptionPositions))
+
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "remaining", outOptions, outOptionPositions);
+        if (numberOfOptions >= 0)
         {
             /* code */
+            Ar.Log(STR("Remaining\n"));
+
+            return true;
         }
-		else if (CompareAndParseCmd(commandCharStr, "get", outOptions, outOptionPositions)) // get an item as done check
+
+        numberOfOptions = CompareAndParseCmd(commandCharStr, "send", outOptions, outOptionPositions);
+        if (numberOfOptions >= 1) // send a location as done check
         {
             /* code */
+            Ar.Log(STR("Send\n"));
+
+            return true;
         }
-        
-        return 0;
+
+        return false;
     }
 }

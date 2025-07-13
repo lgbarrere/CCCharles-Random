@@ -157,26 +157,18 @@ public:
 
     static bool CallbackConsole(UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor)
     {
-        if (command[0] == '/' || command[0] == '!')
+        bool same = ModConsole::CheckCommand(Ar, command);
+
+        if (same)
         {
-            command++; // Exclude the first character from the array
-
-            int same = ModConsole::CheckCommand(Ar, command);
-
-            if (same == 1)
-            {
-                Output::send<LogLevel::Verbose>(STR("Command detected with success : {} {}\n"), command, same);
-            }
-            else
-            {
-                Output::send<LogLevel::Verbose>(STR("Command detected with difference : {} {}\n"), command, same);
-            }
-
-            return true;
+            Output::send<LogLevel::Verbose>(STR("Command detected with success : {}\n"), command);
         }
-
-        Output::send<LogLevel::Verbose>(STR("Command undetected\n"));
-        return false;
+        else
+        {
+            Output::send<LogLevel::Verbose>(STR("Command not found or missing arguments : {}\n"), command);
+        }
+        
+        return same;
     }
 
     auto on_unreal_init() -> void override

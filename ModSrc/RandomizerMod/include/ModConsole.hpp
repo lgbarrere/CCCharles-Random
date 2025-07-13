@@ -22,6 +22,6 @@ namespace ModConsole {
     using RC::Unreal::FOutputDevice;
 	using RC::Unreal::TCHAR;
 
-    int CheckCommand(FOutputDevice& Ar, const TCHAR* command);
+    bool CheckCommand(FOutputDevice& Ar, const TCHAR* command);
     void ResetItemAmounts();
 }
