@@ -20,6 +20,7 @@ The Overlay gives a list of useful shortcuts to test newly added features (speed
 * **\<GameFolder\>** is the path to folder containing all the files necessary to launch the game, for instance **D:/Program Files (x86)/Steam/steamapps/common/Choo-Choo Charles/**
 
 ## Mod Installation for playing
+### Setup the game
 The releases of this game are currently unofficial. However, the Mod can be installed and played by following these instructions :
 1. Click the green "<> Code" button
 2. Click "Download ZIP" or clone this project.
@@ -27,6 +28,21 @@ The releases of this game are currently unofficial. However, the Mod can be inst
 4. Launch the game, if "OFFLINE" is written at the upper-right corner of the screen, the Mod is working
 > [!NOTE]
 > The content from the **Release/** folder can by manually placed while the paths to files are respected.
+
+### Host the game
+See **Setup the game** section to have the **Release/** folder downloaded.
+
+In this section, **Archipelago/** refers to the path where Archipelago is installed locally.
+
+Follow these steps to host a remote multiplayer or a local singleplayer session :
+1. Double-click the **cccharles.apworld** in **Release/** to automatically install the world randomization logic
+2. Put the **CCCharles.yaml** from **Release/** to **Archipelago/Players/** with the yaml of each player to host
+3. Launch the Archipelago launcher and click "Generate" to setup a game with the yaml in **Archipelago/ouput/**
+4. For a multiplayer session, go to [the Archipelago HOST GAME page](https://archipelago.gg/uploads)
+5. Click "Upload File" and select the generated **AP_\<seed\>.zip** in **Archipelago/output/**
+6. Send the generated room page to each player
+> [!TIP]
+> For a local singleplayer session, click "Host" in the Archipelago launcher by using the generated AP_<seed>.zip in **Archipelago/output/**
 
 ## Connection to the Archipelago server room
 > [!NOTE]
@@ -110,10 +126,12 @@ The **launchCCCmod.bat** script has been made to facilitate the injection of the
 * See "todo.txt" for details
 
 ## Known Issues
-* **Major :** Sometimes, an item reception can fail (rare case), it is highly recommended to not use ``/collect`` or ``/release`` yet because massive receptions can trigger this issue and the item will be lost.
-* **Major :** When an egg is received, if the player goes to one of the three mine exits before talking to the NPC who gives its entry key, the player will no longer be able to interact with this NPC. Make sure to talk to them before approaching their respective mines.
+* **Major :** When an item is received while in loading screen, a crash sometimes occurrs. That bug does not break the game and a restart is sufficient, but it is recommended to connect after the game is started.
 * **Major :** If the player receives the **Box of Rockets**, the bunker at the **Training Explosive** region will be opened once loaded. It may be possible to break the mission state if the player interacts with elements in unexpected order.
+* **Major :** After game reset, mission states are not restored when the player had received the end item. There is currently no fix on that bug, ``/hint_location <Player> <Location>`` should be used in this case on the hosted Archipelago web page (or in the local console if played locally).
 * **Minor :** Only affects mod developers, the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
 * **Minor :** Sometimes, the unlocked weapons can look a bit "glitchy" or have a wrong color, the issue is only visual and does not affect the gameplay
 * **Minor :** When the game is reloaded, an egg can sometimes be duplicated.
 * **Minor :** The current version of the command parser does not accept console commands with a player names containing whitespaces. It is recommended to use underscores "_" instead, for instance : CCCharles_Player_1.
+* **Minor :** Sometimes, an item reception or sending a location can fail (rare cases). Reloading the game is supposed to respawn all items on the ground and restarting a new game retrieves all unlocked items from Archipelago, that can be used as workarounds.
+* **Minor :** When an egg is received, if the player goes to one of the three mine exits before talking to the NPC who gives its entry key, the player will no longer be able to interact with this NPC. Make sure to talk to them before approaching their respective mines. Restart a new game otherwise.
