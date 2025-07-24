@@ -22,12 +22,8 @@ using namespace std;
 using namespace RC;
 using namespace RC::Unreal;
 
-bool gameReload = false;
 ReceivedItems receivedItems;
-ReceivedItems pendingItems;
-UObject* ItemManager = NULL;
-UFunction* ItemReceivedEvent = NULL;
-
+TArray<int64_t> pendingItemIDs;
 
 
 /**
@@ -146,214 +142,146 @@ static void ClearInventoryCallback()
 */
 static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 {
+    // If notifyPlayer is true, this ID is received for the first time, add it in pendingItemIDs
+    if (notifyPlayer)
+    {
+        pendingItemIDs.Emplace(itemID);
+    }
+
     // Add 1 item from the received itemID to the inventory
-    int tmpIndex = (int)(itemID - MINIMUM_ID_INDEX);
-    switch (tmpIndex)
+    int index = (int)(itemID - MINIMUM_ID_INDEX);
+    switch (index)
     {
     case 0: // Scraps
-        receivedItems.ItemAmounts[0] += 1;
-        pendingItems.ItemAmounts[0] += 1;
+        receivedItems.items[0].amount += 1;
         break;
     case 1: // Scraps (reward 30)
-        receivedItems.ItemAmounts[0] += 30;
-        pendingItems.ItemAmounts[0] += 30;
+        receivedItems.items[0].amount += 30;
         break;
     case 2: // Scraps (reward 25)
-        receivedItems.ItemAmounts[0] += 25;
-        pendingItems.ItemAmounts[0] += 25;
+        receivedItems.items[0].amount += 25;
         break;
     case 3: // Scraps (reward 35)
-        receivedItems.ItemAmounts[0] += 35;
-        pendingItems.ItemAmounts[0] += 35;
+        receivedItems.items[0].amount += 35;
         break;
     case 4: // Scraps (reward 40)
-        receivedItems.ItemAmounts[0] += 40;
-        pendingItems.ItemAmounts[0] += 40;
+        receivedItems.items[0].amount += 40;
         break;
     case 5: // South mine key
-        receivedItems.ItemAmounts[1] += 1;
-        pendingItems.ItemAmounts[1] += 1;
+        receivedItems.items[1].amount += 1;
         break;
     case 6: // North mine key
-        receivedItems.ItemAmounts[2] += 1;
-        pendingItems.ItemAmounts[2] += 1;
+        receivedItems.items[2].amount += 1;
         break;
     case 7: // Mountain ruin key
-        receivedItems.ItemAmounts[3] += 1;
-        pendingItems.ItemAmounts[3] += 1;
+        receivedItems.items[3].amount += 1;
         break;
     case 8: // Barn key
-        receivedItems.ItemAmounts[4] += 1;
-        pendingItems.ItemAmounts[4] += 1;
+        receivedItems.items[4].amount += 1;
         break;
     case 9: // Candice key
-        receivedItems.ItemAmounts[5] += 1;
-        pendingItems.ItemAmounts[5] += 1;
+        receivedItems.items[5].amount += 1;
         break;
     case 10: // Dead fish
-        receivedItems.ItemAmounts[6] += 1;
-        pendingItems.ItemAmounts[6] += 1;
+        receivedItems.items[6].amount += 1;
         break;
     case 11: // Lockpicks
-        receivedItems.ItemAmounts[7] += 1;
-        pendingItems.ItemAmounts[7] += 1;
+        receivedItems.items[7].amount += 1;
         break;
     case 12: // Ancient tablet
-        receivedItems.ItemAmounts[8] += 1;
-        pendingItems.ItemAmounts[8] += 1;
+        receivedItems.items[8].amount += 1;
         break;
     case 13: // Blue box
-        receivedItems.ItemAmounts[9] += 1;
-        pendingItems.ItemAmounts[9] += 1;
+        receivedItems.items[9].amount += 1;
         break;
     case 14: // Page Drawing
-        receivedItems.ItemAmounts[10] += 1;
-        pendingItems.ItemAmounts[10] += 1;
+        receivedItems.items[10].amount += 1;
         break;
     case 15: // Journal
-        receivedItems.ItemAmounts[11] += 1;
-        pendingItems.ItemAmounts[11] += 1;
+        receivedItems.items[11].amount += 1;
         break;
     case 16: // Dynamite
-        receivedItems.ItemAmounts[12] += 1;
-        pendingItems.ItemAmounts[12] += 1;
+        receivedItems.items[12].amount += 1;
         break;
     case 17: // Boomer rockets
-        receivedItems.ItemAmounts[13] += 1;
-        pendingItems.ItemAmounts[13] += 1;
+        receivedItems.items[13].amount += 1;
         break;
     case 18: // Breaker
-        receivedItems.ItemAmounts[14] += 1;
-        pendingItems.ItemAmounts[14] += 1;
+        receivedItems.items[14].amount += 1;
         break;
     case 19: // Broken Bob
-        receivedItems.ItemAmounts[15] += 1;
-        pendingItems.ItemAmounts[15] += 1;
+        receivedItems.items[15].amount += 1;
         break;
     case 20: // Employment contracts
-        receivedItems.ItemAmounts[16] += 1;
-        pendingItems.ItemAmounts[16] += 1;
+        receivedItems.items[16].amount += 1;
         break;
     case 21: // Mob camp key
-        receivedItems.ItemAmounts[17] += 1;
-        pendingItems.ItemAmounts[17] += 1;
+        receivedItems.items[17].amount += 1;
         break;
     case 22: // Pickles jar
-        receivedItems.ItemAmounts[18] += 1;
-        pendingItems.ItemAmounts[18] += 1;
+        receivedItems.items[18].amount += 1;
         break;
     case 23: // Orange Paint Can
-        receivedItems.UnlockedPaintCans[0] = true;
-        pendingItems.UnlockedPaintCans[0] = true;
+        receivedItems.paintCans[0].unlocked = true;
         break;
     case 24: // Green Paint Can
-        receivedItems.UnlockedPaintCans[1] = true;
-        pendingItems.UnlockedPaintCans[1] = true;
+        receivedItems.paintCans[1].unlocked = true;
         break;
     case 25: // White Paint Can
-        receivedItems.UnlockedPaintCans[2] = true;
-        pendingItems.UnlockedPaintCans[2] = true;
+        receivedItems.paintCans[2].unlocked = true;
         break;
     case 26: // Pink Paint Can
-        receivedItems.UnlockedPaintCans[3] = true;
-        pendingItems.UnlockedPaintCans[3] = true;
+        receivedItems.paintCans[3].unlocked = true;
         break;
     case 27: // Gray Paint Can
-        receivedItems.UnlockedPaintCans[4] = true;
-        pendingItems.UnlockedPaintCans[4] = true;
+        receivedItems.paintCans[4].unlocked = true;
         break;
     case 28: // Blue Paint Can
-        receivedItems.UnlockedPaintCans[5] = true;
-        pendingItems.UnlockedPaintCans[5] = true;
+        receivedItems.paintCans[5].unlocked = true;
         break;
     case 29: // Black Paint Can
-        receivedItems.UnlockedPaintCans[6] = true;
-        pendingItems.UnlockedPaintCans[6] = true;
+        receivedItems.paintCans[6].unlocked = true;
         break;
     case 30: // Lime Paint Can
-        receivedItems.UnlockedPaintCans[7] = true;
-        pendingItems.UnlockedPaintCans[7] = true;
+        receivedItems.paintCans[7].unlocked = true;
         break;
-    case 31: // Light Blue Paint Can
-        receivedItems.UnlockedPaintCans[8] = true;
-        pendingItems.UnlockedPaintCans[8] = true;
+    case 31: // Teal Paint Can
+        receivedItems.paintCans[8].unlocked = true;
         break;
     case 32: // Red Paint Can
-        receivedItems.UnlockedPaintCans[9] = true;
-        pendingItems.UnlockedPaintCans[9] = true;
+        receivedItems.paintCans[9].unlocked = true;
         break;
     case 33: // Purple Paint Can
-        receivedItems.UnlockedPaintCans[10] = true;
-        pendingItems.UnlockedPaintCans[10] = true;
+        receivedItems.paintCans[10].unlocked = true;
         break;
     case 34: // The Boomer
-        receivedItems.UnlockedWeapons[0] = true;
-        pendingItems.UnlockedWeapons[0] = true;
+        receivedItems.weapons[0].unlocked = true;
         break;
     case 35: // Bob
-        receivedItems.UnlockedWeapons[1] = true;
-        pendingItems.UnlockedWeapons[1] = true;
+        receivedItems.weapons[1].unlocked = true;
         break;
     case 36: // Green egg
-        receivedItems.ItemAmounts[19] += 1;
-        pendingItems.ItemAmounts[19] += 1;
+        receivedItems.items[19].amount += 1;
         break;
     case 37: // Blue egg
-        receivedItems.ItemAmounts[20] += 1;
-        pendingItems.ItemAmounts[20] += 1;
+        receivedItems.items[20].amount += 1;
         break;
     case 38: // Red egg
-        receivedItems.ItemAmounts[21] += 1;
-        pendingItems.ItemAmounts[21] += 1;
+        receivedItems.items[21].amount += 1;
         break;
     case 39: // Remote explosives
-        receivedItems.ItemAmounts[22] += 1;
-        pendingItems.ItemAmounts[22] += 1;
+        receivedItems.items[22].amount += 1;
         break;
     case 40: // Remote explosives (x8)
-        receivedItems.ItemAmounts[22] += 8;
-        pendingItems.ItemAmounts[22] += 8;
+        receivedItems.items[22].amount += 8;
         break;
     case 41: // Temple key
-        receivedItems.ItemAmounts[23] += 1;
-        pendingItems.ItemAmounts[23] += 1;
+        receivedItems.items[23].amount += 1;
         break;
-    case 42: // Bug spray
-        receivedItems.UnlockedWeapons[2] = true;
-        pendingItems.UnlockedWeapons[2] = true;
+    case 42: // Bug Spray
+        receivedItems.weapons[2].unlocked = true;
         break;
     }
-
-    // If notifyPlayer is false, the item has already be received once => don't receive that again
-    if (!notifyPlayer)
-    {
-        return;
-    }
-
-    // Get ItemManager reference if not done, leave the function if it cannot be found
-    if (!ItemManager) {
-        ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
-        if (!ItemManager) {
-            Output::send<LogLevel::Error>(STR("ItemManager not found\n"));
-            return;
-        }
-    }
-
-    // Get ItemReceived event reference (to add itemID to inventory) if not done, leave the function if it cannot be found
-    static auto ItemReceived = FName(STR("ItemReceived"), FNAME_Add);
-    if (!ItemReceivedEvent)
-    {
-        ItemReceivedEvent = ItemManager->GetFunctionByName(ItemReceived);
-        if (!ItemReceivedEvent)
-        {
-            Output::send<LogLevel::Error>(STR("ItemReceived not found\n"));
-            return;
-        }
-    }
-
-    Output::send<LogLevel::Verbose>(STR("Calling ProcessEvent...\n"));
-    ItemManager->ProcessEvent(ItemReceivedEvent, &itemID);
-    Output::send<LogLevel::Verbose>(STR("ProcessEvent finished.\n"));
 }
 
 
@@ -379,15 +307,24 @@ void LogFromAPCpp(std::string message) {
 
 namespace ModConsole {
     /**
-    *   @brief Log used to check APCpp messages, replace prints in APCpp code by call of this function
-    *   @param message : The message to log
+    *   @brief Reset all received items amounts and all unlocked train components to 0
     */
     void ModConsole::ResetItemAmounts()
     {
-        for (int32_t Index = 0; Index != receivedItems.ItemAmounts.Num(); Index++)
+        for (int32_t index = 0; index != receivedItems.items.Num(); index++)
         {
-            receivedItems.ItemAmounts[Index] = 0;
+            receivedItems.items[index].amount = 0;
         }
+        for (int32_t index = 0; index != receivedItems.paintCans.Num(); index++)
+        {
+            receivedItems.paintCans[index].unlocked = false;
+        }
+        for (int32_t index = 0; index != receivedItems.weapons.Num(); index++)
+        {
+            receivedItems.weapons[index].unlocked = false;
+        }
+
+        pendingItemIDs.Empty();
     }
 
 

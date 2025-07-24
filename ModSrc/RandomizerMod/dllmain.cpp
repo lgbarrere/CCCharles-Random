@@ -8,10 +8,17 @@
 using namespace RC;
 using namespace RC::Unreal;
 
-UFunction* AuthenticatedEvent = NULL;
+// The ItemManager Blueprints manages the player inventory when an Archipelago item is received
+UObject* ItemManager = NULL;
+// The following events are executed by ItemManager Blueprint when a signal is received
+UFunction* ItemReceivedEvent = NULL;
 UFunction* ArchipelagoMessageEvent = NULL;
-UFunction* LostConnectionEvent = NULL;
 UFunction* GetAllItemAmountsEvent = NULL;
+UFunction* ConnectionStatusUpdatedEvent = NULL;
+
+static bool authenticated = false;
+static bool isNewGame = false;
+
 
 class RandomizerMod : public RC::CppUserModBase
 {
@@ -20,7 +27,7 @@ public:
     {
         ModName = STR("RandomizerMod");
         ModVersion = STR("0.0.1");
-        ModDescription = STR("Choo-Choo Charles randomizer");
+        ModDescription = STR("Choo-Choo Charles Archipelago Mutiworld Randomizer");
         ModAuthors = STR("Yaranorgoth");
         // Do not change this unless you want to target a UE4SS version
         // other than the one you're currently building with somehow.
@@ -36,24 +43,6 @@ public:
     {
     }
 
-    /*
-    * TODO : Starting Dataloader implementation, to adapt in Mod context
-    FString LoadFileToString(FString filename)
-    {
-        FString folder = FPaths::GameContentDir();
-        FString result;
-        IPlatformFile& file = FPlatformFileManager::Get().GetPlatformFile();
-
-        if (file.CreateDirectory(*folder))
-        {
-            FString saveFile = folder + "/" + filename;
-            FFileHelper::LoadFileToString(result, *saveFile);
-        }
-
-        return result;
-    }
-    */
-
     static auto CallbackFunctionHook([[maybe_unused]] Unreal::UObject* Context, Unreal::FFrame& Stack, [[maybe_unused]] void* RESULT_DECL) -> void
     {
         // Set the hooked functions/events names once
@@ -61,19 +50,22 @@ public:
         static auto GameReloadedHook = FName(STR("GameReloaded"), FNAME_Add); // The game was reloaded, reset gameReload
         static auto CharlesDeathHook = FName(STR("CharlesDeath"), FNAME_Add); // Function from the game called if Charles died
         static auto CheckPendingMessageHook = FName(STR("CheckPendingMessage"), FNAME_Add); // Show the last Archipelago pending message
-        static auto GameRestartHook = FName(STR("GameRestart"), FNAME_Add); // The player lost in Nightmare mode or restarted a new game
+        static auto NewGameStartHook = FName(STR("NewGameStart"), FNAME_Add); // The player lost in Nightmare mode or restarted a new game
+        static auto GetConnectionStatusHook = FName(STR("GetConnectionStatus"), FNAME_Add); // Check if the player is authenticated or not
+        static auto GetPendingItemsHook = FName(STR("GetPendingItems"), FNAME_Add); // Check if the player receives new items
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
         {
+            Output::send<LogLevel::Verbose>(STR("SendLocationIDHook\n"));
+
             // If the Archipelago connection is not established yet, exit early
             if (AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
             {
-                Output::send<LogLevel::Verbose>(STR("The player is not authenticated yet\n"));
+                Output::send<LogLevel::Verbose>(STR("The player is not authenticated\n"));
                 return;
             }
 
-            Output::send<LogLevel::Verbose>(STR("SendLocationIDHook\n"));
             // Get the parameters in order
             int64_t* locationID = Stack.Node()->GetPropertyByName(STR("locationID"))->ContainerPtrToValuePtr<int64_t>(Stack.Locals());
             Output::send<LogLevel::Verbose>(STR("{}\n"), *locationID);
@@ -89,71 +81,104 @@ public:
         }
         else if (Stack.Node()->GetNamePrivate() == GameReloadedHook)
         {
-            gameReload = true;
+            Output::send<LogLevel::Verbose>(STR("GameReloadedHook\n"));
+
             ItemManager = NULL;
-            AuthenticatedEvent = NULL;
-            ArchipelagoMessageEvent = NULL;
-            LostConnectionEvent = NULL;
             ItemReceivedEvent = NULL;
-            // Following line to move when ItemManager request will be reworked
-            //ItemManager->ProcessEvent(GetAllItemAmountsEvent, &receivedItems);
+            ArchipelagoMessageEvent = NULL;
+            GetAllItemAmountsEvent = NULL;
+            ConnectionStatusUpdatedEvent = NULL;
+            authenticated = false;
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
         {
+            Output::send<LogLevel::Verbose>(STR("CharlesDeathHook\n"));
+
+            // If the Archipelago connection is not established yet, exit early
+            if (AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+            {
+                Output::send<LogLevel::Verbose>(STR("The player is not authenticated\n"));
+                return;
+            }
+
             AP_StoryComplete();
         }
         else if (Stack.Node()->GetNamePrivate() == CheckPendingMessageHook)
         {
-            AP_ConnectionStatus connectionStatus = AP_GetConnectionStatus();
-            if (connectionStatus == AP_ConnectionStatus::Authenticated && AP_IsMessagePending())
+            // No header debug message for hooks called every tick
+
+            if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated && AP_IsMessagePending())
             {
-                if (ItemManager)
+                if (ItemManager != NULL)
                 {
-                    if (!ArchipelagoMessageEvent)
+                    if (ArchipelagoMessageEvent == NULL)
                     {
-                        static auto ArchipelagoMessage = FName(STR("ArchipelagoMessage"), FNAME_Add);
-                        ArchipelagoMessageEvent = ItemManager->GetFunctionByName(ArchipelagoMessage);
-                        if (!ArchipelagoMessageEvent)
-                        {
-                            Output::send<LogLevel::Error>(STR("ArchipelagoMessage not found\n"));
-                            return;
-                        }
+                        Output::send<LogLevel::Error>(STR("ArchipelagoMessage not found\n"));
+                        return;
                     }
 
                     FString message = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
                     Output::send<LogLevel::Verbose>(STR("Pending message : {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
-                    ItemManager->ProcessEvent(ArchipelagoMessageEvent, &message);
+                    if (ItemManager != NULL)
+                    {
+                        ItemManager->ProcessEvent(ArchipelagoMessageEvent, &message);
+                    }
                     AP_ClearLatestMessage();
                 }
             }
         }
-        else if (Stack.Node()->GetNamePrivate() == GameRestartHook)
+        else if (Stack.Node()->GetNamePrivate() == NewGameStartHook)
         {
-            Output::send<LogLevel::Verbose>(STR("GameRestartHook\n"));
+            Output::send<LogLevel::Verbose>(STR("NewGameStartHook\n"));
 
-            if (AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+            // NewGameStart is managed in on_update() to get all received items when possible
+            isNewGame = true;
+        }
+        else if (Stack.Node()->GetNamePrivate() == GetConnectionStatusHook)
+        {
+            // No header debug message for hooks called every tick
+
+            if (ItemManager != NULL)
             {
-                Output::send<LogLevel::Verbose>(STR("The player is not authenticated yet\n"));
-                return;
-            }
-
-            if (!ItemManager) {
-                ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
-                if (!ItemManager) {
-                    Output::send<LogLevel::Error>(STR("ItemManager not found\n"));
+                if (ConnectionStatusUpdatedEvent == NULL)
+                {
+                    Output::send<LogLevel::Error>(STR("ConnectionStatusUpdated not found\n"));
                     return;
                 }
+
+                bool statusUpdated = false;
+                if (!authenticated && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated)
+                {
+                    authenticated = true;
+                    statusUpdated = true;
+                }
+                else if (authenticated && AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+                {
+                    authenticated = false;
+                    statusUpdated = true;
+                }
+
+                if (statusUpdated)
+                {
+                    ItemManager->ProcessEvent(ConnectionStatusUpdatedEvent, &authenticated);
+                }
             }
-            
-            // If the game is restarted and connected to AP, get all IDs to recover received items
-            static auto GetAllItemAmounts = FName(STR("GetAllItemAmounts"), FNAME_Add);
-            GetAllItemAmountsEvent = ItemManager->GetFunctionByName(GetAllItemAmounts);
-            if (!GetAllItemAmountsEvent)
+        }
+        else if (Stack.Node()->GetNamePrivate() == GetPendingItemsHook)
+        {
+            // No header debug message for hooks called every tick
+
+            if (ItemReceivedEvent == NULL)
             {
-                Output::send<LogLevel::Error>(STR("GetAllItemAmounts not found\n"));
+                Output::send<LogLevel::Error>(STR("ItemReceivedEvent not found\n"));
                 return;
             }
-            ItemManager->ProcessEvent(GetAllItemAmountsEvent, &receivedItems);
+
+            if (pendingItemIDs.Num() > 0)
+            {
+                ItemManager->ProcessEvent(ItemReceivedEvent, &pendingItemIDs);
+                pendingItemIDs.Empty();
+            }
         }
     }
 
@@ -180,12 +205,61 @@ public:
         Output::send<LogLevel::Verbose>(STR("Object Name: {}\n"), Object->GetFullName());
 
         Hook::RegisterProcessConsoleExecCallback(CallbackConsole);
-        receivedItems.ItemAmounts.SetNum(24);
-        receivedItems.UnlockedPaintCans.SetNum(11);
-        receivedItems.UnlockedWeapons.SetNum(3);
-        pendingItems.ItemAmounts.SetNum(24);
-        pendingItems.UnlockedPaintCans.SetNum(11);
-        pendingItems.UnlockedWeapons.SetNum(3);
+        receivedItems.items.SetNum(24);
+        receivedItems.items[0].name = FString(to_wstring("05_Scraps").c_str());
+        receivedItems.items[1].name = FString(to_wstring("Mine1_Key").c_str());
+        receivedItems.items[2].name = FString(to_wstring("Mine2_Key").c_str());
+        receivedItems.items[3].name = FString(to_wstring("Mine3_Key").c_str());
+        receivedItems.items[4].name = FString(to_wstring("01_KeyTony").c_str());
+        receivedItems.items[5].name = FString(to_wstring("Tutorial2_Key").c_str());
+        receivedItems.items[6].name = FString(to_wstring("Swamp_Fish").c_str());
+        receivedItems.items[7].name = FString(to_wstring("Junkyard_LockPicks").c_str());
+        receivedItems.items[8].name = FString(to_wstring("Junkyard_Tablet").c_str());
+        receivedItems.items[9].name = FString(to_wstring("Canyon_BlueBox").c_str());
+        receivedItems.items[10].name = FString(to_wstring("Pages_Drawing").c_str());
+        receivedItems.items[11].name = FString(to_wstring("Port_Journal").c_str());
+        receivedItems.items[12].name = FString(to_wstring("Boomer_Dynamite").c_str());
+        receivedItems.items[13].name = FString(to_wstring("Boomer_Rockets").c_str());
+        receivedItems.items[14].name = FString(to_wstring("Lighthouse_Breaker").c_str());
+        receivedItems.items[15].name = FString(to_wstring("Bob_BobPiece").c_str());
+        receivedItems.items[16].name = FString(to_wstring("Towers_Files").c_str());
+        receivedItems.items[17].name = FString(to_wstring("Bob_Key").c_str());
+        receivedItems.items[18].name = FString(to_wstring("Pickles_Jar").c_str());
+        receivedItems.items[19].name = FString(to_wstring("Mine1_Egg").c_str());
+        receivedItems.items[20].name = FString(to_wstring("Mine2_Egg").c_str());
+        receivedItems.items[21].name = FString(to_wstring("Mine3_Egg").c_str());
+        receivedItems.items[22].name = FString(to_wstring("Bridge_Dynamite").c_str());
+        receivedItems.items[23].name = FString(to_wstring("Boss_ShrineKey").c_str());
+        for (int i = 0; i < receivedItems.items.Num(); i++)
+        {
+            receivedItems.items[i].amount = 0;
+        }
+
+        receivedItems.paintCans.SetNum(11);
+        receivedItems.paintCans[0].name = FString(to_wstring("Orange Paint Can").c_str());
+        receivedItems.paintCans[1].name = FString(to_wstring("Green Paint Can").c_str());
+        receivedItems.paintCans[2].name = FString(to_wstring("White Paint Can").c_str());
+        receivedItems.paintCans[3].name = FString(to_wstring("Pink Paint Can").c_str());
+        receivedItems.paintCans[4].name = FString(to_wstring("Gray Paint Can").c_str());
+        receivedItems.paintCans[5].name = FString(to_wstring("Blue Paint Can").c_str());
+        receivedItems.paintCans[6].name = FString(to_wstring("Black Paint Can").c_str());
+        receivedItems.paintCans[7].name = FString(to_wstring("Lime Paint Can").c_str());
+        receivedItems.paintCans[8].name = FString(to_wstring("Teal Paint Can").c_str());
+        receivedItems.paintCans[9].name = FString(to_wstring("Red Paint Can").c_str());
+        receivedItems.paintCans[10].name = FString(to_wstring("Purple Paint Can").c_str());
+        for (int i = 0; i < receivedItems.paintCans.Num(); i++)
+        {
+            receivedItems.paintCans[i].unlocked = false;
+        }
+        
+        receivedItems.weapons.SetNum(3);
+        receivedItems.weapons[0].name = FString(to_wstring("The Boomer").c_str());
+        receivedItems.weapons[1].name = FString(to_wstring("Bob").c_str());
+        receivedItems.weapons[2].name = FString(to_wstring("Bug Spray").c_str());
+        for (int i = 0; i < receivedItems.weapons.Num(); i++)
+        {
+            receivedItems.weapons[i].unlocked = false;
+        }
 
         // Callback for all hooked functions and events
         if (UObject::ProcessLocalScriptFunctionInternal.is_ready() && Unreal::Version::IsAtLeast(4, 22))
@@ -197,61 +271,65 @@ public:
 
     auto on_update() -> void override
     {
-        // Send the game seed at first authentication
-        AP_ConnectionStatus connectionStatus = AP_GetConnectionStatus();
-        if (gameReload && connectionStatus == AP_ConnectionStatus::Authenticated)
+        // When the game is reloaded, the ItemManager reference is set to NULL, set it when available
+        if (ItemManager == NULL)
         {
-            // Get ItemManager reference if not done, leave the function if it cannot be found
-            if (!ItemManager) {
-                ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
-                if (!ItemManager) {
-                    Output::send<LogLevel::Error>(STR("ItemManager not found\n"));
-                    return;
-                }
-            }
-
-            // Get Authenticated event reference (to add itemID to inventory) if not done, leave the function if it cannot be found
-            static auto Authenticated = FName(STR("Authenticated"), FNAME_Add);
-            if (!AuthenticatedEvent)
-            {
-                AuthenticatedEvent = ItemManager->GetFunctionByName(Authenticated);
-                if (!AuthenticatedEvent)
-                {
-                    Output::send<LogLevel::Error>(STR("Authenticated not found\n"));
-                    return;
-                }
-            }
-
-            gameReload = false;
-
-            AP_RoomInfo roomInfo;
-            AP_GetRoomInfo(&roomInfo);
-            FString seed = FString(to_wstring(roomInfo.seed_name).c_str());
-            ItemManager->ProcessEvent(AuthenticatedEvent, &seed);
+            ItemManager = UObjectGlobals::FindFirstOf(STR("ItemManager_C"));
         }
-        // Otherwise, if disconnected, reset gameReload to send the seed once re-authenticated
-        else if (!gameReload && connectionStatus != AP_ConnectionStatus::Authenticated)
-        {
-            gameReload = true;
-            ModConsole::ResetItemAmounts();
 
-            static auto LostConnection = FName(STR("LostConnection"), FNAME_Add);
-            if (!LostConnectionEvent)
+        // Actions when ItemManager is available
+        if (ItemManager != NULL)
+        {
+            // Set each event if not set
+            if (ItemReceivedEvent == NULL)
             {
-                if (ItemManager)
-                {
-                    LostConnectionEvent = ItemManager->GetFunctionByName(LostConnection);
-                    if (!LostConnectionEvent)
-                    {
-                        Output::send<LogLevel::Error>(STR("LostConnection not found\n"));
-                        return;
-                    }
-                }
+                static auto ItemReceived = FName(STR("ItemReceived"), FNAME_Add);
+                ItemReceivedEvent = ItemManager->GetFunctionByName(ItemReceived);
             }
-            
-            if (ItemManager)
+
+            if (ArchipelagoMessageEvent == NULL)
             {
-                ItemManager->ProcessEvent(LostConnectionEvent, NULL);
+                static auto ArchipelagoMessage = FName(STR("ArchipelagoMessage"), FNAME_Add);
+                ArchipelagoMessageEvent = ItemManager->GetFunctionByName(ArchipelagoMessage);
+            }
+
+            if (GetAllItemAmountsEvent == NULL)
+            {
+                static auto GetAllItemAmounts = FName(STR("GetAllItemAmounts"), FNAME_Add);
+                GetAllItemAmountsEvent = ItemManager->GetFunctionByName(GetAllItemAmounts);
+            }
+            if (ConnectionStatusUpdatedEvent == NULL)
+            {
+                static auto ConnectionStatusUpdated = FName(STR("ConnectionStatusUpdated"), FNAME_Add);
+                ConnectionStatusUpdatedEvent = ItemManager->GetFunctionByName(ConnectionStatusUpdated);
+            }
+
+            // If the game is restarted and connected to AP, get all IDs to recover received items
+            if (isNewGame && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated)
+            {
+                if (GetAllItemAmountsEvent == NULL)
+                {
+                    Output::send<LogLevel::Error>(STR("GetAllItemAmounts not found\n"));
+                }
+                else
+                {
+                    pendingItemIDs.Empty(); // All items will be retrived, meaning no item will be pending
+                    for (int i = 0; i < receivedItems.items.Num(); i++)
+                    {
+                        Output::send<LogLevel::Verbose>(STR("{}\n"), receivedItems.items[i].amount);
+                    }
+                    for (int i = 0; i < receivedItems.paintCans.Num(); i++)
+                    {
+                        Output::send<LogLevel::Verbose>(STR("{}\n"), receivedItems.paintCans[i].unlocked);
+                    }
+                    for (int i = 0; i < receivedItems.weapons.Num(); i++)
+                    {
+                        Output::send<LogLevel::Verbose>(STR("{}\n"), receivedItems.weapons[i].unlocked);
+                    }
+                    ItemManager->ProcessEvent(GetAllItemAmountsEvent, &receivedItems);
+                    Output::send<LogLevel::Verbose>(STR("Return GetAllItemAmounts\n"));
+                    isNewGame = false;
+                }
             }
         }
     }

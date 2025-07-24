@@ -3,19 +3,31 @@
 using namespace RC;
 using namespace RC::Unreal;
 
-extern bool gameReload;
 extern UObject* ItemManager;
 extern UFunction* ItemReceivedEvent;
 
 typedef struct
 {
-    TArray<int32_t> ItemAmounts;
-    TArray<bool> UnlockedPaintCans;
-    TArray<bool> UnlockedWeapons;
+    FString name;
+    int32_t amount;
+}MWItem;
+
+typedef struct
+{
+    FString name;
+    bool unlocked;
+}MWTrainComponent;
+
+typedef struct
+{
+    TArray<MWItem> items;
+    TArray<MWTrainComponent> paintCans;
+    TArray<MWTrainComponent> weapons;
 }ReceivedItems;
 
+
 extern ReceivedItems receivedItems;
-extern ReceivedItems pendingItems;
+extern TArray<int64_t> pendingItemIDs;
 
 void LogFromAPCpp(std::string message);
 
