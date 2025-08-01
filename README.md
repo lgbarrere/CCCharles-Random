@@ -23,14 +23,14 @@ The Overlay gives a list of useful shortcuts to test newly added features (speed
 ### Setup the game
 The releases of this game are currently unofficial. However, the Mod can be installed and played by following these instructions :
 1. Click the green "<> Code" button
-2. Click "Download ZIP" or clone this project.
-3. In **Release/**, copy the **Obscure/** folder to **\<GameFolder\>** (where the **Obscure/** folder and **Obscure.exe** are placed)
+2. Click "Download ZIP" and unzip the downloaded archive or clone this project
+3. From this foler, in **Release/**, copy the **Obscure/** folder to **\<GameFolder\>** (where the **Obscure/** folder and **Obscure.exe** are placed)
 4. Launch the game, if "OFFLINE" is written at the upper-right corner of the screen, the Mod is working
 > [!NOTE]
 > The content from the **Release/** folder can by manually placed while the paths to files are respected.
 
 ### Host the game
-See **Setup the game** section to have the **Release/** folder downloaded.
+See **[Setup the game](https://github.com/lgbarrere/CCCharles-Random/edit/main/README.md#setup-the-game)** section to have the **Release/** folder downloaded.
 
 In this section, **Archipelago/** refers to the path where Archipelago is installed locally.
 
@@ -46,8 +46,8 @@ Follow these steps to host a remote multiplayer or a local singleplayer session 
 
 ## Connection to the Archipelago server room
 > [!NOTE]
-> Before playing, it is highly recommended to check out the **Known Issues** section
-* The game console must be opened to type Archipelago commands, press "`" (or "~") key in querty and "²" key in azerty
+> Before playing, it is highly recommended to check out the **[Known Issues](https://github.com/lgbarrere/CCCharles-Random/edit/main/README.md#known-issues)** section
+* The game console must be opened to type Archipelago commands, press "F10" key or "`" (or "~") key in querty ("²" key in azerty)
 * Type ``/connect <IP> <PlayerName>`` with \<IP\> and \<PlayerName\> found on the hosting Archipelago web page in the form ``archipelago.gg:XXXXX`` and ``CCCharles``
 * Disconnection is automatic at game closure but can be manually done with ``/disconnect``
 
@@ -127,13 +127,10 @@ The **launchCCCmod.bat** script has been made to facilitate the injection of the
 
 ## Known Issues
 ### Major issues
-* When an item is received while in loading screen, a crash sometimes occurrs. That bug does not break the game and a restart is sufficient, but it is recommended to connect after the game is started.
 * If the player receives the **Box of Rockets**, the bunker at the **Training Explosive** region will be opened once loaded. It may be possible to break the mission state if the player interacts with elements in unexpected order.
-* After game reset, mission states are not restored when the player had received the end item. There is currently no fix on that bug, ``/hint_location <Player> <Location>`` should be used in this case on the hosted Archipelago web page (or in the local console if played locally).
 
 ### Minor issues
 * Only affects mod developers, the Overlay makes the viewport be unfocused when clicked. When this happens, press "F1" again to hide the Overlay and click again to get the focus back to normal.
-* Sometimes, the unlocked weapons can look a bit "glitchy" or have a wrong color, the issue is only visual and does not affect the gameplay
 * When the game is reloaded, an egg can sometimes be duplicated.
 * The current version of the command parser does not accept console commands with a player names containing whitespaces. It is recommended to use underscores "_" instead, for instance : CCCharles_Player_1.
 * Sometimes, an item reception or sending a location can fail (rare cases). Reloading the game is supposed to respawn all items on the ground and restarting a new game retrieves all unlocked items from Archipelago, that can be used as workarounds.
