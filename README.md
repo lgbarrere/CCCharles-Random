@@ -30,7 +30,7 @@ The releases of this game are currently unofficial. However, the Mod can be inst
 > The content from the **Release/** folder can by manually placed while the paths to files are respected.
 
 ### Host the game
-See **[Setup the game](https://github.com/lgbarrere/CCCharles-Random/edit/main/README.md#setup-the-game)** section to have the **Release/** folder downloaded.
+See **[Setup the game](https://github.com/lgbarrere/CCCharles-Random#setup-the-game)** section to have the **Release/** folder downloaded.
 
 In this section, **Archipelago/** refers to the path where Archipelago is installed locally.
 
@@ -46,7 +46,7 @@ Follow these steps to host a remote multiplayer or a local singleplayer session 
 
 ## Connection to the Archipelago server room
 > [!NOTE]
-> Before playing, it is highly recommended to check out the **[Known Issues](https://github.com/lgbarrere/CCCharles-Random/edit/main/README.md#known-issues)** section
+> Before playing, it is highly recommended to check out the **[Known Issues](https://github.com/lgbarrere/CCCharles-Random?tab=readme-ov-file#known-issues)** section
 * The game console must be opened to type Archipelago commands, press "F10" key or "`" (or "~") key in querty ("²" key in azerty)
 * Type ``/connect <IP> <PlayerName>`` with \<IP\> and \<PlayerName\> found on the hosting Archipelago web page in the form ``archipelago.gg:XXXXX`` and ``CCCharles``
 * Disconnection is automatic at game closure but can be manually done with ``/disconnect``
