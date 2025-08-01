@@ -123,7 +123,7 @@ The **launchCCCmod.bat** script has been made to facilitate the injection of the
 > Follow the comments in this script to fill it properly.
 
 ## Planned updates
-* See "todo.txt" for details
+* See [notes.txt](https://github.com/lgbarrere/CCCharles-Random/blob/main/archives/notes.txt) at "TODO" and "Ideas" sections for details
 
 ## Known Issues
 ### Major issues
