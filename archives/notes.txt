@@ -40,21 +40,17 @@ ALighthouse_Details_C
 "TrainColor_Purple" Collected
 
 Found bugs :
-    > When an item is received while in loading screen, a crash sometimes occurrs
+    > The player cannot talk to NPCs with a key if a mine is exited with an egg in inventory
+    > Eggs duplicate at game restart
+    > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at level reload
+        => Reactivate Boomer_ClickBox3 at game restart to fix it
     > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
     > Some scraps are sometimes not correctly picked for unknown reason
     > caravan_scraps_3 did not spawn in a playtest, unknown scrap suspected to have the same name
-    > After game reset, mission states are not restored when the player has received the end item
-    > Eggs duplicate at game restart
-    > The player cannot talk to NPCs with a key if a mine is exited with an egg in inventory
-    > When a weapon is equipped, it's not hidden on equipper
-    > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at level reload
-        => Reactivate Boomer_ClickBox3 at game restart to fix it
 
 TODO :
-    1) Make a datastorage to send locally found items when reconnected to Archipelago (*)
-    2) Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
-    3) Add a Yaml option to enable the end if the bombs are on the bridge (and add invisible collision on the prism)
+    1) Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
+    2) Add a Yaml option to enable the end if the bombs are on the bridge (and add invisible collision on the prism)
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 Ideas :

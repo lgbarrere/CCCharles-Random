@@ -15,6 +15,7 @@ UFunction* ItemReceivedEvent = NULL;
 UFunction* ArchipelagoMessageEvent = NULL;
 UFunction* GetAllItemAmountsEvent = NULL;
 UFunction* ConnectionStatusUpdatedEvent = NULL;
+UFunction* GetUnlockedTrainComponentEvent = NULL;
 
 static bool authenticated = false;
 static bool isNewGame = false;
@@ -53,6 +54,8 @@ public:
         static auto NewGameStartHook = FName(STR("NewGameStart"), FNAME_Add); // The player lost in Nightmare mode or restarted a new game
         static auto GetConnectionStatusHook = FName(STR("GetConnectionStatus"), FNAME_Add); // Check if the player is authenticated or not
         static auto GetPendingItemsHook = FName(STR("GetPendingItems"), FNAME_Add); // Check if the player receives new items
+        static auto IsUnlockedWeaponByIndexHook = FName(STR("IsUnlockedWeaponByIndex"), FNAME_Add); // Check a weapon is unlocked by its index
+        static auto IsUnlockedPaintCanByIndexHook = FName(STR("IsUnlockedPaintCanByIndex"), FNAME_Add); // Check a paint can is unlocked by its index
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
@@ -88,6 +91,7 @@ public:
             ArchipelagoMessageEvent = NULL;
             GetAllItemAmountsEvent = NULL;
             ConnectionStatusUpdatedEvent = NULL;
+            GetUnlockedTrainComponentEvent = NULL;
             authenticated = false;
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
@@ -179,6 +183,20 @@ public:
                 ItemManager->ProcessEvent(ItemReceivedEvent, &pendingItemIDs);
                 pendingItemIDs.Empty();
             }
+        }
+        else if (Stack.Node()->GetNamePrivate() == IsUnlockedWeaponByIndexHook)
+        {
+            Output::send<LogLevel::Verbose>(STR("IsUnlockedWeaponByIndexHook\n"));
+
+            int32_t* index = Stack.Node()->GetPropertyByName(STR("WeaponIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
+            ItemManager->ProcessEvent(GetUnlockedTrainComponentEvent, &receivedItems.weapons[*index].unlocked);
+        }
+        else if (Stack.Node()->GetNamePrivate() == IsUnlockedPaintCanByIndexHook)
+        {
+            Output::send<LogLevel::Verbose>(STR("IsUnlockedPaintCanByIndexHook\n"));
+
+            int32_t* index = Stack.Node()->GetPropertyByName(STR("PaintCanIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
+            ItemManager->ProcessEvent(GetUnlockedTrainComponentEvent, &receivedItems.paintCans[*index].unlocked);
         }
     }
 
@@ -303,6 +321,11 @@ public:
                 static auto ConnectionStatusUpdated = FName(STR("ConnectionStatusUpdated"), FNAME_Add);
                 ConnectionStatusUpdatedEvent = ItemManager->GetFunctionByName(ConnectionStatusUpdated);
             }
+            if (GetUnlockedTrainComponentEvent == NULL)
+            {
+                static auto GetUnlockedTrainComponent = FName(STR("GetUnlockedTrainComponent"), FNAME_Add);
+                GetUnlockedTrainComponentEvent = ItemManager->GetFunctionByName(GetUnlockedTrainComponent);
+            }
 
             // If the game is restarted and connected to AP, get all IDs to recover received items
             if (isNewGame && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated)
@@ -314,20 +337,7 @@ public:
                 else
                 {
                     pendingItemIDs.Empty(); // All items will be retrived, meaning no item will be pending
-                    for (int i = 0; i < receivedItems.items.Num(); i++)
-                    {
-                        Output::send<LogLevel::Verbose>(STR("{}\n"), receivedItems.items[i].amount);
-                    }
-                    for (int i = 0; i < receivedItems.paintCans.Num(); i++)
-                    {
-                        Output::send<LogLevel::Verbose>(STR("{}\n"), receivedItems.paintCans[i].unlocked);
-                    }
-                    for (int i = 0; i < receivedItems.weapons.Num(); i++)
-                    {
-                        Output::send<LogLevel::Verbose>(STR("{}\n"), receivedItems.weapons[i].unlocked);
-                    }
                     ItemManager->ProcessEvent(GetAllItemAmountsEvent, &receivedItems);
-                    Output::send<LogLevel::Verbose>(STR("Return GetAllItemAmounts\n"));
                     isNewGame = false;
                 }
             }
