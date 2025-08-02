@@ -15,7 +15,7 @@ UFunction* ItemReceivedEvent = NULL;
 UFunction* ArchipelagoMessageEvent = NULL;
 UFunction* GetAllItemAmountsEvent = NULL;
 UFunction* ConnectionStatusUpdatedEvent = NULL;
-UFunction* GetUnlockedTrainComponentEvent = NULL;
+UFunction* CheckItemUnlockedEvent = NULL;
 
 static bool authenticated = false;
 static bool isNewGame = false;
@@ -56,6 +56,7 @@ public:
         static auto GetPendingItemsHook = FName(STR("GetPendingItems"), FNAME_Add); // Check if the player receives new items
         static auto IsUnlockedWeaponByIndexHook = FName(STR("IsUnlockedWeaponByIndex"), FNAME_Add); // Check a weapon is unlocked by its index
         static auto IsUnlockedPaintCanByIndexHook = FName(STR("IsUnlockedPaintCanByIndex"), FNAME_Add); // Check a paint can is unlocked by its index
+        static auto IsUnlockedEggByIndexHook = FName(STR("IsUnlockedEggByIndex"), FNAME_Add); // Check an egg is unlocked by its index
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
@@ -91,7 +92,7 @@ public:
             ArchipelagoMessageEvent = NULL;
             GetAllItemAmountsEvent = NULL;
             ConnectionStatusUpdatedEvent = NULL;
-            GetUnlockedTrainComponentEvent = NULL;
+            CheckItemUnlockedEvent = NULL;
             authenticated = false;
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
@@ -189,14 +190,31 @@ public:
             Output::send<LogLevel::Verbose>(STR("IsUnlockedWeaponByIndexHook\n"));
 
             int32_t* index = Stack.Node()->GetPropertyByName(STR("WeaponIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
-            ItemManager->ProcessEvent(GetUnlockedTrainComponentEvent, &receivedItems.weapons[*index].unlocked);
+            ItemManager->ProcessEvent(CheckItemUnlockedEvent, &receivedItems.weapons[*index].unlocked);
         }
         else if (Stack.Node()->GetNamePrivate() == IsUnlockedPaintCanByIndexHook)
         {
             Output::send<LogLevel::Verbose>(STR("IsUnlockedPaintCanByIndexHook\n"));
 
             int32_t* index = Stack.Node()->GetPropertyByName(STR("PaintCanIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
-            ItemManager->ProcessEvent(GetUnlockedTrainComponentEvent, &receivedItems.paintCans[*index].unlocked);
+            ItemManager->ProcessEvent(CheckItemUnlockedEvent, &receivedItems.paintCans[*index].unlocked);
+        }
+        else if (Stack.Node()->GetNamePrivate() == IsUnlockedEggByIndexHook)
+        {
+            Output::send<LogLevel::Verbose>(STR("IsUnlockedPaintCanByIndexHook\n"));
+
+            int32_t* index = Stack.Node()->GetPropertyByName(STR("EggIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
+
+            // EggIndex must be [19;20;21] respectively for [Green;Blue;Red], see ItemReceivedCallback()
+            if (*index < 19 && *index > 21)
+            {
+                // Exit early if the range of EggIndex is not respected
+                Output::send<LogLevel::Error>(STR("EggIndex out of range\n"));
+                return;
+            }
+
+            bool isEggUnlocked = receivedItems.items[*index].amount == 0 ? false : true;
+            ItemManager->ProcessEvent(CheckItemUnlockedEvent, &isEggUnlocked);
         }
     }
 
@@ -321,10 +339,10 @@ public:
                 static auto ConnectionStatusUpdated = FName(STR("ConnectionStatusUpdated"), FNAME_Add);
                 ConnectionStatusUpdatedEvent = ItemManager->GetFunctionByName(ConnectionStatusUpdated);
             }
-            if (GetUnlockedTrainComponentEvent == NULL)
+            if (CheckItemUnlockedEvent == NULL)
             {
-                static auto GetUnlockedTrainComponent = FName(STR("GetUnlockedTrainComponent"), FNAME_Add);
-                GetUnlockedTrainComponentEvent = ItemManager->GetFunctionByName(GetUnlockedTrainComponent);
+                static auto CheckItemUnlocked = FName(STR("CheckItemUnlocked"), FNAME_Add);
+                CheckItemUnlockedEvent = ItemManager->GetFunctionByName(CheckItemUnlocked);
             }
 
             // If the game is restarted and connected to AP, get all IDs to recover received items

@@ -41,7 +41,6 @@ ALighthouse_Details_C
 
 Found bugs :
     > The player cannot talk to NPCs with a key if a mine is exited with an egg in inventory
-    > Eggs duplicate at game restart
     > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at level reload
         => Reactivate Boomer_ClickBox3 at game restart to fix it
     > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
