@@ -10,7 +10,7 @@ All items from missions and items on the ground (mainly scraps) are randomized b
 The randomization logic is a work in progress, no randomization option is available for the moment.
 APCpp is used with C++ to send a checked location to the Archipelago server or to receive items from any world.
 A consolidation of the code is in progress.
-For developpers, a **Mod Debug Tool** is available to make the modding easier to develop, an Overlay has been added and can be displayed by pressing "F1" while playing.
+For developers, a **Mod Debug Tool** is available to make the modding easier to develop, an Overlay has been added and can be displayed by pressing "F1" while playing.
 The Overlay gives a list of useful shortcuts to test newly added features (speed boost, teleportation, item swap, ...).
 
 ## Recommendations
@@ -24,25 +24,25 @@ The Overlay gives a list of useful shortcuts to test newly added features (speed
 The releases of this game are currently unofficial. However, the Mod can be installed and played by following these instructions :
 1. Click the green "<> Code" button
 2. Click "Download ZIP" and unzip the downloaded archive or clone this project
-3. From this foler, in **Release/**, copy the **Obscure/** folder to **\<GameFolder\>** (where the **Obscure/** folder and **Obscure.exe** are placed)
-4. Launch the game, if "OFFLINE" is written at the upper-right corner of the screen, the Mod is working
+3. From this folder, in **Release/**, copy the **Obscure/** folder to **\<GameFolder\>** (where the **Obscure/** folder and **Obscure.exe** are placed)
+4. Launch the game, if "OFFLINE" is written in the upper-right corner of the screen, the Mod is working
 > [!NOTE]
-> The content from the **Release/** folder can by manually placed while the paths to files are respected.
+> The content from the **Release/** folder can be manually placed while the paths to files are respected.
 
 ### Host the game
 See **[Setup the game](https://github.com/lgbarrere/CCCharles-Random#setup-the-game)** section to have the **Release/** folder downloaded.
 
 In this section, **Archipelago/** refers to the path where Archipelago is installed locally.
 
-Follow these steps to host a remote multiplayer or a local singleplayer session :
+Follow these steps to host a remote multiplayer or a local single-player session :
 1. Double-click the **cccharles.apworld** in **Release/** to automatically install the world randomization logic
 2. Put the **CCCharles.yaml** from **Release/** to **Archipelago/Players/** with the yaml of each player to host
-3. Launch the Archipelago launcher and click "Generate" to setup a game with the yaml in **Archipelago/ouput/**
+3. Launch the Archipelago launcher and click "Generate" to setup a game with the yaml in **Archipelago/output/**
 4. For a multiplayer session, go to [the Archipelago HOST GAME page](https://archipelago.gg/uploads)
 5. Click "Upload File" and select the generated **AP_\<seed\>.zip** in **Archipelago/output/**
 6. Send the generated room page to each player
 > [!TIP]
-> For a local singleplayer session, click "Host" in the Archipelago launcher by using the generated AP_<seed>.zip in **Archipelago/output/**
+> For a local single-player session, click "Host" in the Archipelago launcher by using the generated AP_<seed>.zip in **Archipelago/output/**
 
 ## Connection to the Archipelago server room
 > [!NOTE]
@@ -67,12 +67,12 @@ Follow these steps to host a remote multiplayer or a local singleplayer session 
 
 ### Requirements
 This section is inspired by the [UE4SS Documentation](https://docs.ue4ss.com/dev/index.html), check it out for details.
-If needed, link the Github account to the Epic Game account and [setup the ssh key](https://www.youtube.com/watch?v=X40b9x9BFGo).
+If needed, link the GitHub account to the Epic Game account and [setup the ssh key](https://www.youtube.com/watch?v=X40b9x9BFGo).
 1. A computer running Windows
 2. [Microsoft Visual Studio Community](https://visualstudio.microsoft.com/fr/vs/community/) 2019 (prefer recent versions) or 2022
 3. [Rust](https://www.rust-lang.org/tools/install) >= 1.73.0
 4. [xmake](https://xmake.io/#/) >= 2.9.3
-5. [cmake](https://cmake.org/download/) recent versions prefered
+5. [cmake](https://cmake.org/download/) recent versions preferred
 6. [Unreal Engine](https://www.unrealengine.com/en-US/download) exactly at version 4.26.2
 7. A legal copy of the Choo-Choo Charles original game (can be found on [Steam](https://store.steampowered.com/))
 8. Clone this project with ``git clone https://github.com/lgbarrere/CCCharles-Random.git``
