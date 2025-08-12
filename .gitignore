@@ -33,3 +33,6 @@ Release/Obscure/Binaries/Win64/ue4ss/UE4SS.log
 
 # Shortcuts
 *.lnk
+
+# Temporary
+*.tmp

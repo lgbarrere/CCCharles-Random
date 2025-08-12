@@ -142,145 +142,153 @@ static void ClearInventoryCallback()
 */
 static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 {
-    // If notifyPlayer is true, this ID is received for the first time, add it in pendingItemIDs
-    if (notifyPlayer)
-    {
-        pendingItemIDs.Emplace(itemID);
-    }
-
     // Add 1 item from the received itemID to the inventory
+    int cappedAmount = 1; // Consider by default 1 item must be added (to set to 0 if the cap is reached)
+    int amountToAdd = 0; // Used for "Remote Explosives" packs (can be greatter than 1)
     int index = (int)(itemID - MINIMUM_ID_INDEX);
     switch (index)
     {
     case 0: // Scraps
-        receivedItems.items[0].amount += 1;
+        receivedItems.items[0].amount += 1; // No cap for scraps
         break;
     case 1: // Scraps (reward 30)
-        receivedItems.items[0].amount += 30;
+        receivedItems.items[0].amount += 30; // No cap for scraps
         break;
     case 2: // Scraps (reward 25)
-        receivedItems.items[0].amount += 25;
+        receivedItems.items[0].amount += 25; // No cap for scraps
         break;
     case 3: // Scraps (reward 35)
-        receivedItems.items[0].amount += 35;
+        receivedItems.items[0].amount += 35; // No cap for scraps
         break;
     case 4: // Scraps (reward 40)
-        receivedItems.items[0].amount += 40;
+        receivedItems.items[0].amount += 40; // No cap for scraps
         break;
     case 5: // South mine key
-        receivedItems.items[1].amount += 1;
+        receivedItems.items[1].amount < 1 ? receivedItems.items[1].amount += 1 : cappedAmount = 0;
         break;
     case 6: // North mine key
-        receivedItems.items[2].amount += 1;
+        receivedItems.items[2].amount < 1 ? receivedItems.items[2].amount += 1 : cappedAmount = 0;
         break;
     case 7: // Mountain ruin key
-        receivedItems.items[3].amount += 1;
+        receivedItems.items[3].amount < 1 ? receivedItems.items[3].amount += 1 : cappedAmount = 0;
         break;
     case 8: // Barn key
-        receivedItems.items[4].amount += 1;
+        receivedItems.items[4].amount < 1 ? receivedItems.items[4].amount += 1 : cappedAmount = 0;
         break;
     case 9: // Candice key
-        receivedItems.items[5].amount += 1;
+        receivedItems.items[5].amount < 1 ? receivedItems.items[5].amount += 1 : cappedAmount = 0;
         break;
     case 10: // Dead fish
-        receivedItems.items[6].amount += 1;
+        receivedItems.items[6].amount < 1 ? receivedItems.items[6].amount += 1 : cappedAmount = 0;
         break;
     case 11: // Lockpicks
-        receivedItems.items[7].amount += 1;
+        receivedItems.items[7].amount < 1 ? receivedItems.items[7].amount += 1 : cappedAmount = 0;
         break;
     case 12: // Ancient tablet
-        receivedItems.items[8].amount += 1;
+        receivedItems.items[8].amount < 1 ? receivedItems.items[8].amount += 1 : cappedAmount = 0;
         break;
     case 13: // Blue box
-        receivedItems.items[9].amount += 1;
+        receivedItems.items[9].amount < 1 ? receivedItems.items[9].amount += 1 : cappedAmount = 0;
         break;
     case 14: // Page Drawing
-        receivedItems.items[10].amount += 1;
+        receivedItems.items[10].amount < 8 ? receivedItems.items[10].amount += 1 : cappedAmount = 0;
         break;
     case 15: // Journal
-        receivedItems.items[11].amount += 1;
+        receivedItems.items[11].amount < 1 ? receivedItems.items[11].amount += 1 : cappedAmount = 0;
         break;
     case 16: // Dynamite
-        receivedItems.items[12].amount += 1;
+        receivedItems.items[12].amount < 1 ? receivedItems.items[12].amount += 1 : cappedAmount = 0;
         break;
     case 17: // Boomer rockets
-        receivedItems.items[13].amount += 1;
+        receivedItems.items[13].amount < 1 ? receivedItems.items[13].amount += 1 : cappedAmount = 0;
         break;
     case 18: // Breaker
-        receivedItems.items[14].amount += 1;
+        receivedItems.items[14].amount < 4 ? receivedItems.items[14].amount += 1 : cappedAmount = 0;
         break;
     case 19: // Broken Bob
-        receivedItems.items[15].amount += 1;
+        receivedItems.items[15].amount < 1 ? receivedItems.items[15].amount += 1 : cappedAmount = 0;
         break;
     case 20: // Employment contracts
-        receivedItems.items[16].amount += 1;
+        receivedItems.items[16].amount < 1 ? receivedItems.items[16].amount += 1 : cappedAmount = 0;
         break;
     case 21: // Mob camp key
-        receivedItems.items[17].amount += 1;
+        receivedItems.items[17].amount < 1 ? receivedItems.items[17].amount += 1 : cappedAmount = 0;
         break;
     case 22: // Pickles jar
-        receivedItems.items[18].amount += 1;
+        receivedItems.items[18].amount < 1 ? receivedItems.items[18].amount += 1 : cappedAmount = 0;
         break;
     case 23: // Orange Paint Can
-        receivedItems.paintCans[0].unlocked = true;
+        receivedItems.paintCans[0].unlocked == false ? receivedItems.paintCans[0].unlocked = true : cappedAmount = 0;
         break;
     case 24: // Green Paint Can
-        receivedItems.paintCans[1].unlocked = true;
+        receivedItems.paintCans[1].unlocked == false ? receivedItems.paintCans[1].unlocked = true : cappedAmount = 0;
         break;
     case 25: // White Paint Can
-        receivedItems.paintCans[2].unlocked = true;
+        receivedItems.paintCans[2].unlocked == false ? receivedItems.paintCans[2].unlocked = true : cappedAmount = 0;
         break;
     case 26: // Pink Paint Can
-        receivedItems.paintCans[3].unlocked = true;
+        receivedItems.paintCans[3].unlocked == false ? receivedItems.paintCans[3].unlocked = true : cappedAmount = 0;
         break;
     case 27: // Gray Paint Can
-        receivedItems.paintCans[4].unlocked = true;
+        receivedItems.paintCans[4].unlocked == false ? receivedItems.paintCans[4].unlocked = true : cappedAmount = 0;
         break;
     case 28: // Blue Paint Can
-        receivedItems.paintCans[5].unlocked = true;
+        receivedItems.paintCans[5].unlocked == false ? receivedItems.paintCans[5].unlocked = true : cappedAmount = 0;
         break;
     case 29: // Black Paint Can
-        receivedItems.paintCans[6].unlocked = true;
+        receivedItems.paintCans[6].unlocked == false ? receivedItems.paintCans[6].unlocked = true : cappedAmount = 0;
         break;
     case 30: // Lime Paint Can
-        receivedItems.paintCans[7].unlocked = true;
+        receivedItems.paintCans[7].unlocked == false ? receivedItems.paintCans[7].unlocked = true : cappedAmount = 0;
         break;
     case 31: // Teal Paint Can
-        receivedItems.paintCans[8].unlocked = true;
+        receivedItems.paintCans[8].unlocked == false ? receivedItems.paintCans[8].unlocked = true : cappedAmount = 0;
         break;
     case 32: // Red Paint Can
-        receivedItems.paintCans[9].unlocked = true;
+        receivedItems.paintCans[9].unlocked == false ? receivedItems.paintCans[9].unlocked = true : cappedAmount = 0;
         break;
     case 33: // Purple Paint Can
-        receivedItems.paintCans[10].unlocked = true;
+        receivedItems.paintCans[10].unlocked == false ? receivedItems.paintCans[10].unlocked = true : cappedAmount = 0;
         break;
     case 34: // The Boomer
-        receivedItems.weapons[0].unlocked = true;
+        receivedItems.weapons[0].unlocked == false ? receivedItems.weapons[0].unlocked = true : cappedAmount = false;
         break;
     case 35: // Bob
-        receivedItems.weapons[1].unlocked = true;
+        receivedItems.weapons[1].unlocked == false ? receivedItems.weapons[1].unlocked = true : cappedAmount = false;
         break;
     case 36: // Green egg
-        receivedItems.items[19].amount += 1;
+        receivedItems.items[19].amount < 1 ? receivedItems.items[19].amount += 1 : cappedAmount = 0;
         break;
     case 37: // Blue egg
-        receivedItems.items[20].amount += 1;
+        receivedItems.items[20].amount < 1 ? receivedItems.items[20].amount += 1 : cappedAmount = 0;
         break;
     case 38: // Red egg
-        receivedItems.items[21].amount += 1;
+        receivedItems.items[21].amount < 1 ? receivedItems.items[21].amount += 1 : cappedAmount = 0;
         break;
     case 39: // Remote explosives
-        receivedItems.items[22].amount += 1;
+        receivedItems.items[22].amount < 8 ? receivedItems.items[22].amount += 1 : cappedAmount = 0;
         break;
     case 40: // Remote explosives (x8)
-        receivedItems.items[22].amount += 8;
+        amountToAdd = 8;
+        itemID = MINIMUM_ID_INDEX + 39; // Change id to "Remote explosives" to add it cappedAmount times
+        cappedAmount = (receivedItems.items[22].amount + amountToAdd <= 8) ? amountToAdd : 8 - receivedItems.items[22].amount;
+        receivedItems.items[22].amount += cappedAmount;
         break;
     case 41: // Temple key
-        receivedItems.items[23].amount += 1;
+        receivedItems.items[23].amount < 1 ? receivedItems.items[23].amount += 1 : cappedAmount = 0;
         break;
     case 42: // Bug Spray
-        receivedItems.weapons[2].unlocked = true;
+        receivedItems.weapons[2].unlocked == false ? receivedItems.weapons[2].unlocked = true : cappedAmount = false;
         break;
+    }
+
+    // If notifyPlayer is true, this ID is received for the first time, add it in pendingItemIDs
+    for (int i = 0; i < cappedAmount; i++)
+    {
+        if (notifyPlayer)
+        {
+            pendingItemIDs.Emplace(itemID);
+        }
     }
 }
 
