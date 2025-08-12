@@ -42,7 +42,6 @@ ALighthouse_Details_C
 Found bugs :
     > After game restart, items are not restored when a "Scraps" is received before the game starts
     > The Paint Cans randomly do not appear after a game reload
-    > The player cannot talk to NPCs with a key if a mine is exited with an egg in inventory
     > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at level reload
         => Reactivate Boomer_ClickBox3 at game restart to fix it
     > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
