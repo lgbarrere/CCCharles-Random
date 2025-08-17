@@ -23,10 +23,6 @@ UpgradesMenu
 MainUI
 ALighthouse_Details_C
 
-"Flamethrower Unlocked" true
-"Rocket Launcher Unlocked" true
-"Range Gun Unlocked" true (Bob_Clickbox Used)
-
 "TrainColor_Orange" Collected
 "TrainColor_Green" Collected
 "TrainColor_White" Collected
@@ -40,18 +36,12 @@ ALighthouse_Details_C
 "TrainColor_Purple" Collected
 
 Found bugs :
-    > After game restart, items are not restored when a "Scraps" is received before the game starts
-    > The Paint Cans randomly do not appear after a game reload
-    > If Boomer_Rockets is received, mission state 3.3 is active : the out bunker door disapears at level reload
-        => Reactivate Boomer_ClickBox3 at game restart to fix it
     > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
     > Some scraps are sometimes not correctly picked for unknown reason
-    > caravan_scraps_3 did not spawn in a playtest, unknown scrap suspected to have the same name
 
 TODO :
-    1) Set a cap to received mission items, for instance in case 9 "Page Drawing" are received, limit them to 8
-    2) Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
-    3) Add a Yaml option to enable the end if the bombs are on the bridge (and add invisible collision on the prism)
+    1) Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
+    2) Add a Yaml option to enable the end if the bombs are on the bridge (and add invisible collision on the prism)
     (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
 
 Ideas :
@@ -102,9 +92,7 @@ APCpp build (can change) :
     D:\UEProject\CCCharles-Random\ModSrc\Intermediates\.packages\a\apcpp\latest\cache\build_b1caf5ae\Release\
 
 Potentially useful generated files at game reboot :
-    05_Scraps.sav
     Armor Level.sav
-    CharlesDead.sav
     Damage Level.sav
     Equipped Gun.sav
     M_In Game Auto Save.sav

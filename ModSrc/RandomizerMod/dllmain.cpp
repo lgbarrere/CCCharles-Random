@@ -16,6 +16,7 @@ UFunction* ArchipelagoMessageEvent = NULL;
 UFunction* GetAllItemAmountsEvent = NULL;
 UFunction* ConnectionStatusUpdatedEvent = NULL;
 UFunction* CheckItemUnlockedEvent = NULL;
+UFunction* UpdateUnlockedPaintCansEvent = NULL;
 
 static bool authenticated = false;
 static bool isNewGame = false;
@@ -57,6 +58,7 @@ public:
         static auto IsUnlockedWeaponByIndexHook = FName(STR("IsUnlockedWeaponByIndex"), FNAME_Add); // Check a weapon is unlocked by its index
         static auto IsUnlockedPaintCanByIndexHook = FName(STR("IsUnlockedPaintCanByIndex"), FNAME_Add); // Check a paint can is unlocked by its index
         static auto IsUnlockedEggByIndexHook = FName(STR("IsUnlockedEggByIndex"), FNAME_Add); // Check an egg is unlocked by its index
+        static auto GetUnlockedPaintCansHook = FName(STR("GetUnlockedPaintCans"), FNAME_Add); // Get an boolean array of the unlocked Paint Cans
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
@@ -93,6 +95,7 @@ public:
             GetAllItemAmountsEvent = NULL;
             ConnectionStatusUpdatedEvent = NULL;
             CheckItemUnlockedEvent = NULL;
+            UpdateUnlockedPaintCansEvent = NULL;
             authenticated = false;
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
@@ -151,20 +154,14 @@ public:
                     return;
                 }
 
-                bool statusUpdated = false;
                 if (!authenticated && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated)
                 {
                     authenticated = true;
-                    statusUpdated = true;
+                    ItemManager->ProcessEvent(ConnectionStatusUpdatedEvent, &authenticated);
                 }
                 else if (authenticated && AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
                 {
                     authenticated = false;
-                    statusUpdated = true;
-                }
-
-                if (statusUpdated)
-                {
                     ItemManager->ProcessEvent(ConnectionStatusUpdatedEvent, &authenticated);
                 }
             }
@@ -197,11 +194,13 @@ public:
             Output::send<LogLevel::Verbose>(STR("IsUnlockedPaintCanByIndexHook\n"));
 
             int32_t* index = Stack.Node()->GetPropertyByName(STR("PaintCanIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
+            Output::send<LogLevel::Verbose>(STR("{}\n"), *index);
+            Output::send<LogLevel::Verbose>(STR("{}\n"), receivedItems.paintCans[*index].unlocked);
             ItemManager->ProcessEvent(CheckItemUnlockedEvent, &receivedItems.paintCans[*index].unlocked);
         }
         else if (Stack.Node()->GetNamePrivate() == IsUnlockedEggByIndexHook)
         {
-            Output::send<LogLevel::Verbose>(STR("IsUnlockedPaintCanByIndexHook\n"));
+            Output::send<LogLevel::Verbose>(STR("IsUnlockedEggByIndexHook\n"));
 
             int32_t* index = Stack.Node()->GetPropertyByName(STR("EggIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
 
@@ -215,6 +214,18 @@ public:
 
             bool isEggUnlocked = receivedItems.items[*index].amount == 0 ? false : true;
             ItemManager->ProcessEvent(CheckItemUnlockedEvent, &isEggUnlocked);
+        }
+        else if (Stack.Node()->GetNamePrivate() == GetUnlockedPaintCansHook)
+        {
+            // No header debug message for hooks called every tick
+
+            if (UpdateUnlockedPaintCansEvent == NULL)
+            {
+                Output::send<LogLevel::Error>(STR("UpdateUnlockedPaintCansEvent not found\n"));
+                return;
+            }
+
+            ItemManager->ProcessEvent(UpdateUnlockedPaintCansEvent, &receivedItems.paintCans);
         }
     }
 
@@ -343,6 +354,11 @@ public:
             {
                 static auto CheckItemUnlocked = FName(STR("CheckItemUnlocked"), FNAME_Add);
                 CheckItemUnlockedEvent = ItemManager->GetFunctionByName(CheckItemUnlocked);
+            }
+            if (UpdateUnlockedPaintCansEvent == NULL)
+            {
+                static auto UpdateUnlockedPaintCans = FName(STR("UpdateUnlockedPaintCans"), FNAME_Add);
+                UpdateUnlockedPaintCansEvent = ItemManager->GetFunctionByName(UpdateUnlockedPaintCans);
             }
 
             // If the game is restarted and connected to AP, get all IDs to recover received items

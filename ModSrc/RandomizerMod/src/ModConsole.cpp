@@ -146,6 +146,7 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
     int cappedAmount = 1; // Consider by default 1 item must be added (to set to 0 if the cap is reached)
     int amountToAdd = 0; // Used for "Remote Explosives" packs (can be greatter than 1)
     int index = (int)(itemID - MINIMUM_ID_INDEX);
+
     switch (index)
     {
     case 0: // Scraps
