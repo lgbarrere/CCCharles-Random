@@ -23,18 +23,6 @@ UpgradesMenu
 MainUI
 ALighthouse_Details_C
 
-"TrainColor_Orange" Collected
-"TrainColor_Green" Collected
-"TrainColor_White" Collected
-"TrainColor_Pink" Collected
-"TrainColor_Grey" Collected
-"TrainColor_Blue" Collected
-"TrainColor_Black" Collected
-"TrainColor_Lime" Collected
-"TrainColor_Teal" Collected
-"TrainColor_Red" Collected
-"TrainColor_Purple" Collected
-
 Found bugs :
     > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
     > Some scraps are sometimes not correctly picked for unknown reason
@@ -90,14 +78,6 @@ Archipelago output :
 
 APCpp build (can change) :
     D:\UEProject\CCCharles-Random\ModSrc\Intermediates\.packages\a\apcpp\latest\cache\build_b1caf5ae\Release\
-
-Potentially useful generated files at game reboot :
-    Armor Level.sav
-    Damage Level.sav
-    Equipped Gun.sav
-    M_In Game Auto Save.sav
-    Scraps to Restore.sav
-    TutorialState.sav
 
 Hook code example :
     // Get the parameters in order (example)
