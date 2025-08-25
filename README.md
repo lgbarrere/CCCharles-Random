@@ -86,7 +86,7 @@ If needed, link the GitHub account to the Epic Game account and [setup the ssh k
 4. [xmake](https://xmake.io/#/) >= 2.9.3
 5. [cmake](https://cmake.org/download/) recent versions preferred
 6. [Unreal Engine](https://www.unrealengine.com/en-US/download) exactly at version 4.26.2
-7. A legal copy of the Choo-Choo Charles original game (can be found on [Steam](https://store.steampowered.com/))
+7. A legal copy of the Choo-Choo Charles original game (can be found on [Steam](https://store.steampowered.com/app/1766740/ChooChoo_Charles/))
 8. Clone this project with ``git clone https://github.com/lgbarrere/CCCharles-Random.git``
 
 > [!CAUTION]
