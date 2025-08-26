@@ -36,3 +36,8 @@ Release/Obscure/Binaries/Win64/ue4ss/UE4SS.log
 
 # Temporary
 *.tmp
+
+# Releases
+/Release/Obscure
+Release/cccharles.apworld
+Release/CCCharles.yaml
