@@ -21,7 +21,7 @@ The Overlay gives a list of useful shortcuts to test newly added features (speed
 ## Mod Installation for playing
 ### Mod Download
 All the required files of the Mod can be found in the [Releases](https://github.com/lgbarrere/CCCharles-Random/releases).
-To use the Mod, download and unzip **CCCharles_Random.zip** somewhere safe, then follow the instructions in the next chapters of this guide. This archive contains:
+To use the Mod, download and unzip **CCCharles_Random.zip** somewhere safe, then follow the instructions in the next sections of this guide. This archive contains:
 * The **Obscure/** folder loading the Mod itself, it runs the code handling all the randomized elements
 * A default **CCCharles.yaml** file to define the player options, used to set some randmization parameters
 * The **cccharles.apworld** file containing the randomization logic, used by the host to generate a random seed with the others games
@@ -72,7 +72,7 @@ Follow these steps to host a remote multiplayer or a local single-player session
 * [**RE-UE4SS**](https://github.com/UE4SS-RE/RE-UE4SS) which contains all necessary tools to inject the C++ code as Mod in the game
 * **RandomizerMod** which is the folder containing all the C++ source files to convert to DLLs and to inject as Mod in the game
 2. **Obscure** which is the folder containing all the Blueprint files to inject as Mod in the game. Only the **Content** folder should be modified to Mod the game properly
-3. **Release** is the folder containing all the elements to copy in the \<GameFolder\> in order to setup and automatically activate the Mod (see **Mod Installation for playing** for details). The **prepareRelease.bat** script can be launched to prepare a new release version of the Mod.
+3. **Release** is the folder where the **prepareRelease.bat** script can be launched to prepare a new release version of the Mod.
 > [!IMPORTANT]
 > This script should be updated with your own paths corresponding to your project and game setups.
 > Follow the comments in this script to fill it properly. Moreover, it is recommended to execute **launchCCCmod.bat** first to make the last built Mod as release.
