@@ -134,6 +134,16 @@ The **launchCCCmod.bat** script has been made to facilitate the injection of the
 > This script should be updated with your own paths corresponding to your project and game setups.
 > Follow the comments in this script to fill it properly.
 
+### Contributions to the randomization logic
+> [!NOTE]
+> In this section, ``<apworld>`` refers to the ``cccharles`` folder, this is the general name to describe a world randomization logic.
+
+The randomization can be found in the [forked Archipelago project](https://github.com/lgbarrere/Archipelago-CCCharles/tree/main/worlds/cccharles), the apworld folder is named "cccharles".
+It is recommended to read the [AP documentations](https://github.com/ArchipelagoMW/Archipelago/tree/main/docs) before contributing to the logic.
+
+After implementing and testing the ``<apworld>``, package it and name it "cccharles.apworld" (the archipelago logo should be displayed) to prepare the apworld for the releases.
+Double-clicking this "cccharles.apworld" should install the ``<apworld>`` automatically, ready to be played.
+
 ## Planned updates
 * See [notes.txt](https://github.com/lgbarrere/CCCharles-Random/blob/main/archives/notes.txt) at "TODO" and "Ideas" sections for details
 
