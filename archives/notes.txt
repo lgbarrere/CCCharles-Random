@@ -24,31 +24,33 @@ MainUI
 ALighthouse_Details_C
 
 Found bugs :
-    > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
-    > Some scraps are sometimes not correctly picked for unknown reason
+> In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
+> The map keeps re-placing the marker every time a drawing_page is picked after mission start
 
 TODO :
-    1) Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
-    2) Add a Yaml option to enable the end if the bombs are on the bridge (and add invisible collision on the prism)
-    (*) Also applicable if ItemReceivedEvent is not called, to gather missed items by the event
+> Add a section in the documentation to list the avaiable console commands
+> Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
+> Consider all scraps in a region as 1 location (yaml reliant) and receive 10 scraps
+> Make a radar (could be found in a check if enabled in yaml) to find the closest scraps
+> Implement a scraps tracker by region, always displayed in the UI/map
+> Make some checks to enable the train upgrades
+> Randomize the access to the train
+> Set the number of required scraps to repair the train
+> Make the player start with a random weapon (among the 4 weapons)
+> Apply a passive effect or hint for Paint Cans
+> Give an option to split the remote explosives
+> Add traps ("Unscrap" remove 5 scraps from inventory, "Derailed" lower the train HP by 30, ...)
+> Randomize the railway switches
+> Implement the puzzle in the 2nd mine with the hidden gear to open the harrow
+> Scale the encounter frequency against Charles
+> Randomized the loot crates (force their spawn)
+> Add a Yaml option to enable the end if the bombs are on the bridge (and add invisible collision on the prism)
 
 Ideas :
-> Change the scraps checks from single to 1-5 (yaml reliant) scraps to get one check, making the scraps more important to check
-> Change keys into "key fragments" (5 per key for instance, yaml reliant), each fragment will be a check
-> Make a compass (could be found in a check if enabled in yaml) to find the closest check to do
-> Implement a scraps count by area if possible, always displayed in the screen/map (all counts displayed on the map)
-> Make some checks to enable the train upgrade
 > DeathDuck has an untextured eye, the Archipelago logo could be added to it
-> Make an additional check to randomize the access to the train
-> Make the player start with a random weapon (among the 4 weapons)
 > Give an option to see randomized items or not (replaced by DeathDuck)
-> Paint can could apply a passive effect (positive or negative) or trap
-> Add an option to randomize the NPCs
-> Add an option to make the train come back to the start if its HP becomes 0
-> Add categories of scraps to repair / buff the speed / buff the damage / buff the armor
-> Implement the puzzle in the 2nd mine with the hidden gear to open the harrow
 > Update "DeathDuck" to give multiworld items and hints
-> Add some trapped DeathDuck ("Unscrap" remove scraps from inventory, "Derailed" lower the train HP by 40, "Guru" spawn a cultist near the player for a short while, ...)
+> Fix the "quantum" scraps (base game bug) and do not respawn all the scraps
 
 End mission saves to read :
 Common logic : 1 = mission started, 2 = new map marker, 3 = map marker checked, 4 = mission finished
