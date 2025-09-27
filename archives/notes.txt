@@ -1,4 +1,4 @@
-Interesting Blueprints :
+Interesting Blueprints:
 Game/_Game/Blueprints/ItemPickup.uasset
 Game/_Game/Blueprints/PaintCan.uasset
 Game/_Game/Blueprints/ScrapCreatePoint.uasset
@@ -11,23 +11,29 @@ Game/_GAME/Blueprints/SubtitlesStruct.uasset
 Game/EasySave/easySaveObject.uasset
 Game/_GAME/Blueprints/GunStatsDataTable.uasset
 
-Possibly important BP/functions (possible whitespace in function names) :
-IDamageInterface_C : Damage(float DamageApplied, float SlowingMultiplier, class UActorComponent* HitComponent);
+Possibly important BP/functions (possible whitespace in function names):
+IDamageInterface_C: Damage(float DamageApplied, float SlowingMultiplier, class UActorComponent* HitComponent);
 DeathScreen_C
 ABP_NMCharacter_C
 UNotification_C
 APhotorealistic_Island_C
-PlayerTrain : GunHook | GunHook<1..3> | Teal to Grey (paint cans)
+PlayerTrain: GunHook | GunHook<1..3> | Teal to Grey (paint cans)
 TrainUpgradeStats
 UpgradesMenu
 MainUI
 ALighthouse_Details_C
 
-Found bugs :
+Found bugs:
 > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
 > The map keeps re-placing the marker every time a drawing_page is picked after mission start
 
-TODO :
+Tpm coordinates for Start Camp level bounding box:
+X=23722.865 Y=53091.031 Z=11027.695
+X=25542.385 Y=53831.328 Z=11064.331
+X=23080.998 Y=54994.715 Z=10971.831
+
+TODO:
+> Change the create_item() management by a use of dict in the Archipelago randomization logic
 > Add a section in the documentation to list the avaiable console commands
 > Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
 > Consider all scraps in a region as 1 location (yaml reliant) and receive 10 scraps
@@ -46,66 +52,66 @@ TODO :
 > Randomized the loot crates (force their spawn)
 > Add a Yaml option to enable the end if the bombs are on the bridge (and add invisible collision on the prism)
 
-Ideas :
+Ideas:
 > DeathDuck has an untextured eye, the Archipelago logo could be added to it
 > Give an option to see randomized items or not (replaced by DeathDuck)
 > Update "DeathDuck" to give multiworld items and hints
 > Fix the "quantum" scraps (base game bug) and do not respawn all the scraps
 
-End mission saves to read :
-Common logic : 1 = mission started, 2 = new map marker, 3 = map marker checked, 4 = mission finished
-    Junkyard (Junkyard_Tablet) : 3.1 = end item found
-    Swamp (Swamp_Fish) : 3.1 = end item found
-    Pickles (Pickles_Jar) : 3.1 = end item found
-    Canyon (Canyon_BlueBox) : 3.1 = end item found
-    Pages (Pages_Drawing x8) : 3.1 = end item found
-    Port (Port_Journal) : 3.1 = end item found
-    Boomer (Boomer_Rockets) : 3.1 = out bunker door broken, 3.2 = in bunker door broken, 3.3 = end item found
-    Towers (Towers_Files) : 3.1 = end item found
-    Lighthouse : 3.1 = end item found
-    Bridge : 3.1 = end item found
+End mission saves to read:
+Common logic: 1 = mission started, 2 = new map marker, 3 = map marker checked, 4 = mission finished
+    Junkyard (Junkyard_Tablet): 3.1 = end item found
+    Swamp (Swamp_Fish): 3.1 = end item found
+    Pickles (Pickles_Jar): 3.1 = end item found
+    Canyon (Canyon_BlueBox): 3.1 = end item found
+    Pages (Pages_Drawing x8): 3.1 = end item found
+    Port (Port_Journal): 3.1 = end item found
+    Boomer (Boomer_Rockets): 3.1 = out bunker door broken, 3.2 = in bunker door broken, 3.3 = end item found
+    Towers (Towers_Files): 3.1 = end item found
+    Lighthouse: 3.1 = end item found
+    Bridge: 3.1 = end item found
     TonyBarn
     Tutorial2
     Mine1
-    Bugspray : 3.1 = end item found
+    Bugspray: 3.1 = end item found
     Mine2
     Bob
     Mine3
 
-All saves can be bound at :
+All saves can be bound at:
     %LOCALAPPDATA%\Obscure\Saved\SaveGames\
 
-Archipelago output :
+Archipelago output:
     D:\ProgramData\Archipelago\output\
 
-APCpp build (can change) :
+APCpp build (can change):
     D:\UEProject\CCCharles-Random\ModSrc\Intermediates\.packages\a\apcpp\latest\cache\build_b1caf5ae\Release\
 
-Hook code example :
+Hook code example:
     // Get the parameters in order (example)
     FString* param1 = Stack.Node()->GetPropertyByName(STR("ParamHook1"))->ContainerPtrToValuePtr<FString>(Stack.Locals());
     int64_t* param2 = Stack.Node()->GetPropertyByName(STR("ParamHook2"))->ContainerPtrToValuePtr<int64_t>(Stack.Locals());
     Output::send<LogLevel::Verbose>(STR("{}"), param1->GetCharArray());
     Output::send<LogLevel::Verbose>(STR("{}"), *param2);
 
-Global pickable items name :
+Global pickable items name:
 - Loot boxes => ScrapCratePoint
 - Scraps inside loot boxes => ItemPickup
 - Scraps => ItemPickup
 - Mission Items (talkable characters) => NPC<Name>
 
-Secret Gear place  :
+Secret Gear place :
 LeverBox_3 Mine2_Interior2 (X=-54399.375 Y=-98903.109 Z=8848.902)
 
-Reproduced game features :
-Player distance interaction :
+Reproduced game features:
+Player distance interaction:
     player_distance_interaction = 290
-Local scales of guns collisions :
+Local scales of guns collisions:
     FlameThrower X=0.432 Y=0.732 Z=1.50
     RocketLauncher X=0.432 Y=0.712 Z=1.508
     RangeGun X=0.237 Y=0.789 Z=2.684
 
-To get a working local world :
+To get a working local world:
 1) Package the <apworld>/ folder (here cccharles) and name it <apworld>.apworld (the archipelago logo should be displayed)
 2) Double-click the <apworld>.apworld package to automatically install the world locally
 3) Launch the Archipelago launcher and click "Generate Template Options"
@@ -113,7 +119,7 @@ To get a working local world :
 5) In the Archipelago launcher, click "Generate" to setup a game with the yaml in the Archipelago/ouput/ folder
 6) The game can now be hosted with "Host" in the Archipelago launcher by using the generated game in Archipelago/output/
 
-All Item Names :
+All Item Names:
 01_KeyTony
 Mine1_Key
 05_Scraps
