@@ -369,23 +369,25 @@ namespace ModConsole {
         {
             // Print in console
             Ar.Log(STR("/help\n"));
-            Ar.Log(STR("        Shows all available commands\n"));
+            Ar.Log(STR("        Shows all available commands and their description\n"));
             Ar.Log(STR("/connect <IP> <PlayerName> [Password]\n"));
-            Ar.Log(STR("        Connect to the room at the given <IP>\n"));
+            Ar.Log(STR("        Connect to the AP room using an <IP>, a <PlayerName> (in the forms \"archipelago.gg:XXXXX\" and \"CCCharles\") and an optional [Password]\n"));
             Ar.Log(STR("/disconnect\n"));
-            Ar.Log(STR("        Disconnect from the current room.\n"));
+            Ar.Log(STR("        Disconnect from the current room\n"));
+            /*
             Ar.Log(STR("/release\n"));
-            Ar.Log(STR("        Send all your items to the players as completed game.\n"));
+            Ar.Log(STR("        Send all your items to the players as completed game\n"));
             Ar.Log(STR("/collect\n"));
-            Ar.Log(STR("        Get all your items from each player.\n"));
+            Ar.Log(STR("        Get all your items from each player\n"));
             Ar.Log(STR("/hint <item>\n"));
-            Ar.Log(STR("        Get a hint on the given <item>.\n"));
+            Ar.Log(STR("        Get a hint on the given <item>\n"));
             Ar.Log(STR("/hint_location <location>\n"));
-            Ar.Log(STR("        Get a hint on the given <location>.\n"));
+            Ar.Log(STR("        Get a hint on the given <location>\n"));
             Ar.Log(STR("/remaining\n"));
-            Ar.Log(STR("        Show all remaining locations (still not checked).\n"));
+            Ar.Log(STR("        Show all remaining locations (still not checked)\n"));
             Ar.Log(STR("/send <location>\n"));
-            Ar.Log(STR("        Send the given <location>, considering it as checked.\n"));
+            Ar.Log(STR("        Send the given <location>, considering it as checked\n"));
+            */
 
             return true;
         }

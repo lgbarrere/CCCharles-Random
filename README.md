@@ -14,7 +14,7 @@ APCpp is used with C++ to send a checked location to the Archipelago server or t
 
 ### Console Commands
 Some commands can be used to interact with the Archipelago hosting room. All commands must start with "/" or "!" to be recognized.
-The game console must be opened to type Archipelago commands, press "F10" key or "`" (or "~") key in querty ("²" key in azerty)
+The game console must be opened to type Archipelago commands, press "F10" key or "`" (or "~") key in querty ("²" key in azerty).
 
 #### Available Commands
 * ``/help`` Shows all available commands and their description

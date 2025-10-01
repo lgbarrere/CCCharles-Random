@@ -33,30 +33,32 @@ X=25542.385 Y=53831.328 Z=11064.331
 X=23080.998 Y=54994.715 Z=10971.831
 
 TODO:
-> Change the create_item() management by a use of dict in the Archipelago randomization logic
-> Add a section in the documentation to list the avaiable console commands
+> Rename all scraps to precise where to find them (Ex: "Scraps [...]" 8 -> "Scraps [...] close to [...]")
+> Fix the "quantum" scraps (base game bug) and do not respawn all the scraps
+> Randomize the railway switches
+> Consider all scraps in a region as 1 location (yaml reliant) and keep the collected scraps in inventory
 > Name with whitespaces are not allowed in the current code, a fix could be a use of '\"'
-> Consider all scraps in a region as 1 location (yaml reliant) and receive 10 scraps
-> Make a radar (could be found in a check if enabled in yaml) to find the closest scraps
-> Implement a scraps tracker by region, always displayed in the UI/map
+> Make the player start with a random weapon (among the 4 weapons)
 > Make some checks to enable the train upgrades
 > Randomize the access to the train
-> Set the number of required scraps to repair the train
-> Make the player start with a random weapon (among the 4 weapons)
 > Apply a passive effect or hint for Paint Cans
 > Give an option to split the remote explosives
-> Add traps ("Unscrap" remove 5 scraps from inventory, "Derailed" lower the train HP by 30, ...)
-> Randomize the railway switches
 > Implement the puzzle in the 2nd mine with the hidden gear to open the harrow
-> Scale the encounter frequency against Charles
-> Randomized the loot crates (force their spawn)
+> Set the number of required scraps to repair the train
+> Add traps ("Unscrap" remove 5 scraps from inventory, "Derailed" lower the train HP by 30, ...)
+> Change blips on the radar by the AP logo
+> Show if the blip is above/below the player
 > Add a Yaml option to enable the end if the bombs are on the bridge (and add invisible collision on the prism)
+> Change the create_item() management by a use of dict in the Archipelago randomization logic
+> Implement a scraps tracker by region, always displayed in the UI/map
 
 Ideas:
+> Add an option to lock some regions behind "forcefields" to split sphere 1 to more spheres
+> Scale the encounter frequency against Charles
+> Randomize the loot crates (force their spawn)
 > DeathDuck has an untextured eye, the Archipelago logo could be added to it
 > Give an option to see randomized items or not (replaced by DeathDuck)
 > Update "DeathDuck" to give multiworld items and hints
-> Fix the "quantum" scraps (base game bug) and do not respawn all the scraps
 
 End mission saves to read:
 Common logic: 1 = mission started, 2 = new map marker, 3 = map marker checked, 4 = mission finished
