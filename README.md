@@ -6,11 +6,33 @@ Several useful test modules have been implemented to facilitate the development.
 The currently used UE4SS version UE4SS_v3.0.1-98-g5c1bfc4.zip comes from the [experimental RE-UE4SS](https://github.com/UE4SS-RE/RE-UE4SS/releases/tag/experimental).
 
 ## Current features
-All items from missions and items on the ground (mainly scraps) are randomized by Mod Blueprints.
+### Gameplay
+* **Randomization:** All items from missions and items on the ground (mainly scraps) are randomized by Mod Blueprints.
 The randomization logic is a work in progress, no randomization option is available for the moment.
 APCpp is used with C++ to send a checked location to the Archipelago server or to receive items from any world.
-For developers, a **Mod Debug Tool** is available to make the modding easier to develop, an Overlay has been added and can be displayed by pressing "F1" while playing.
-The Overlay gives a list of useful shortcuts to test newly added features (speed boost, teleportation, item swap, ...).
+* **Radar:** In addition, a radar was implemented in the bottom right corner of the screen to help players find nearby scraps.
+
+### Console Commands
+Some commands can be used to interact with the Archipelago hosting room. All commands must start with "/" or "!" to be recognized.
+The game console must be opened to type Archipelago commands, press "F10" key or "`" (or "~") key in querty ("²" key in azerty)
+
+#### Available Commands
+* ``/help`` Shows all available commands and their description
+* ``/connect <IP> <PlayerName> [Password]`` Connect to the AP room using an \<IP\>, a \<PlayerName\> (in the forms ``archipelago.gg:XXXXX`` and ``CCCharles``) and an optional \[Password\]
+* ``/disconnect`` Disconnect from the current room
+
+#### Planned Commands
+* ``/release`` Send all your items to the players as completed game
+* ``/collect`` Get all your items from each player
+* ``/hint`` Get a hint on the given \<item\>
+* ``/hint_location`` Get a hint on the given \<location\>
+* ``/remaining`` Show all remaining locations (still not checked)
+* ``/send`` Send the given \<location\>, considering it as checked
+
+### Mod Helpers
+* **Mod Debug Tool:** For developers, an Overlay is available to make modding easier to do.
+It can be displayed by pressing "F1" while playing.
+It gives a list of useful shortcuts to test newly added features (speed boost, teleportation, item swap, ...).
 
 ## Recommendations
 > [!TIP]
@@ -42,10 +64,12 @@ A default YAML should be used while the options are not implemented, see the [Mo
 The player name configured by this default YAML is "CCCharles", it can be changed by renaming both the YAML and the "name" section inside of this YAML, **both must be identical**.
 
 ## Joining a MultiWorld Game
+Refer to the [Console Commands](https://github.com/lgbarrere/CCCharles-Random#console-commands) to see the available commands.
 > [!NOTE]
 > Before playing, it is highly recommended to check out the **[Known Issues](https://github.com/lgbarrere/CCCharles-Random#known-issues)** section
-* The game console must be opened to type Archipelago commands, press "F10" key or "`" (or "~") key in querty ("²" key in azerty)
-* Type ``/connect <IP> <PlayerName>`` with \<IP\> and \<PlayerName\> found on the hosting Archipelago web page in the form ``archipelago.gg:XXXXX`` and ``CCCharles``
+
+* Press "F10" to open the console
+* Type ``/connect <IP> <PlayerName> [Password]`` with \<IP\> and \<PlayerName\> found on the hosting Archipelago web page in the forms ``archipelago.gg:XXXXX`` and ``CCCharles`` and an optional \[Password\]
 * Disconnection is automatic at game closure but can be manually done with ``/disconnect``
 
 ## Hosting a MultiWorld or Single-Player game
