@@ -15,7 +15,7 @@
 #define MAX_OPTIONS_REACHED -2
 #define OPTION_LENGTH_REACHED -3
 
-#define BASE_ID 6660000000
+#define BASE_ID 66600000
 #define MINIMUM_ID_INDEX (BASE_ID + 1)
 
 using namespace std;
