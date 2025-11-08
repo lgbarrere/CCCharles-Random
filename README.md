@@ -1,14 +1,14 @@
 # CCCharles-Random
 This project is a randomizer mod for Choo-Choo Charles that works with the multi-game multi-world randomizer [Archipelago](https://archipelago.gg/).
 The development of this randomizer is currently in progress and actively updated.
-**The game is considered playable**, however it is a beta version and it is not yet released on Archipelago.
+The game is playable, however it is a beta version with a few player options.
 Several useful test modules have been implemented to facilitate the development.
 The currently used UE4SS version UE4SS_v3.0.1-98-g5c1bfc4.zip comes from the [experimental RE-UE4SS](https://github.com/UE4SS-RE/RE-UE4SS/releases/tag/experimental).
 
 ## Current features
 ### Gameplay
 * **Randomization:** All items from missions and items on the ground (mainly scraps) are randomized by Mod Blueprints.
-The randomization logic is a work in progress, no randomization option is available for the moment.
+The randomization logic is a work in progress, almost no randomization option is available for the moment.
 APCpp is used with C++ to send a checked location to the Archipelago server or to receive items from any world.
 * **Radar:** In addition, a radar was implemented in the bottom right corner of the screen to help players find nearby scraps.
 
@@ -42,11 +42,12 @@ It gives a list of useful shortcuts to test newly added features (speed boost, t
 
 ## Mod Installation for playing
 ### Mod Download
+Make sure the [last Archipelago release](https://github.com/ArchipelagoMW/Archipelago/releases) is installed to have the best randomization logic. 
 All the required files of the Mod can be found in the [Releases](https://github.com/lgbarrere/CCCharles-Random/releases).
 To use the Mod, download and unzip **CCCharles_Random.zip** somewhere safe, then follow the instructions in the next sections of this guide. This archive contains:
 * The **Obscure/** folder loading the Mod itself, it runs the code handling all the randomized elements
-* A default **CCCharles.yaml** file to define the player options, used to set some randmization parameters
-* The **cccharles.apworld** file containing the randomization logic, used by the host to generate a random seed with the others games
+* A default **CCCharles.yaml** file to define the player options, but the recommended way is the [Player Options page](https://archipelago.gg/games/Choo-Choo%20Charles/player-options) instead
+* The **cccharles.apworld** file containing the randomization logic, it is already installed by [Archipelago 0.6.4 at least](https://github.com/ArchipelagoMW/Archipelago/releases)
 
 ### Game Setup
 The Mod can be installed and played by following these steps (see the [Mod Download](https://github.com/lgbarrere/CCCharles-Random#mod-download) section to get **CCCharles_Random.zip**):
@@ -59,7 +60,9 @@ The Mod can be installed and played by following these steps (see the [Mod Downl
 
 No option is currently taken into account by the Mod, this is a work in progress.
 
-A default YAML should be used while the options are not implemented, see the [Mod Download](https://github.com/lgbarrere/CCCharles-Random#mod-download) section to get **CCCharles.yaml**.
+The YAML file can be generated using the [Player Options page](https://archipelago.gg/games/Choo-Choo%20Charles/player-options), which is the recommended way.
+
+However, a default YAML can be used while the options are not implemented, see the [Mod Download](https://github.com/lgbarrere/CCCharles-Random#mod-download) section to get **CCCharles.yaml**.
 
 The player name configured by this default YAML is "CCCharles", it can be changed by renaming both the YAML and the "name" section inside of this YAML, **both must be identical**.
 
@@ -72,18 +75,30 @@ Refer to the [Console Commands](https://github.com/lgbarrere/CCCharles-Random#co
 * Type ``/connect <IP> <PlayerName> [Password]`` with \<IP\> and \<PlayerName\> found on the hosting Archipelago web page in the forms ``archipelago.gg:XXXXX`` and ``CCCharles`` and an optional \[Password\]
 * Disconnection is automatic at game closure but can be manually done with ``/disconnect``
 
-## Hosting a MultiWorld or Single-Player game
-See the [Mod Download](https://github.com/lgbarrere/CCCharles-Random#mod-download) section to get the **cccharles.apworld** and **CCCharles.yaml** files.
+> [!TIP]
+> For a local single-player session, the \<IP\> must be ``localhost:38281``
 
+## Hosting a MultiWorld game
+See the [Mod Download](https://github.com/lgbarrere/CCCharles-Random#mod-download) section to get a YAML file for Choo-Choo Charles.
+
+### Hosting official games only
+Follow these steps to host a remote session:
+1. Go to the [Archipelago GENERATE GAME page](https://archipelago.gg/generate)
+2. Configure the game rules, click "Upload File" and select the YAML of each player to host
+3. Go to the [Archipelago HOST GAME page](https://archipelago.gg/uploads)
+4. Click "Upload File" and select the generated **AP_\<seed\>.zip** by the previous step
+5. Send the link of the generated room page to each player
+
+### Hosting some unofficial games or using single-player localhost
 In this section, **Archipelago/** refers to the path where [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) is installed locally.
 
-Follow these steps to host a remote multiplayer or a local single-player session:
-1. Double-click the **cccharles.apworld** to automatically install the world randomization logic
-2. Put the **CCCharles.yaml** to **Archipelago/Players/** with the yaml of each player to host
-3. Launch the Archipelago launcher and click "Generate" to configure a game with the yaml in **Archipelago/output/**
+Follow these steps to host a remote session:
+1. Double-click the unofficial **.apworld** files to automatically install their randomization logic
+2. Put the YAML of each player to host in **Archipelago/Players/**
+3. Launch the Archipelago launcher and click "Generate" to configure a game in **Archipelago/output/**
 4. For a multiplayer session, go to the [Archipelago HOST GAME page](https://archipelago.gg/uploads)
 5. Click "Upload File" and select the generated **AP_\<seed\>.zip** in **Archipelago/output/**
-6. Send the generated room page to each player
+6. Send the link of the generated room page to each player
 > [!TIP]
 > For a local single-player session, click "Host" in the Archipelago launcher by using the generated **AP_\<seed\>.zip** in step 3
 
