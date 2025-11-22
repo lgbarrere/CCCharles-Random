@@ -60,6 +60,10 @@ Ideas:
 > Give an option to see randomized items or not (replaced by DeathDuck)
 > Update "DeathDuck" to give multiworld items and hints
 
+Locally check the documentation view:
+1) Type "py webhost.py" in the Pycharm terminal
+2) Open a browser and type "localhost" as url
+
 End mission saves to read:
 Common logic: 1 = mission started, 2 = new map marker, 3 = map marker checked, 4 = mission finished
     Junkyard (Junkyard_Tablet): 3.1 = end item found
