@@ -17,6 +17,7 @@ UFunction* GetAllItemAmountsEvent = NULL;
 UFunction* ConnectionStatusUpdatedEvent = NULL;
 UFunction* CheckItemUnlockedEvent = NULL;
 UFunction* UpdateUnlockedPaintCansEvent = NULL;
+UFunction* UpdateUnlockedObjectsEvent = NULL;
 
 static bool authenticated = false;
 static bool isNewGame = false;
@@ -59,6 +60,7 @@ public:
         static auto IsUnlockedPaintCanByIndexHook = FName(STR("IsUnlockedPaintCanByIndex"), FNAME_Add); // Check a paint can is unlocked by its index
         static auto IsUnlockedEggByIndexHook = FName(STR("IsUnlockedEggByIndex"), FNAME_Add); // Check an egg is unlocked by its index
         static auto GetUnlockedPaintCansHook = FName(STR("GetUnlockedPaintCans"), FNAME_Add); // Get an boolean array of the unlocked Paint Cans
+        static auto GetUnlockedObjectsHook = FName(STR("GetUnlockedObjects"), FNAME_Add); // Get an int array of the unlocked Objects amounts
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
@@ -96,6 +98,7 @@ public:
             ConnectionStatusUpdatedEvent = NULL;
             CheckItemUnlockedEvent = NULL;
             UpdateUnlockedPaintCansEvent = NULL;
+            UpdateUnlockedObjectsEvent = NULL;
             authenticated = false;
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
@@ -227,6 +230,18 @@ public:
 
             ItemManager->ProcessEvent(UpdateUnlockedPaintCansEvent, &receivedItems.paintCans);
         }
+        else if (Stack.Node()->GetNamePrivate() == GetUnlockedObjectsHook)
+        {
+            // No header debug message for hooks called every tick
+
+            if (UpdateUnlockedObjectsEvent == NULL)
+            {
+                Output::send<LogLevel::Error>(STR("UpdateUnlockedObjectsEvent not found\n"));
+                return;
+            }
+
+            ItemManager->ProcessEvent(UpdateUnlockedObjectsEvent, &receivedItems.objects);
+        }
     }
 
     static bool CallbackConsole(UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor)
@@ -280,6 +295,19 @@ public:
         for (int i = 0; i < receivedItems.items.Num(); i++)
         {
             receivedItems.items[i].amount = 0;
+        }
+
+        receivedItems.objects.SetNum(7);
+        receivedItems.objects[0].name = FString(to_wstring("Track Switch - Barn or Tutorial").c_str());
+        receivedItems.objects[1].name = FString(to_wstring("Track Switch - Middle or Port").c_str());
+        receivedItems.objects[2].name = FString(to_wstring("Track Switch - Haunted or East").c_str());
+        receivedItems.objects[3].name = FString(to_wstring("Track Switch - North or Temple").c_str());
+        receivedItems.objects[4].name = FString(to_wstring("Track Switch - Caravan or Cultists").c_str());
+        receivedItems.objects[5].name = FString(to_wstring("Track Switch - Camp or Elevator").c_str());
+        receivedItems.objects[6].name = FString(to_wstring("Track Switch - Ruin or Temple").c_str());
+        for (int i = 0; i < receivedItems.objects.Num(); i++)
+        {
+            receivedItems.objects[i].amount = 0;
         }
 
         receivedItems.paintCans.SetNum(11);
@@ -359,6 +387,11 @@ public:
             {
                 static auto UpdateUnlockedPaintCans = FName(STR("UpdateUnlockedPaintCans"), FNAME_Add);
                 UpdateUnlockedPaintCansEvent = ItemManager->GetFunctionByName(UpdateUnlockedPaintCans);
+            }
+            if (UpdateUnlockedObjectsEvent == NULL)
+            {
+                static auto UpdateUnlockedObjects = FName(STR("UpdateUnlockedObjects"), FNAME_Add);
+                UpdateUnlockedObjectsEvent = ItemManager->GetFunctionByName(UpdateUnlockedObjects);
             }
 
             // If the game is restarted and connected to AP, get all IDs to recover received items

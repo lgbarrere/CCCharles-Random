@@ -16,7 +16,6 @@
 #define OPTION_LENGTH_REACHED -3
 
 #define BASE_ID 66600000
-#define MINIMUM_ID_INDEX (BASE_ID + 1)
 
 using namespace std;
 using namespace RC;
@@ -145,148 +144,179 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
     // Add 1 item from the received itemID to the inventory
     int cappedAmount = 1; // Consider by default 1 item must be added (to set to 0 if the cap is reached)
     int amountToAdd = 0; // Used for "Remote Explosives" packs (can be greatter than 1)
-    int index = (int)(itemID - MINIMUM_ID_INDEX);
+    int index = (int)(itemID - BASE_ID);
 
     switch (index)
     {
-    case 0: // Scraps
+    case 1: // Scraps
         receivedItems.items[0].amount += 1; // No cap for scraps
         break;
-    case 1: // Scraps (reward 30)
+    case 2: // Scraps (reward 30)
         receivedItems.items[0].amount += 30; // No cap for scraps
         break;
-    case 2: // Scraps (reward 25)
+    case 3: // Scraps (reward 25)
         receivedItems.items[0].amount += 25; // No cap for scraps
         break;
-    case 3: // Scraps (reward 35)
+    case 4: // Scraps (reward 35)
         receivedItems.items[0].amount += 35; // No cap for scraps
         break;
-    case 4: // Scraps (reward 40)
+    case 5: // Scraps (reward 40)
         receivedItems.items[0].amount += 40; // No cap for scraps
         break;
-    case 5: // South mine key
+    case 6: // South mine key
         receivedItems.items[1].amount < 1 ? receivedItems.items[1].amount += 1 : cappedAmount = 0;
         break;
-    case 6: // North mine key
+    case 7: // North mine key
         receivedItems.items[2].amount < 1 ? receivedItems.items[2].amount += 1 : cappedAmount = 0;
         break;
-    case 7: // Mountain ruin key
+    case 8: // Mountain ruin key
         receivedItems.items[3].amount < 1 ? receivedItems.items[3].amount += 1 : cappedAmount = 0;
         break;
-    case 8: // Barn key
+    case 9: // Barn key
         receivedItems.items[4].amount < 1 ? receivedItems.items[4].amount += 1 : cappedAmount = 0;
         break;
-    case 9: // Candice key
+    case 10: // Candice key
         receivedItems.items[5].amount < 1 ? receivedItems.items[5].amount += 1 : cappedAmount = 0;
         break;
-    case 10: // Dead fish
+    case 11: // Dead fish
         receivedItems.items[6].amount < 1 ? receivedItems.items[6].amount += 1 : cappedAmount = 0;
         break;
-    case 11: // Lockpicks
+    case 12: // Lockpicks
         receivedItems.items[7].amount < 1 ? receivedItems.items[7].amount += 1 : cappedAmount = 0;
         break;
-    case 12: // Ancient tablet
+    case 13: // Ancient tablet
         receivedItems.items[8].amount < 1 ? receivedItems.items[8].amount += 1 : cappedAmount = 0;
         break;
-    case 13: // Blue box
+    case 14: // Blue box
         receivedItems.items[9].amount < 1 ? receivedItems.items[9].amount += 1 : cappedAmount = 0;
         break;
-    case 14: // Page Drawing
+    case 15: // Page Drawing
         receivedItems.items[10].amount < 8 ? receivedItems.items[10].amount += 1 : cappedAmount = 0;
         break;
-    case 15: // Journal
+    case 16: // Journal
         receivedItems.items[11].amount < 1 ? receivedItems.items[11].amount += 1 : cappedAmount = 0;
         break;
-    case 16: // Dynamite
+    case 17: // Dynamite
         receivedItems.items[12].amount < 1 ? receivedItems.items[12].amount += 1 : cappedAmount = 0;
         break;
-    case 17: // Boomer rockets
+    case 18: // Boomer rockets
         receivedItems.items[13].amount < 1 ? receivedItems.items[13].amount += 1 : cappedAmount = 0;
         break;
-    case 18: // Breaker
+    case 19: // Breaker
         receivedItems.items[14].amount < 4 ? receivedItems.items[14].amount += 1 : cappedAmount = 0;
         break;
-    case 19: // Broken Bob
+    case 20: // Broken Bob
         receivedItems.items[15].amount < 1 ? receivedItems.items[15].amount += 1 : cappedAmount = 0;
         break;
-    case 20: // Employment contracts
+    case 21: // Employment contracts
         receivedItems.items[16].amount < 1 ? receivedItems.items[16].amount += 1 : cappedAmount = 0;
         break;
-    case 21: // Mob camp key
+    case 22: // Mob camp key
         receivedItems.items[17].amount < 1 ? receivedItems.items[17].amount += 1 : cappedAmount = 0;
         break;
-    case 22: // Pickles jar
+    case 23: // Pickles jar
         receivedItems.items[18].amount < 1 ? receivedItems.items[18].amount += 1 : cappedAmount = 0;
         break;
-    case 23: // Orange Paint Can
+    case 24: // Orange Paint Can
         receivedItems.paintCans[0].unlocked == false ? receivedItems.paintCans[0].unlocked = true : cappedAmount = 0;
         break;
-    case 24: // Green Paint Can
+    case 25: // Green Paint Can
         receivedItems.paintCans[1].unlocked == false ? receivedItems.paintCans[1].unlocked = true : cappedAmount = 0;
         break;
-    case 25: // White Paint Can
+    case 26: // White Paint Can
         receivedItems.paintCans[2].unlocked == false ? receivedItems.paintCans[2].unlocked = true : cappedAmount = 0;
         break;
-    case 26: // Pink Paint Can
+    case 27: // Pink Paint Can
         receivedItems.paintCans[3].unlocked == false ? receivedItems.paintCans[3].unlocked = true : cappedAmount = 0;
         break;
-    case 27: // Gray Paint Can
+    case 28: // Gray Paint Can
         receivedItems.paintCans[4].unlocked == false ? receivedItems.paintCans[4].unlocked = true : cappedAmount = 0;
         break;
-    case 28: // Blue Paint Can
+    case 29: // Blue Paint Can
         receivedItems.paintCans[5].unlocked == false ? receivedItems.paintCans[5].unlocked = true : cappedAmount = 0;
         break;
-    case 29: // Black Paint Can
+    case 30: // Black Paint Can
         receivedItems.paintCans[6].unlocked == false ? receivedItems.paintCans[6].unlocked = true : cappedAmount = 0;
         break;
-    case 30: // Lime Paint Can
+    case 31: // Lime Paint Can
         receivedItems.paintCans[7].unlocked == false ? receivedItems.paintCans[7].unlocked = true : cappedAmount = 0;
         break;
-    case 31: // Teal Paint Can
+    case 32: // Teal Paint Can
         receivedItems.paintCans[8].unlocked == false ? receivedItems.paintCans[8].unlocked = true : cappedAmount = 0;
         break;
-    case 32: // Red Paint Can
+    case 33: // Red Paint Can
         receivedItems.paintCans[9].unlocked == false ? receivedItems.paintCans[9].unlocked = true : cappedAmount = 0;
         break;
-    case 33: // Purple Paint Can
+    case 34: // Purple Paint Can
         receivedItems.paintCans[10].unlocked == false ? receivedItems.paintCans[10].unlocked = true : cappedAmount = 0;
         break;
-    case 34: // The Boomer
-        receivedItems.weapons[0].unlocked == false ? receivedItems.weapons[0].unlocked = true : cappedAmount = false;
+    case 35: // The Boomer
+        receivedItems.weapons[0].unlocked == false ? receivedItems.weapons[0].unlocked = true : cappedAmount = 0;
         break;
-    case 35: // Bob
-        receivedItems.weapons[1].unlocked == false ? receivedItems.weapons[1].unlocked = true : cappedAmount = false;
+    case 36: // Bob
+        receivedItems.weapons[1].unlocked == false ? receivedItems.weapons[1].unlocked = true : cappedAmount = 0;
         break;
-    case 36: // Green egg
+    case 37: // Green egg
         receivedItems.items[19].amount < 1 ? receivedItems.items[19].amount += 1 : cappedAmount = 0;
         break;
-    case 37: // Blue egg
+    case 38: // Blue egg
         receivedItems.items[20].amount < 1 ? receivedItems.items[20].amount += 1 : cappedAmount = 0;
         break;
-    case 38: // Red egg
+    case 39: // Red egg
         receivedItems.items[21].amount < 1 ? receivedItems.items[21].amount += 1 : cappedAmount = 0;
         break;
-    case 39: // Remote explosives
+    case 40: // Remote explosives
         receivedItems.items[22].amount < 8 ? receivedItems.items[22].amount += 1 : cappedAmount = 0;
         break;
-    case 40: // Remote explosives (x8)
+    case 41: // Remote explosives (x8)
         amountToAdd = 8;
-        itemID = MINIMUM_ID_INDEX + 39; // Change id to "Remote explosives" to add it cappedAmount times
+        itemID = BASE_ID + 40; // Change id to "Remote explosives" to add it cappedAmount times
         cappedAmount = (receivedItems.items[22].amount + amountToAdd <= 8) ? amountToAdd : 8 - receivedItems.items[22].amount;
         receivedItems.items[22].amount += cappedAmount;
         break;
-    case 41: // Temple key
+    case 42: // Temple key
         receivedItems.items[23].amount < 1 ? receivedItems.items[23].amount += 1 : cappedAmount = 0;
         break;
-    case 42: // Bug Spray
-        receivedItems.weapons[2].unlocked == false ? receivedItems.weapons[2].unlocked = true : cappedAmount = false;
+    case 43: // Bug Spray
+        receivedItems.weapons[2].unlocked == false ? receivedItems.weapons[2].unlocked = true : cappedAmount = 0;
         break;
+    case 44 : // Track Switch Pack
+        // The pack contrains 7 track switches
+        for (int i = 0; i < 7; i++)
+        {
+            receivedItems.objects[i].amount < 1 ? receivedItems.objects[i].amount += 1 : cappedAmount = 0;
+        }
+        break;
+    case 45: // Track Switch - Barn or Tutorial
+        receivedItems.objects[0].amount < 1 ? receivedItems.objects[0].amount += 1 : cappedAmount = 0;
+        break;
+    case 46: // Track Switch - Middle or Port
+        receivedItems.objects[1].amount < 1 ? receivedItems.objects[1].amount += 1 : cappedAmount = 0;
+        break;
+    case 47: // Track Switch - Haunted or East
+        receivedItems.objects[2].amount < 1 ? receivedItems.objects[2].amount += 1 : cappedAmount = 0;
+        break;
+    case 48: // Track Switch - North or Temple
+        receivedItems.objects[3].amount < 1 ? receivedItems.objects[3].amount += 1 : cappedAmount = 0;
+        break;
+    case 49: // Track Switch - Caravan or Cultists
+        receivedItems.objects[4].amount < 1 ? receivedItems.objects[4].amount += 1 : cappedAmount = 0;
+        break;
+    case 50: // Track Switch - Camp or Elevator
+        receivedItems.objects[5].amount < 1 ? receivedItems.objects[5].amount += 1 : cappedAmount = 0;
+        break;
+    case 51: // Track Switch - Ruin or Temple
+        receivedItems.objects[6].amount < 1 ? receivedItems.objects[6].amount += 1 : cappedAmount = 0;
+        break;
+    default:
+        Output::send<LogLevel::Error>(STR("Unrecognized item ID skipped.\n"));
+        return;
     }
 
     // If notifyPlayer is true, this ID is received for the first time, add it in pendingItemIDs
-    for (int i = 0; i < cappedAmount; i++)
+    if (notifyPlayer)
     {
-        if (notifyPlayer)
+        for (int i = 0; i < cappedAmount; i++)
         {
             pendingItemIDs.Emplace(itemID);
         }

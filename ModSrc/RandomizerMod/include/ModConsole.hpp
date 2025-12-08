@@ -21,6 +21,7 @@ typedef struct
 typedef struct
 {
     TArray<MWItem> items;
+    TArray<MWItem> objects;
     TArray<MWTrainComponent> paintCans;
     TArray<MWTrainComponent> weapons;
 }ReceivedItems;
