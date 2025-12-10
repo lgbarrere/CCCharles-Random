@@ -22,6 +22,7 @@ TrainUpgradeStats
 UpgradesMenu
 MainUI
 ALighthouse_Details_C
+AScrapCratePoint_C
 
 Found bugs:
 > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
