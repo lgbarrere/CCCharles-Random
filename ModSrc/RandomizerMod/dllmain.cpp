@@ -8,6 +8,16 @@
 using namespace RC;
 using namespace RC::Unreal;
 
+
+typedef struct {
+    bool authenticated;
+    FString statusMessage;
+}ConnectionMessage;
+
+
+const std::string CURRENT_WORLD_VERSION = "1.0.0"; // To update when the version of the AP logic changes
+std::string latestWorldVersion;
+
 // The ItemManager Blueprints manages the player inventory when an Archipelago item is received
 UObject* ItemManager = NULL;
 // The following events are executed by ItemManager Blueprint when a signal is received
@@ -35,10 +45,10 @@ public:
         // other than the one you're currently building with somehow.
         //ModIntendedSDKVersion = STR("2.6");
 
-        Output::send<LogLevel::Verbose>(STR("Mod name : {}\n"), ModName);
-        Output::send<LogLevel::Verbose>(STR("Version : {}\n"), ModVersion);
+        Output::send<LogLevel::Verbose>(STR("Mod name: {}\n"), ModName);
+        Output::send<LogLevel::Verbose>(STR("Version: {}\n"), ModVersion);
         Output::send<LogLevel::Verbose>(STR("{}\n"), ModDescription);
-        Output::send<LogLevel::Verbose>(STR("Author : {}\n"), ModAuthors);
+        Output::send<LogLevel::Verbose>(STR("Author: {}\n"), ModAuthors);
     }
 
     ~RandomizerMod() override
@@ -49,7 +59,7 @@ public:
     {
         // Set the hooked functions/events names once
         static auto SendLocationIDHook = FName(STR("SendLocationID"), FNAME_Add); // Send locationID to Archipelago
-        static auto GameReloadedHook = FName(STR("GameReloaded"), FNAME_Add); // The game was reloaded, reset gameReload
+        static auto GameReloadedHook = FName(STR("GameReloaded"), FNAME_Add); // The game was reloaded, reset BP variables
         static auto CharlesDeathHook = FName(STR("CharlesDeath"), FNAME_Add); // Function from the game called if Charles died
         static auto CheckPendingMessageHook = FName(STR("CheckPendingMessage"), FNAME_Add); // Show the last Archipelago pending message
         static auto NewGameStartHook = FName(STR("NewGameStart"), FNAME_Add); // The player lost in Nightmare mode or restarted a new game
@@ -79,7 +89,7 @@ public:
             // If the ID is -1, no item was found, exit early
             if (*locationID == -1)
             {
-                Output::send<LogLevel::Error>(STR("Item not found : locationID == -1\n"));
+                Output::send<LogLevel::Error>(STR("Item not found: locationID == -1\n"));
                 return;
             }
 
@@ -126,7 +136,7 @@ public:
                     }
 
                     FString message = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
-                    Output::send<LogLevel::Verbose>(STR("Pending message : {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
+                    Output::send<LogLevel::Verbose>(STR("Pending message: {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
                     if (ItemManager != NULL)
                     {
                         ItemManager->ProcessEvent(ArchipelagoMessageEvent, &message);
@@ -154,15 +164,30 @@ public:
                     return;
                 }
 
-                if (!authenticated && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated)
+                // Check the connection status changed
+                if (!authenticated && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated
+                    || authenticated && AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
                 {
-                    authenticated = true;
-                    ItemManager->ProcessEvent(ConnectionStatusUpdatedEvent, &authenticated);
-                }
-                else if (authenticated && AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
-                {
-                    authenticated = false;
-                    ItemManager->ProcessEvent(ConnectionStatusUpdatedEvent, &authenticated);
+                    ConnectionMessage connectionMessage;
+
+                    authenticated = !authenticated;
+                    connectionMessage.authenticated = authenticated;
+
+                    if (!authenticated)
+                    {
+                        connectionMessage.statusMessage = FString(RC::to_wstring("Offline").c_str());
+                    }
+                    else if (CURRENT_WORLD_VERSION == latestWorldVersion)
+                    {
+                        connectionMessage.statusMessage = FString(RC::to_wstring("Connected").c_str());
+                    }
+                    else
+                    {
+                        connectionMessage.statusMessage = FString(RC::to_wstring(
+                            "Mod update required\nv" + CURRENT_WORLD_VERSION + " -> v" + latestWorldVersion
+                        ).c_str());
+                    }
+                    ItemManager->ProcessEvent(ConnectionStatusUpdatedEvent, &connectionMessage);
                 }
             }
         }
@@ -235,11 +260,11 @@ public:
 
         if (same)
         {
-            Output::send<LogLevel::Verbose>(STR("Command detected with success : {}\n"), command);
+            Output::send<LogLevel::Verbose>(STR("Command detected with success: {}\n"), command);
         }
         else
         {
-            Output::send<LogLevel::Verbose>(STR("Command not found or missing arguments : {}\n"), command);
+            Output::send<LogLevel::Verbose>(STR("Command not found or missing arguments: {}\n"), command);
         }
         
         return same;

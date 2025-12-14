@@ -26,6 +26,7 @@ typedef struct
 }ReceivedItems;
 
 
+extern std::string latestWorldVersion;
 extern ReceivedItems receivedItems;
 extern TArray<int64_t> pendingItemIDs;
 
