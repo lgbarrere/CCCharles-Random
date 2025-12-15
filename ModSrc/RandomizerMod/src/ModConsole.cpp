@@ -26,14 +26,14 @@ TArray<int64_t> pendingItemIDs;
 
 
 /**
-*   @param command : The input command to compare and parse
-*   @param expectedCmd : The expected command name to compare with the input command
-*   @param outOptions : An out array copying the parsed options separated with '\0'
-*   @param outOptionPositions : An out array with the positions of all options in outOptions (-1 for positions without option)
+*   @param command: The input command to compare and parse
+*   @param expectedCmd: The expected command name to compare with the input command
+*   @param outOptions: An out array copying the parsed options separated with '\0'
+*   @param outOptionPositions: An out array with the positions of all options in outOptions (-1 for positions without option)
 *   @note If an option exceeds OPTION_MAX_LENGTH char or if more options than NB_MAX_OPTIONS are found, -1 is returned
 *   @note Get an option with getOptionAtindex()
 * 
-*   @return The number of parsed options, in error case :
+*   @return The number of parsed options, in error case:
 *               UNDEFINED_COMMAND if the command is not recognized
 *               MAX_OPTIONS_REACHED if the number of input options exceeds NB_MAX_OPTIONS
 *               OPTION_LENGTH_REACHED if an option exceeds OPTION_MAX_LENGTH char ('\0 included')
@@ -106,9 +106,9 @@ static int CompareAndParseCmd(const char* command, const char* expectedCmd, char
 
 
 /**
-*   @param options : An array with the options separated with '\0'
-*   @param optionPositions : An array with the positions of all options in outOptions
-*   @param index : The index of the option (should not exceed NB_MAX_OPTIONS)
+*   @param options: An array with the options separated with '\0'
+*   @param optionPositions: An array with the positions of all options in outOptions
+*   @param index: The index of the option (should not exceed NB_MAX_OPTIONS)
 *   @note CompareAndParseCmd() should be called once before using this function
 *
 *   @return The option at the provided index, NULL otherwise (incorrect index or no option at this index)
@@ -136,8 +136,8 @@ static void ClearInventoryCallback()
 
 /**
 *   @brief Receive an item from any world
-*   @param itemID : The ID of the received item
-*   @param notifyPlayer : Id true, notify the player about the received item, false otherwise
+*   @param itemID: The ID of the received item
+*   @param notifyPlayer: Id true, notify the player about the received item, false otherwise
 */
 static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 {
@@ -326,7 +326,7 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 
 /**
 *   @brief Mark a given location as checked
-*   @param locationID : The ID of the checked location
+*   @param locationID: The ID of the checked location
 *   @notimplemented Used by AP_SetItemClearCallback but is not necessary
 */
 static void LocationCheckedCallback(int64_t locationID)
@@ -336,8 +336,39 @@ static void LocationCheckedCallback(int64_t locationID)
 
 
 /**
+ * @brief Retains only digits ('0'–'9') and the dot ('.') character from an version string
+ * @note Intended to extract version-like strings
+ * @param version The string to filter
+ * @return The filtered string
+ */
+static std::string filterVersion(std::string version)
+{
+    std::string result;
+    result.reserve(version.size());
+
+    for (unsigned char c : version)
+    {
+        if (std::isdigit(c) || c == '.')
+            result.push_back(c);
+    }
+
+    return result;
+}
+
+
+/**
+*   @brief Get the version of the apworld from the slot_data
+*   @param version: The version
+*/
+static void WorldVersionCallback(std::string version)
+{
+    latestWorldVersion = filterVersion(version);
+}
+
+
+/**
 *   @brief Log used to check APCpp messages, replace prints in APCpp code by call of this function
-*   @param message : The message to log
+*   @param message: The message to log
 */
 void LogFromAPCpp(std::string message) {
     Output::send<LogLevel::Verbose>(TEXT("LogFromAPCpp: {}\n"), RC::to_wstring(message).c_str());
@@ -369,20 +400,20 @@ namespace ModConsole {
 
     /**
     *   @brief Manage user commands written in the UE console to interact with Archipelago using APCpp
-    *   @param Ar : The used device (expecting UE console here)
-    *   @param command : The typed command by the user
+    *   @param Ar: The used device (expecting UE console here)
+    *   @param command: The typed command by the user
     */
     bool ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
     {
         // Conversion from const TCHAR* to const char*
-        // Must first be converted to string : while the exists, the const char* will be valid
+        // Must first be converted to string: while the exists, the const char* will be valid
         string commandStr = to_string(command);
         const char* commandCharStr = commandStr.c_str();
 
         // If no '/' and '!' starts the entry, do not consider it as a command and exit early
         if (commandCharStr[0] != '/' && commandCharStr[0] != '!')
         {
-            Output::send<LogLevel::Verbose>(STR("Entry with no command found : {}\n"), command);
+            Output::send<LogLevel::Verbose>(STR("Entry with no command found: {}\n"), command);
             Output::send<LogLevel::Verbose>(STR("Put \'/\' or \'!\' at the start of your command to detect it\n"));
             Output::send<LogLevel::Verbose>(STR("Try /help for details\n"));
 
@@ -423,7 +454,7 @@ namespace ModConsole {
         }
 
         // Check if the used command is "/connect [...]"
-        // Example : /connect archipelago.gg:59157 YaranCCC
+        // Example: /connect archipelago.gg:<Port> CCC_Player
         numberOfOptions = CompareAndParseCmd(commandCharStr, "connect", outOptions, outOptionPositions);
         if (numberOfOptions >= 2) // At least 2 options are required for the "connect" command
         {
@@ -436,6 +467,7 @@ namespace ModConsole {
             AP_SetItemClearCallback(ClearInventoryCallback);
             AP_SetItemRecvCallback(ItemReceivedCallback);
             AP_SetLocationCheckedCallback(LocationCheckedCallback);
+            AP_RegisterSlotDataRawCallback("world_version", &WorldVersionCallback);
             AP_SetDeathLinkSupported(false);
             AP_Start();
 
