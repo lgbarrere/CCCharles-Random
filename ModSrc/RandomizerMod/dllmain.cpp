@@ -28,6 +28,7 @@ UFunction* ConnectionStatusUpdatedEvent = NULL;
 UFunction* CheckItemUnlockedEvent = NULL;
 UFunction* UpdateUnlockedPaintCansEvent = NULL;
 UFunction* UpdateUnlockedObjectsEvent = NULL;
+UFunction* ReceiveDeathLinkEvent = NULL;
 
 static bool authenticated = false;
 static bool isNewGame = false;
@@ -71,6 +72,8 @@ public:
         static auto IsUnlockedEggByIndexHook = FName(STR("IsUnlockedEggByIndex"), FNAME_Add); // Check an egg is unlocked by its index
         static auto GetUnlockedPaintCansHook = FName(STR("GetUnlockedPaintCans"), FNAME_Add); // Get an boolean array of the unlocked Paint Cans
         static auto GetUnlockedObjectsHook = FName(STR("GetUnlockedObjects"), FNAME_Add); // Get an int array of the unlocked Objects amounts
+        static auto CheckDeathLinkHook = FName(STR("CheckDeathLink"), FNAME_Add); // Check a Deathlink was received
+        static auto SendDeathLinkHook = FName(STR("SendDeathLink"), FNAME_Add); // Send Deathlink at player death
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
@@ -109,6 +112,7 @@ public:
             CheckItemUnlockedEvent = NULL;
             UpdateUnlockedPaintCansEvent = NULL;
             UpdateUnlockedObjectsEvent = NULL;
+            ReceiveDeathLinkEvent = NULL;
             authenticated = false;
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
@@ -267,6 +271,28 @@ public:
 
             ItemManager->ProcessEvent(UpdateUnlockedObjectsEvent, &receivedItems.objects);
         }
+        else if (Stack.Node()->GetNamePrivate() == CheckDeathLinkHook)
+        {
+            Output::send<LogLevel::Verbose>(STR("CheckDeathLinkHook\n"));
+
+            if (ReceiveDeathLinkEvent == NULL)
+            {
+                Output::send<LogLevel::Error>(STR("ReceiveDeathLinkEvent not found\n"));
+                return;
+            }
+
+            if (AP_DeathLinkPending())
+            {
+                ItemManager->ProcessEvent(ReceiveDeathLinkEvent, NULL);
+                AP_DeathLinkClear();
+            }
+        }
+        else if (Stack.Node()->GetNamePrivate() == SendDeathLinkHook)
+        {
+            Output::send<LogLevel::Verbose>(STR("SendDeathLinkHook\n"));
+
+            AP_DeathLinkSend();
+        }
     }
 
     static bool CallbackConsole(UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor)
@@ -417,6 +443,11 @@ public:
             {
                 static auto UpdateUnlockedObjects = FName(STR("UpdateUnlockedObjects"), FNAME_Add);
                 UpdateUnlockedObjectsEvent = ItemManager->GetFunctionByName(UpdateUnlockedObjects);
+            }
+            if (ReceiveDeathLinkEvent == NULL)
+            {
+                static auto ReceiveDeathLink = FName(STR("ReceiveDeathLink"), FNAME_Add);
+                ReceiveDeathLinkEvent = ItemManager->GetFunctionByName(ReceiveDeathLink);
             }
 
             // If the game is restarted and connected to AP, get all IDs to recover received items

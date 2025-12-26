@@ -34,7 +34,6 @@ X=25542.385 Y=53831.328 Z=11064.331
 X=23080.998 Y=54994.715 Z=10971.831
 
 TODO:
-> YAML: Add the deathlink
 > Bug: Fix the bug disallowing player names with spaces (using '\"' could help)
 > YAML: Give the player a random starting weapon (from the 4 options)
 > YAML: Add checks to allow train upgrades

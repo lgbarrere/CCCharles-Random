@@ -468,7 +468,7 @@ namespace ModConsole {
             AP_SetItemRecvCallback(ItemReceivedCallback);
             AP_SetLocationCheckedCallback(LocationCheckedCallback);
             AP_RegisterSlotDataRawCallback("world_version", &WorldVersionCallback);
-            AP_SetDeathLinkSupported(false);
+            AP_SetDeathLinkSupported(true);
             AP_Start();
 
             return true;
