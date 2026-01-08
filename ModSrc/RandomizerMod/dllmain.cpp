@@ -273,7 +273,7 @@ public:
         }
         else if (Stack.Node()->GetNamePrivate() == CheckDeathLinkHook)
         {
-            Output::send<LogLevel::Verbose>(STR("CheckDeathLinkHook\n"));
+            // No header debug message for hooks called every tick
 
             if (ReceiveDeathLinkEvent == NULL)
             {

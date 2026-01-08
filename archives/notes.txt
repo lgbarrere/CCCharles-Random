@@ -33,23 +33,33 @@ X=23722.865 Y=53091.031 Z=11027.695
 X=25542.385 Y=53831.328 Z=11064.331
 X=23080.998 Y=54994.715 Z=10971.831
 
-TODO:
-> Bug: Fix the bug disallowing player names with spaces (using '\"' could help)
-> YAML: Give the player a random starting weapon (from the 4 options)
-> YAML: Add checks to allow train upgrades
-> YAML: Randomize the access to the train
-> YAML: Give Paint Cans a passive effect or hint
-> YAML: Split the remote explosives
-> YAML: Add the puzzle in the 2nd mine, where the hidden gear opens the harrow
-> YAML: Set the number of scraps required to repair the train
-> YAML: Add traps (Unscrap -5 scraps, Derailed -30 train HP, Teleport, ...)
-> New: Replace radar blips with the AP logo
-> New: Indicate if the radar blips are above or below the player
-> YAML: Enable boss battle when bombs are on the bridge (prism collision disabled)
-> New: Add a scraps tracker by region, always shown on the UI/map
-> YAML: Enable locking regions with "forcefields" to split Sphere 1
-> YAML: Randomize the radar
-> New: Add console commands
+Cursed Fogs:
+- Junkyard Area
+    Position: X=91729.211 Y=92446.016 Z=9507.522
+    Scale: X=0.700 Y=0.700 Z=0.700
+- Junkyard Shed:
+    Position: X=98552.898 Y=82476.680 Z=9418.044
+    Scale: X=0.600 Y=0.600 Z=0.600
+- South House:
+    Position: X=83345.422 Y=108942.820 Z=8887.875
+    Scale: X=1.400 Y=1.400 Z=1.400
+- Military Base:
+    Position: X=110883.234 Y=85288.266 Z=9234.826
+    Scale: X=1.300 Y=1.300 Z=1.300
+- South Mine Outside:
+    Position: X=113361.383 Y=55910.961 Z=8617.294
+    Scale: X=1.000 Y=1.000 Z=1.000
+- Swamp:
+    Position: X=86705.234 Y=54493.184 Z=9533.458
+    Scale: TBD
+- Pickle Val:
+    Position: X=49718.609 Y=28406.203 Z=13824.029
+    Scale: X=2.600 Y=2.600 Z=2.600
+- Canyon:
+    Position: 
+    Scale: 
+- Middle Station:
+    Position: 
 
 Ideas:
 > YAML: Randomize the loot crates (force their spawn)
@@ -115,13 +125,19 @@ Local scales of guns collisions:
     RocketLauncher X=0.432 Y=0.712 Z=1.508
     RangeGun X=0.237 Y=0.789 Z=2.684
 
-To get a working local world:
+Get a working local world:
 1) Package the <apworld>/ folder (here cccharles) and name it <apworld>.apworld (the archipelago logo should be displayed)
 2) Double-click the <apworld>.apworld package to automatically install the world locally
 3) Launch the Archipelago launcher and click "Generate Template Options"
 4) Put the generated template from Archipelago/Players/Templates/ to Archipelago/Players/ and edit it manually
 5) In the Archipelago launcher, click "Generate" to setup a game with the yaml in the Archipelago/ouput/ folder
 6) The game can now be hosted with "Host" in the Archipelago launcher by using the generated game in Archipelago/output/
+
+Build from sources:
+1) In pycharm, typing in the console: py .\Launcher.py
+2) Launch "Build APWorlds"
+3) Copy the output in <AP folder>/custom_world/
+4) Follow the steps 5 and 6 of "Get a working local world" (can be done with the regular launcher)
 
 All Item Names:
 01_KeyTony
