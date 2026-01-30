@@ -25,6 +25,7 @@ ALighthouse_Details_C
 AScrapCratePoint_C
 
 Found bugs:
+> When the player dies while the timed dynamite is in use, the Bunker door is still closed
 > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
 > The map keeps re-placing the marker every time a drawing_page is picked after mission start
 
@@ -34,32 +35,108 @@ X=25542.385 Y=53831.328 Z=11064.331
 X=23080.998 Y=54994.715 Z=10971.831
 
 Cursed Fogs:
-- Junkyard Area
+- Mine Shaft [0]:
+    Position: X=-12831.809 Y=-74290.547 Z=8023.738
+    Scale: 1.5
+- Junkyard Area [1]:
     Position: X=91729.211 Y=92446.016 Z=9507.522
-    Scale: X=0.700 Y=0.700 Z=0.700
-- Junkyard Shed:
+    Scale: 0.8
+- Junkyard Shed [2]:
     Position: X=98552.898 Y=82476.680 Z=9418.044
-    Scale: X=0.600 Y=0.600 Z=0.600
-- South House:
+    Scale: 0.5
+- South House [3]:
     Position: X=83345.422 Y=108942.820 Z=8887.875
-    Scale: X=1.400 Y=1.400 Z=1.400
-- Military Base:
+    Scale: 1.4
+- Military Base [4]:
     Position: X=110883.234 Y=85288.266 Z=9234.826
-    Scale: X=1.300 Y=1.300 Z=1.300
-- South Mine Outside:
+    Scale: 1.2
+- South Mine Outside (+ Inside) [5]:
     Position: X=113361.383 Y=55910.961 Z=8617.294
-    Scale: X=1.000 Y=1.000 Z=1.000
-- Swamp:
-    Position: X=86705.234 Y=54493.184 Z=9533.458
-    Scale: TBD
-- Pickle Val:
+    Scale: 0.8
+- Middle Station [6]:
+    Position: X=35745.906 Y=-9039.920 Z=11545.221
+    Scale: 1.3
+- Canyon [7]:
+    Position: X=22446.604 Y=4155.386 Z=12155.509
+    Scale: 2.1
+- Watchtower [8]:
+    Position: X=32385.822 Y=-32023.184 Z=10793.287
+    Scale: 0.9
+- Haunted House [9]:
+    Position: X=44715.977 Y=-44548.168 Z=10016.060
+    Scale: 0.5
+- Santiago House [10]:
+    Position: X=37490.613 Y=-48576.547 Z=10328.927
+    Scale: 0.8
+- Port [11]:
+    Position: X=73858.906 Y=-14421.429 Z=8289.495
+    Scale: 1.7
+- Doll Woods [12]:
+    Position: X=59839.195 Y=-44271.039 Z=10902.462
+    Scale: 1.8
+- East House [13]:
+    Position: X=105665.539 Y=-54657.797 Z=9430.157
+    Scale: 1.7
+- Rocket Grounds (+ Bunker) [14]:
+    Position: X=81530.078 Y=-63164.246 Z=8644.819
+    Scale: 1.5
+- Workshop [15]:
+    Position: X=91900.320 Y=-63178.977 Z=8928.986
+    Scale: 0.5
+- East Tower [16]:
+    Position: X=96763.031 Y=-67289.313 Z=8744.440
+    Scale: 0.4
+- Lighthouse [17]:
+    Position: X=105799.023 Y=-76413.188 Z=8263.377
+    Scale: 2.0
+- North Mine Outside (+ Inside) [18]:
+    Position: X=-53885.289 Y=-108085.773 Z=9669.180
+    Scale: 1.4
+- Wood Bridge [19]:
+    Position: X=-71859.250 Y=-108973.430 Z=10005.155
+    Scale: 1.1
+- Museum [20]:
+    Position: X=-64957.391 Y=-99031.406 Z=11350.067
+    Scale: 1.0
+- Barbed Shelter [21]:
+    Position: X=-74355.156 Y=-88424.570 Z=10090.360
+    Scale: 0.5
+- West Beach [22]:
+    Position: X=-84845.820 Y=-90230.109 Z=7905.604
+    Scale: 0.6
+- Church [23]:
+    Position: X=-65597.617 Y=-82528.781 Z=9928.932
+    Scale: 0.7
+- West Cottage [24]:
+    Position: X=-73942.563 Y=-78441.586 Z=10368.414
+    Scale: 0.7
+- Trailer Cabin [25]:
+    Position: X=-55458.656 Y=-36707.941 Z=10761.357
+    Scale: 1.1
+- Towers [26]:
+    Position: X=-21950.783 Y=-29402.541 Z=11330.315
+    Scale: 1.3
+- North Beach [27]:
+    Position: X=-83040.555 Y=-133108.609 Z=8198.346
+    Scale: 2.0
+- Mob Camp (+ Locked Room) [28]:
+    Position: X=-30122.738 Y=-55972.457 Z=11469.417
+    Scale: 1.2
+- Mine Elevator Exit [29]:
+    Position: X=-31321.316 Y=-44009.516 Z=12502.624
+    Scale: 0.5
+- Mountain Ruin Outside (+ Inside) [30]:
+    Position: X=-4600.753 Y=-51393.965 Z=11933.338
+    Scale: 1.7
+- Temple [31]:
+    Position: X=11643.290 Y=-21706.945 Z=10381.764
+    Scale: 1.7
+- Pickle Val [32]:
     Position: X=49718.609 Y=28406.203 Z=13824.029
-    Scale: X=2.600 Y=2.600 Z=2.600
-- Canyon:
-    Position: 
-    Scale: 
-- Middle Station:
-    Position: 
+    Scale: 2.5
+- Morse Bunker [33]:
+    Position: X=-46463.203 Y=-84074.031 Z=10594.601
+    Scale: 0.8
 
 Ideas:
 > YAML: Randomize the loot crates (force their spawn)
@@ -67,6 +144,7 @@ Ideas:
 > New: Update "DeathDuck" to give multiworld items and hints
 > New: "DeathDuck" has an untextured eye, the Archipelago logo could be added to it
 > YAML: Treat all scraps in a region as 1 location and keep collected scraps in the inventory (hard to do)
+> YAML: Add an Easter hunt for the Red/Green/Blue eggs (like the triforce hunt from OoT)
 
 Locally check the documentation view:
 1) Type "py webhost.py" in the Pycharm terminal
@@ -134,9 +212,9 @@ Get a working local world:
 6) The game can now be hosted with "Host" in the Archipelago launcher by using the generated game in Archipelago/output/
 
 Build from sources:
-1) In pycharm, typing in the console: py .\Launcher.py
+1) In pycharm, type in the console: py .\Launcher.py
 2) Launch "Build APWorlds"
-3) Copy the output in <AP folder>/custom_world/
+3) Double-clic the output or copy it in <AP folder>/custom_world/
 4) Follow the steps 5 and 6 of "Get a working local world" (can be done with the regular launcher)
 
 All Item Names:

@@ -17,6 +17,7 @@ typedef struct {
 
 const std::string CURRENT_WORLD_VERSION = "1.0.0"; // To update when the version of the AP logic changes
 std::string latestWorldVersion;
+TArray<bool> isAPOptionEnabled;
 
 // The ItemManager Blueprints manages the player inventory when an Archipelago item is received
 UObject* ItemManager = NULL;
@@ -29,6 +30,7 @@ UFunction* CheckItemUnlockedEvent = NULL;
 UFunction* UpdateUnlockedPaintCansEvent = NULL;
 UFunction* UpdateUnlockedObjectsEvent = NULL;
 UFunction* ReceiveDeathLinkEvent = NULL;
+UFunction* GetAPOptionsEvent = NULL;
 
 static bool authenticated = false;
 static bool isNewGame = false;
@@ -74,6 +76,7 @@ public:
         static auto GetUnlockedObjectsHook = FName(STR("GetUnlockedObjects"), FNAME_Add); // Get an int array of the unlocked Objects amounts
         static auto CheckDeathLinkHook = FName(STR("CheckDeathLink"), FNAME_Add); // Check a Deathlink was received
         static auto SendDeathLinkHook = FName(STR("SendDeathLink"), FNAME_Add); // Send Deathlink at player death
+        static auto CheckPendingAPOptionsHook = FName(STR("CheckPendingAPOptions"), FNAME_Add); // Check AP options once connected
 
         // Check the hooked function/event names are correct
         if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
@@ -113,6 +116,7 @@ public:
             UpdateUnlockedPaintCansEvent = NULL;
             UpdateUnlockedObjectsEvent = NULL;
             ReceiveDeathLinkEvent = NULL;
+            GetAPOptionsEvent = NULL;
             authenticated = false;
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
@@ -293,6 +297,18 @@ public:
 
             AP_DeathLinkSend();
         }
+        else if (Stack.Node()->GetNamePrivate() == CheckPendingAPOptionsHook)
+        {
+            Output::send<LogLevel::Verbose>(STR("CheckPendingAPOptionsHook\n"));
+
+            if (GetAPOptionsEvent == NULL)
+            {
+                Output::send<LogLevel::Error>(STR("GetAPOptionsEvent not found\n"));
+                return;
+            }
+
+            ItemManager->ProcessEvent(GetAPOptionsEvent, &isAPOptionEnabled);
+        }
     }
 
     static bool CallbackConsole(UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor)
@@ -317,7 +333,14 @@ public:
         auto Object = UObjectGlobals::StaticFindObject<UObject*>(nullptr, nullptr, STR("/Script/CoreUObject.Object"));
         Output::send<LogLevel::Verbose>(STR("Object Name: {}\n"), Object->GetFullName());
 
+        // Initialisations
         Hook::RegisterProcessConsoleExecCallback(CallbackConsole);
+        isAPOptionEnabled.SetNum(NB_AP_OPTIONS);
+        for (int i = 0; i < isAPOptionEnabled.Num(); i++)
+        {
+            isAPOptionEnabled[i] = false;
+        }
+
         receivedItems.items.SetNum(24);
         receivedItems.items[0].name = FString(to_wstring("05_Scraps").c_str());
         receivedItems.items[1].name = FString(to_wstring("Mine1_Key").c_str());
@@ -348,14 +371,52 @@ public:
             receivedItems.items[i].amount = 0;
         }
 
-        receivedItems.objects.SetNum(7);
-        receivedItems.objects[0].name = FString(to_wstring("Track Switch - Barn or Tutorial").c_str());
-        receivedItems.objects[1].name = FString(to_wstring("Track Switch - Middle or Port").c_str());
-        receivedItems.objects[2].name = FString(to_wstring("Track Switch - Haunted or East").c_str());
-        receivedItems.objects[3].name = FString(to_wstring("Track Switch - North or Temple").c_str());
-        receivedItems.objects[4].name = FString(to_wstring("Track Switch - Caravan or Cultists").c_str());
-        receivedItems.objects[5].name = FString(to_wstring("Track Switch - Camp or Elevator").c_str());
-        receivedItems.objects[6].name = FString(to_wstring("Track Switch - Ruin or Temple").c_str());
+        const unsigned int MaxTrackSwitch = 8;
+        const unsigned int MaxFogbaneRelic = 35;
+        receivedItems.objects.SetNum(MaxTrackSwitch + MaxFogbaneRelic);
+        receivedItems.objects[0].name = FString(to_wstring("Track Switch Pack").c_str());
+        receivedItems.objects[1].name = FString(to_wstring("Track Switch - Barn or Tutorial").c_str());
+        receivedItems.objects[2].name = FString(to_wstring("Track Switch - Middle or Port").c_str());
+        receivedItems.objects[3].name = FString(to_wstring("Track Switch - Haunted or East").c_str());
+        receivedItems.objects[4].name = FString(to_wstring("Track Switch - North or Temple").c_str());
+        receivedItems.objects[5].name = FString(to_wstring("Track Switch - Caravan or Cultists").c_str());
+        receivedItems.objects[6].name = FString(to_wstring("Track Switch - Camp or Elevator").c_str());
+        receivedItems.objects[7].name = FString(to_wstring("Track Switch - Ruin or Temple").c_str());
+        receivedItems.objects[8].name = FString(to_wstring("Fogbane Relic Pack").c_str());
+        receivedItems.objects[9].name = FString(to_wstring("Fogbane Relic - Mine Shaft").c_str());
+        receivedItems.objects[10].name = FString(to_wstring("Fogbane Relic - Junkyard Area").c_str());
+        receivedItems.objects[11].name = FString(to_wstring("Fogbane Relic - Junkyard Shed").c_str());
+        receivedItems.objects[12].name = FString(to_wstring("Fogbane Relic - South House").c_str());
+        receivedItems.objects[13].name = FString(to_wstring("Fogbane Relic - Military Base").c_str());
+        receivedItems.objects[14].name = FString(to_wstring("Fogbane Relic - South Mine Outside").c_str());
+        receivedItems.objects[15].name = FString(to_wstring("Fogbane Relic - Middle Station").c_str());
+        receivedItems.objects[16].name = FString(to_wstring("Fogbane Relic - Canyon").c_str());
+        receivedItems.objects[17].name = FString(to_wstring("Fogbane Relic - Watchtower").c_str());
+        receivedItems.objects[18].name = FString(to_wstring("Fogbane Relic - Haunted House").c_str());
+        receivedItems.objects[19].name = FString(to_wstring("Fogbane Relic - Santiago House").c_str());
+        receivedItems.objects[20].name = FString(to_wstring("Fogbane Relic - Port").c_str());
+        receivedItems.objects[21].name = FString(to_wstring("Fogbane Relic - Doll Woods").c_str());
+        receivedItems.objects[22].name = FString(to_wstring("Fogbane Relic - East House").c_str());
+        receivedItems.objects[23].name = FString(to_wstring("Fogbane Relic - Rocket Grounds").c_str());
+        receivedItems.objects[24].name = FString(to_wstring("Fogbane Relic - Workshop").c_str());
+        receivedItems.objects[25].name = FString(to_wstring("Fogbane Relic - East Tower").c_str());
+        receivedItems.objects[26].name = FString(to_wstring("Fogbane Relic - Lighthouse").c_str());
+        receivedItems.objects[27].name = FString(to_wstring("Fogbane Relic - North Mine Outside").c_str());
+        receivedItems.objects[28].name = FString(to_wstring("Fogbane Relic - Wood Bridge").c_str());
+        receivedItems.objects[29].name = FString(to_wstring("Fogbane Relic - Museum").c_str());
+        receivedItems.objects[30].name = FString(to_wstring("Fogbane Relic - Barbed Shelter").c_str());
+        receivedItems.objects[31].name = FString(to_wstring("Fogbane Relic - West Beach").c_str());
+        receivedItems.objects[32].name = FString(to_wstring("Fogbane Relic - Church").c_str());
+        receivedItems.objects[33].name = FString(to_wstring("Fogbane Relic - West Cottage").c_str());
+        receivedItems.objects[34].name = FString(to_wstring("Fogbane Relic - Trailer Cabin").c_str());
+        receivedItems.objects[35].name = FString(to_wstring("Fogbane Relic - Towers").c_str());
+        receivedItems.objects[36].name = FString(to_wstring("Fogbane Relic - North Beach").c_str());
+        receivedItems.objects[37].name = FString(to_wstring("Fogbane Relic - Mob Camp").c_str());
+        receivedItems.objects[38].name = FString(to_wstring("Fogbane Relic - Mine Elevator Exit").c_str());
+        receivedItems.objects[39].name = FString(to_wstring("Fogbane Relic - Mountain Ruin Outside").c_str());
+        receivedItems.objects[40].name = FString(to_wstring("Fogbane Relic - Temple").c_str());
+        receivedItems.objects[41].name = FString(to_wstring("Fogbane Relic - Pickle Val").c_str());
+        receivedItems.objects[42].name = FString(to_wstring("Fogbane Relic - Morse Bunker").c_str());
         for (int i = 0; i < receivedItems.objects.Num(); i++)
         {
             receivedItems.objects[i].amount = 0;
@@ -449,6 +510,11 @@ public:
                 static auto ReceiveDeathLink = FName(STR("ReceiveDeathLink"), FNAME_Add);
                 ReceiveDeathLinkEvent = ItemManager->GetFunctionByName(ReceiveDeathLink);
             }
+            if (GetAPOptionsEvent == NULL)
+            {
+                static auto GetAPOptions = FName(STR("GetAPOptions"), FNAME_Add);
+                GetAPOptionsEvent = ItemManager->GetFunctionByName(GetAPOptions);
+            }
 
             // If the game is restarted and connected to AP, get all IDs to recover received items
             if (isNewGame && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated)
@@ -459,7 +525,7 @@ public:
                 }
                 else
                 {
-                    pendingItemIDs.Empty(); // All items will be retrived, meaning no item will be pending
+                    pendingItemIDs.Empty(); // All items will be retrieved, meaning no item will be pending
                     ItemManager->ProcessEvent(GetAllItemAmountsEvent, &receivedItems);
                     isNewGame = false;
                 }

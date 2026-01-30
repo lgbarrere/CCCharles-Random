@@ -27,9 +27,18 @@ typedef struct
 }ReceivedItems;
 
 
+typedef enum
+{
+    TRACK_SWITCHES_OPTION = 0,
+    CURSED_FOGS_OPTION = 1,
+    NB_AP_OPTIONS = 2,
+}APOptions;
+
+
 extern std::string latestWorldVersion;
 extern ReceivedItems receivedItems;
 extern TArray<int64_t> pendingItemIDs;
+extern TArray<bool> isAPOptionEnabled;
 
 void LogFromAPCpp(std::string message);
 

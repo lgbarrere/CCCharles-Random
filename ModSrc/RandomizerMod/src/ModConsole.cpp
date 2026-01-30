@@ -281,32 +281,133 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
         receivedItems.weapons[2].unlocked == false ? receivedItems.weapons[2].unlocked = true : cappedAmount = 0;
         break;
     case 44 : // Track Switch Pack
-        // The pack contrains 7 track switches
-        for (int i = 0; i < 7; i++)
-        {
-            receivedItems.objects[i].amount < 1 ? receivedItems.objects[i].amount += 1 : cappedAmount = 0;
-        }
-        break;
-    case 45: // Track Switch - Barn or Tutorial
         receivedItems.objects[0].amount < 1 ? receivedItems.objects[0].amount += 1 : cappedAmount = 0;
         break;
-    case 46: // Track Switch - Middle or Port
+    case 45: // Track Switch - Barn or Tutorial
         receivedItems.objects[1].amount < 1 ? receivedItems.objects[1].amount += 1 : cappedAmount = 0;
         break;
-    case 47: // Track Switch - Haunted or East
+    case 46: // Track Switch - Middle or Port
         receivedItems.objects[2].amount < 1 ? receivedItems.objects[2].amount += 1 : cappedAmount = 0;
         break;
-    case 48: // Track Switch - North or Temple
+    case 47: // Track Switch - Haunted or East
         receivedItems.objects[3].amount < 1 ? receivedItems.objects[3].amount += 1 : cappedAmount = 0;
         break;
-    case 49: // Track Switch - Caravan or Cultists
+    case 48: // Track Switch - North or Temple
         receivedItems.objects[4].amount < 1 ? receivedItems.objects[4].amount += 1 : cappedAmount = 0;
         break;
-    case 50: // Track Switch - Camp or Elevator
+    case 49: // Track Switch - Caravan or Cultists
         receivedItems.objects[5].amount < 1 ? receivedItems.objects[5].amount += 1 : cappedAmount = 0;
         break;
-    case 51: // Track Switch - Ruin or Temple
+    case 50: // Track Switch - Camp or Elevator
         receivedItems.objects[6].amount < 1 ? receivedItems.objects[6].amount += 1 : cappedAmount = 0;
+        break;
+    case 51: // Track Switch - Ruin or Temple
+        receivedItems.objects[7].amount < 1 ? receivedItems.objects[7].amount += 1 : cappedAmount = 0;
+        break;
+    case 52: // Fogbane Relic Pack
+        receivedItems.objects[8].amount < 1 ? receivedItems.objects[8].amount += 1 : cappedAmount = 0;
+        break;
+    case 53: // Fogbane Relic - Mine Shaft
+        receivedItems.objects[9].amount < 1 ? receivedItems.objects[9].amount += 1 : cappedAmount = 0;
+        break;
+    case 54: // Fogbane Relic - Junkyard Area
+        receivedItems.objects[10].amount < 1 ? receivedItems.objects[10].amount += 1 : cappedAmount = 0;
+        break;
+    case 55: // Fogbane Relic - Junkyard Shed
+        receivedItems.objects[11].amount < 1 ? receivedItems.objects[11].amount += 1 : cappedAmount = 0;
+        break;
+    case 56: // Fogbane Relic - South House
+        receivedItems.objects[12].amount < 1 ? receivedItems.objects[12].amount += 1 : cappedAmount = 0;
+        break;
+    case 57: // Fogbane Relic - Military Base
+        receivedItems.objects[13].amount < 1 ? receivedItems.objects[13].amount += 1 : cappedAmount = 0;
+        break;
+    case 58: // Fogbane Relic - South Mine Outside
+        receivedItems.objects[14].amount < 1 ? receivedItems.objects[14].amount += 1 : cappedAmount = 0;
+        break;
+    case 59: // Fogbane Relic - Middle Station
+        receivedItems.objects[15].amount < 1 ? receivedItems.objects[15].amount += 1 : cappedAmount = 0;
+        break;
+    case 60: // Fogbane Relic - Canyon
+        receivedItems.objects[16].amount < 1 ? receivedItems.objects[16].amount += 1 : cappedAmount = 0;
+        break;
+    case 61: // Fogbane Relic - Watchtower
+        receivedItems.objects[17].amount < 1 ? receivedItems.objects[17].amount += 1 : cappedAmount = 0;
+        break;
+    case 62: // Fogbane Relic - Haunted House
+        receivedItems.objects[18].amount < 1 ? receivedItems.objects[18].amount += 1 : cappedAmount = 0;
+        break;
+    case 63: // Fogbane Relic - Santiago House
+        receivedItems.objects[19].amount < 1 ? receivedItems.objects[19].amount += 1 : cappedAmount = 0;
+        break;
+    case 64: // Fogbane Relic - Port
+        receivedItems.objects[20].amount < 1 ? receivedItems.objects[20].amount += 1 : cappedAmount = 0;
+        break;
+    case 65: // Fogbane Relic - Doll Woods
+        receivedItems.objects[21].amount < 1 ? receivedItems.objects[21].amount += 1 : cappedAmount = 0;
+        break;
+    case 66: // Fogbane Relic - East House
+        receivedItems.objects[22].amount < 1 ? receivedItems.objects[22].amount += 1 : cappedAmount = 0;
+        break;
+    case 67: // Fogbane Relic - Rocket Grounds
+        receivedItems.objects[23].amount < 1 ? receivedItems.objects[23].amount += 1 : cappedAmount = 0;
+        break;
+    case 68: // Fogbane Relic - Workshop
+        receivedItems.objects[24].amount < 1 ? receivedItems.objects[24].amount += 1 : cappedAmount = 0;
+        break;
+    case 69: // Fogbane Relic - East Tower
+        receivedItems.objects[25].amount < 1 ? receivedItems.objects[25].amount += 1 : cappedAmount = 0;
+        break;
+    case 70: // Fogbane Relic - Lighthouse
+        receivedItems.objects[26].amount < 1 ? receivedItems.objects[26].amount += 1 : cappedAmount = 0;
+        break;
+    case 71: // Fogbane Relic - North Mine Outside
+        receivedItems.objects[27].amount < 1 ? receivedItems.objects[27].amount += 1 : cappedAmount = 0;
+        break;
+    case 72: // Fogbane Relic - Wood Bridge
+        receivedItems.objects[28].amount < 1 ? receivedItems.objects[28].amount += 1 : cappedAmount = 0;
+        break;
+    case 73: // Fogbane Relic - Museum
+        receivedItems.objects[29].amount < 1 ? receivedItems.objects[29].amount += 1 : cappedAmount = 0;
+        break;
+    case 74: // Fogbane Relic - Barbed Shelter
+        receivedItems.objects[30].amount < 1 ? receivedItems.objects[30].amount += 1 : cappedAmount = 0;
+        break;
+    case 75: // Fogbane Relic - West Beach
+        receivedItems.objects[31].amount < 1 ? receivedItems.objects[31].amount += 1 : cappedAmount = 0;
+        break;
+    case 76: // Fogbane Relic - Church
+        receivedItems.objects[32].amount < 1 ? receivedItems.objects[32].amount += 1 : cappedAmount = 0;
+        break;
+    case 77: // Fogbane Relic - West Cottage
+        receivedItems.objects[33].amount < 1 ? receivedItems.objects[33].amount += 1 : cappedAmount = 0;
+        break;
+    case 78: // Fogbane Relic - Trailer Cabin
+        receivedItems.objects[34].amount < 1 ? receivedItems.objects[34].amount += 1 : cappedAmount = 0;
+        break;
+    case 79: // Fogbane Relic - Towers
+        receivedItems.objects[35].amount < 1 ? receivedItems.objects[35].amount += 1 : cappedAmount = 0;
+        break;
+    case 80: // Fogbane Relic - North Beach
+        receivedItems.objects[36].amount < 1 ? receivedItems.objects[36].amount += 1 : cappedAmount = 0;
+        break;
+    case 81: // Fogbane Relic - Mob Camp
+        receivedItems.objects[37].amount < 1 ? receivedItems.objects[37].amount += 1 : cappedAmount = 0;
+        break;
+    case 82: // Fogbane Relic - Mine Elevator Exit
+        receivedItems.objects[38].amount < 1 ? receivedItems.objects[38].amount += 1 : cappedAmount = 0;
+        break;
+    case 83: // Fogbane Relic - Mountain Ruin Outside
+        receivedItems.objects[39].amount < 1 ? receivedItems.objects[39].amount += 1 : cappedAmount = 0;
+        break;
+    case 84: // Fogbane Relic - Temple
+        receivedItems.objects[40].amount < 1 ? receivedItems.objects[40].amount += 1 : cappedAmount = 0;
+        break;
+    case 85: // Fogbane Relic - Pickle Val
+        receivedItems.objects[41].amount < 1 ? receivedItems.objects[41].amount += 1 : cappedAmount = 0;
+        break;
+    case 86: // Fogbane Relic - Morse Bunker
+        receivedItems.objects[42].amount < 1 ? receivedItems.objects[42].amount += 1 : cappedAmount = 0;
         break;
     default:
         Output::send<LogLevel::Error>(STR("Unrecognized item ID skipped.\n"));
@@ -314,7 +415,9 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
     }
 
     // If notifyPlayer is true, this ID is received for the first time, add it in pendingItemIDs
-    if (notifyPlayer)
+    if (notifyPlayer
+        || (index >= 24 && index <= 34) // Special case for Paint Cans
+        || (index >= 44 && index <= 86)) // Special case for Objects
     {
         for (int i = 0; i < cappedAmount; i++)
         {
@@ -336,7 +439,7 @@ static void LocationCheckedCallback(int64_t locationID)
 
 
 /**
- * @brief Retains only digits ('0'–'9') and the dot ('.') character from an version string
+ * @brief Retains only digits ('0'ï¿½'9') and the dot ('.') character from an version string
  * @note Intended to extract version-like strings
  * @param version The string to filter
  * @return The filtered string
@@ -363,6 +466,28 @@ static std::string filterVersion(std::string version)
 static void WorldVersionCallback(std::string version)
 {
     latestWorldVersion = filterVersion(version);
+}
+
+
+/**
+*   @brief Get the TrackSwitches option value from the slot_data
+*   @param trackSwitchesValue: The option value
+*/
+static void TrackSwitchesCallback(int trackSwitchesValue)
+{
+    Output::send<LogLevel::Verbose>(TEXT("trackSwitchesValue: {}\n"), trackSwitchesValue);
+    isAPOptionEnabled[TRACK_SWITCHES_OPTION] = trackSwitchesValue != 0;
+}
+
+
+/**
+*   @brief Get the CursedFogs option value from the slot_data
+*   @param cursedFogsValue: The option value
+*/
+static void CursedFogsCallback(int cursedFogsValue)
+{
+    Output::send<LogLevel::Verbose>(TEXT("cursedFogsValue: {}\n"), cursedFogsValue);
+    isAPOptionEnabled[CURSED_FOGS_OPTION] = cursedFogsValue != 0;
 }
 
 
@@ -468,6 +593,8 @@ namespace ModConsole {
             AP_SetItemRecvCallback(ItemReceivedCallback);
             AP_SetLocationCheckedCallback(LocationCheckedCallback);
             AP_RegisterSlotDataRawCallback("world_version", &WorldVersionCallback);
+            AP_RegisterSlotDataIntCallback("TrackSwitches", &TrackSwitchesCallback);
+            AP_RegisterSlotDataIntCallback("CursedFogs", &CursedFogsCallback);
             AP_SetDeathLinkSupported(true);
             AP_Start();
 
