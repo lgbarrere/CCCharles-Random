@@ -23,11 +23,34 @@ UpgradesMenu
 MainUI
 ALighthouse_Details_C
 AScrapCratePoint_C
+TutorialState (Eugene's mission)
 
-Found bugs:
-> When the player dies while the timed dynamite is in use, the Bunker door is still closed
+Mission to fix (have start, no end dialog with NPC)
+KO: Tutorial2
+KO: Bob
+
+Found issues:
+> The [Password] is not stated in the AP Setup Guide
+> Gertrude can refuse to give her mission_start location
+> Sometimes, an item is not added to inventory once received
+> Some items may not spawn at all in the game (maybe base game bug)
+> When the player dies while the timed dynamite is in use, the Bunker door is still closed (maybe base game bug)
 > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
 > The map keeps re-placing the marker every time a drawing_page is picked after mission start
+
+Ideas:
+> New: Link the Pop Tracker to the Setup Page
+> YAML: Randomize the loot crates (force their spawn)
+> YAML: See randomized items or not (replaced by "DeathDuck")
+> New: Update "DeathDuck" to give multiworld items and hints
+> New: "DeathDuck" has an untextured eye, the Archipelago logo could be added to it
+> YAML: Treat all scraps in a region as 1 location and keep collected scraps in the inventory (hard to do)
+> YAML: Add an Easter hunt for the Red/Green/Blue eggs (like the triforce hunt from OoT)
+> New: Add teleport to Train consumables to the item pool
+> YAML: Fogbane option by "Region" (ex: "Fogbane Relic - South")
+> YAML: Track Switch option by "Region" (ex: "Track Switch - North")
+> YAML: Lockpick option to either (1) randomize, (2) start with, or (3) place in early sphere
+> New: Change blips of color to show mission items (non-scraps)
 
 Tpm coordinates for Start Camp level bounding box:
 X=23722.865 Y=53091.031 Z=11027.695
@@ -129,22 +152,14 @@ Cursed Fogs:
     Position: X=-4600.753 Y=-51393.965 Z=11933.338
     Scale: 1.7
 - Temple [31]:
-    Position: X=11643.290 Y=-21706.945 Z=10381.764
-    Scale: 1.7
+    Position: X=12663.290 Y=-22006.945 Z=10381.764
+    Scale: 1.9
 - Pickle Val [32]:
     Position: X=49718.609 Y=28406.203 Z=13824.029
     Scale: 2.5
 - Morse Bunker [33]:
     Position: X=-46463.203 Y=-84074.031 Z=10594.601
     Scale: 0.8
-
-Ideas:
-> YAML: Randomize the loot crates (force their spawn)
-> YAML: See randomized items or not (replaced by "DeathDuck")
-> New: Update "DeathDuck" to give multiworld items and hints
-> New: "DeathDuck" has an untextured eye, the Archipelago logo could be added to it
-> YAML: Treat all scraps in a region as 1 location and keep collected scraps in the inventory (hard to do)
-> YAML: Add an Easter hunt for the Red/Green/Blue eggs (like the triforce hunt from OoT)
 
 Locally check the documentation view:
 1) Type "py webhost.py" in the Pycharm terminal
