@@ -6,6 +6,6 @@ using namespace RC::Unreal;
 
 
 namespace BPSharing {
-	void BPSharing::ManageHook(Unreal::FFrame& Stack);
-	void BPSharing::SetBPFunctions();
+	void ManageHook(Unreal::FFrame& Stack);
+	void SetBPFunctions();
 }

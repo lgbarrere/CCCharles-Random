@@ -40,7 +40,6 @@ typedef struct
 typedef struct {
     bool authenticated;
     FString statusMessage;
-    FString pendingMessage;
     TArray<int64_t> pendingItemIDs;
     ReceivedItems receivedItems;
     bool pendingDeathLink;
@@ -59,17 +58,17 @@ extern APInformation information;
 extern std::string latestWorldVersion;
 extern TArray<bool> isAPOptionEnabled;
 
-const std::string CURRENT_WORLD_VERSION = "1.0.0"; // To update when the version of the AP logic changes
-std::string latestWorldVersion;
-
 void LogFromAPCpp(std::string message);
 
 namespace APManager {
-    void APManager::setup_AP(const char* ipAddress, const char* playerName, const char* password);
-    void APManager::ResetItemAmounts();
-    void APManager::Disconnect()
-    void APManager::GetConnectionStatus();
-    void APManager::CheckDeathLink();
-    void APManager::CleanAPInformation();
-    void APManager::SendAPLocation(int64_t locationID);
+    void initializeAPInformation();
+    void Setup_AP(const char* ipAddress, const char* playerName, const char* password);
+    void ResetItemAmounts();
+    void Disconnect();
+    void GetConnectionStatus();
+    void CheckDeathLink();
+    void CleanAPInformation();
+    void SendAPLocation(int64_t locationID);
+    void Victory();
+    bool CheckEggByIndex(int32_t index);
 }

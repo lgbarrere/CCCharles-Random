@@ -187,7 +187,7 @@ namespace ModConsole {
             const char* playerName = GetOptionAtindex(outOptions, outOptionPositions, 1);
             const char* password = numberOfOptions == 2 ? "" : GetOptionAtindex(outOptions, outOptionPositions, 2);
             
-            APManager::setup_AP(ipAddress, playerName, password);
+            APManager::Setup_AP(ipAddress, playerName, password);
 
             return true;
         }

@@ -4,6 +4,7 @@
 
 #include "BPSharing.hpp"
 #include "APManager.hpp"
+#include "Archipelago.h"
 
 
 using namespace RC;
@@ -14,6 +15,7 @@ using namespace RC::Unreal;
 UObject* ItemManager = NULL;
 // The following events are executed by ItemManager Blueprint when a signal is received
 UFunction* EveryTickEvent = NULL;
+UFunction* CheckPendingMessageEvent = NULL;
 UFunction* ItemReceivedEvent = NULL;
 UFunction* ArchipelagoMessageEvent = NULL;
 UFunction* GetAllItemAmountsEvent = NULL;
@@ -30,6 +32,7 @@ namespace BPSharing {
         // Set the hooked functions/events names once
         static auto EveryTickHook = FName(STR("EveryTick"), FNAME_Add); // Function fired every tick
         static auto SendLocationIDHook = FName(STR("SendLocationID"), FNAME_Add); // Send locationID to Archipelago
+        static auto CheckPendingMessageHook = FName(STR("CheckPendingMessage"), FNAME_Add); // Show the last Archipelago pending message
         static auto GameReloadedHook = FName(STR("GameReloaded"), FNAME_Add); // The game was reloaded, reset BP variables
         static auto CharlesDeathHook = FName(STR("CharlesDeath"), FNAME_Add); // Function from the game called if Charles died
         static auto NewGameStartHook = FName(STR("NewGameStart"), FNAME_Add); // The player lost in Nightmare mode or restarted a new game
@@ -77,6 +80,7 @@ namespace BPSharing {
 
             ItemManager = NULL;
             EveryTickEvent = NULL;
+            CheckPendingMessageEvent = NULL;
             ItemReceivedEvent = NULL;
             ArchipelagoMessageEvent = NULL;
             GetAllItemAmountsEvent = NULL;
@@ -85,24 +89,23 @@ namespace BPSharing {
             GetAPOptionsEvent = NULL;
             information.authenticated = false;
         }
-        else if (Stack.Node()->GetNamePrivate() == GetPendingMessageHook)
+        else if (Stack.Node()->GetNamePrivate() == CheckPendingMessageHook)
         {
             // No header debug message for hooks called by a looping timer
             if (ItemManager != NULL)
             {
                 // If the event tick event is not found, exit early
-                if (GetPendingMessageEvent == NULL)
+                if (CheckPendingMessageEvent == NULL)
                 {
-                    Output::send<LogLevel::Error>(STR("GetPendingMessageEvent not found\n"));
+                    Output::send<LogLevel::Error>(STR("CheckPendingMessageEvent not found\n"));
                     return;
                 }
 
                 if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated && AP_IsMessagePending())
                 {
-
                     FString pendingMessage = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
                     Output::send<LogLevel::Verbose>(STR("Pending message: {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
-                    ItemManager->ProcessEvent(GetPendingMessageEvent, &pendingMessage);
+                    ItemManager->ProcessEvent(CheckPendingMessageEvent, &pendingMessage);
                     AP_ClearLatestMessage();
                 }
             }
@@ -111,20 +114,13 @@ namespace BPSharing {
         {
             Output::send<LogLevel::Verbose>(STR("CharlesDeathHook\n"));
 
-            // If the Archipelago connection is not established yet, exit early
-            if (AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
-            {
-                Output::send<LogLevel::Verbose>(STR("The player is not authenticated\n"));
-                return;
-            }
-
-            AP_StoryComplete();
+            APManager::Victory();
         }
         else if (Stack.Node()->GetNamePrivate() == NewGameStartHook)
         {
             Output::send<LogLevel::Verbose>(STR("NewGameStartHook\n"));
 
-            // NewGameStart is managed in on_update() to get all received items when possible
+            // NewGameStart is managed in BPSharing::SetBPFunctions() to get all received items when possible
             isNewGame = true;
         }
         else if (Stack.Node()->GetNamePrivate() == IsUnlockedWeaponByIndexHook)
@@ -149,7 +145,7 @@ namespace BPSharing {
 
             int32_t* index = Stack.Node()->GetPropertyByName(STR("EggIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
 
-            // EggIndex must be [19;20;21] respectively for [Green;Blue;Red], see ItemReceivedCallback()
+            // EggIndex must be [19;20;21] respectively for [Green;Blue;Red], see ItemReceivedCallback() in APManager.cpp
             if (*index < 19 && *index > 21)
             {
                 // Exit early if the range of EggIndex is not respected
@@ -157,7 +153,7 @@ namespace BPSharing {
                 return;
             }
 
-            bool isEggUnlocked = information.receivedItems.items[*index].amount == 0 ? false : true;
+            bool isEggUnlocked = APManager::CheckEggByIndex(*index);
             ItemManager->ProcessEvent(CheckItemUnlockedEvent, &isEggUnlocked);
         }
         else if (Stack.Node()->GetNamePrivate() == SendDeathLinkHook)
@@ -196,6 +192,11 @@ namespace BPSharing {
             {
                 static auto EveryTick = FName(STR("EveryTick"), FNAME_Add);
                 EveryTickEvent = ItemManager->GetFunctionByName(EveryTick);
+            }
+            if (CheckPendingMessageEvent == NULL)
+            {
+                static auto CheckPendingMessage = FName(STR("CheckPendingMessage"), FNAME_Add);
+                CheckPendingMessageEvent = ItemManager->GetFunctionByName(CheckPendingMessage);
             }
             if (ItemReceivedEvent == NULL)
             {
@@ -237,7 +238,7 @@ namespace BPSharing {
                 }
                 else
                 {
-                    pendingItemIDs.Empty(); // All items will be retrieved, meaning no item will be pending
+                    information.pendingItemIDs.Empty(); // All items will be retrieved, meaning no item will be pending
                     ItemManager->ProcessEvent(GetAllItemAmountsEvent, &information.receivedItems);
                     isNewGame = false;
                 }

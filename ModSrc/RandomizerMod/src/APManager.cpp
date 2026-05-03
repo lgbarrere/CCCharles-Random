@@ -15,6 +15,8 @@ using namespace RC::Unreal;
 
 APInformation information;
 TArray<bool> isAPOptionEnabled;
+const std::string CURRENT_WORLD_VERSION = "1.0.0"; // To update when the version of the AP logic changes
+std::string latestWorldVersion;
 
 
 /**
@@ -396,7 +398,7 @@ void LogFromAPCpp(std::string message) {
 
 namespace APManager {
 
-    APManager::setup_AP(const char* ipAddress, const char* playerName, const char* password)
+    void APManager::Setup_AP(const char* ipAddress, const char* playerName, const char* password)
     {
         AP_Init(ipAddress, "Choo-Choo Charles", playerName, password);
         AP_SetItemClearCallback(ClearInventoryCallback);
@@ -522,7 +524,7 @@ namespace APManager {
         information.receivedItems.weapons[0].name = FString(to_wstring("The Boomer").c_str());
         information.receivedItems.weapons[1].name = FString(to_wstring("Bob").c_str());
         information.receivedItems.weapons[2].name = FString(to_wstring("Bug Spray").c_str());
-        for (int i = 0; i < receivedItems.weapons.Num(); i++)
+        for (int i = 0; i < information.receivedItems.weapons.Num(); i++)
         {
             information.receivedItems.weapons[i].unlocked = false;
         }
@@ -546,7 +548,7 @@ namespace APManager {
             information.receivedItems.weapons[index].unlocked = false;
         }
 
-        pendingItemIDs.Empty();
+        information.pendingItemIDs.Empty();
     }
 
     void APManager::Disconnect()
@@ -600,9 +602,9 @@ namespace APManager {
     void APManager::CleanAPInformation()
     {
         // TODO: Cleanup old content from "information" variable
-        if (pendingItemIDs.Num() > 0)
+        if (information.pendingItemIDs.Num() > 0)
         {
-            pendingItemIDs.Empty();
+            information.pendingItemIDs.Empty();
         }
         AP_DeathLinkClear();
         if (information.pendingDeathLink)
@@ -628,5 +630,22 @@ namespace APManager {
         }
 
         AP_SendItem(locationID);
+    }
+
+    void APManager::Victory()
+    {
+        // If the Archipelago connection is not established yet, exit early
+        if (AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+        {
+            Output::send<LogLevel::Verbose>(STR("The player is not authenticated\n"));
+            return;
+        }
+
+        AP_StoryComplete();
+    }
+
+    bool APManager::CheckEggByIndex(int32_t index)
+    {
+        return information.receivedItems.items[index].amount == 0 ? false : true;
     }
 }
