@@ -36,7 +36,7 @@ public:
 
     static auto CallbackFunctionHook([[maybe_unused]] Unreal::UObject* Context, Unreal::FFrame& Stack, [[maybe_unused]] void* RESULT_DECL) -> void
     {
-        BPSharing::ManageHook(Stack);
+        BPSharing::ManageHook(Context, Stack, RESULT_DECL);
     }
 
     static bool CallbackConsole(UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor)
@@ -63,7 +63,7 @@ public:
 
         // Initializations
         Hook::RegisterProcessConsoleExecCallback(CallbackConsole);
-        APManager::initializeAPInformation();
+        APManager::initializeAPData();
 
         // Callback for all hooked functions and events
         if (UObject::ProcessLocalScriptFunctionInternal.is_ready() && Unreal::Version::IsAtLeast(4, 22))

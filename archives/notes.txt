@@ -51,6 +51,8 @@ Ideas:
 > YAML: Track Switch option by "Region" (ex: "Track Switch - North")
 > YAML: Lockpick option to either (1) randomize, (2) start with, or (3) place in early sphere
 > New: Change blips of color to show mission items (non-scraps)
+> YAML: Set Track Switches to random position once connected
+> YAML: Add traps to invert all Track Switches positions
 
 Tpm coordinates for Start Camp level bounding box:
 X=23722.865 Y=53091.031 Z=11027.695

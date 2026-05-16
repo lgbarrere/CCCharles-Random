@@ -14,25 +14,37 @@ using namespace RC::Unreal;
 // The ItemManager Blueprints manages the player inventory when an Archipelago item is received
 UObject* ItemManager = NULL;
 // The following events are executed by ItemManager Blueprint when a signal is received
-UFunction* EveryTickEvent = NULL;
-UFunction* CheckPendingMessageEvent = NULL;
-UFunction* ItemReceivedEvent = NULL;
-UFunction* ArchipelagoMessageEvent = NULL;
 UFunction* GetAllItemAmountsEvent = NULL;
-UFunction* ConnectionStatusUpdatedEvent = NULL;
 UFunction* CheckItemUnlockedEvent = NULL;
 UFunction* GetAPOptionsEvent = NULL;
 
 static bool isNewGame = false;
 
-
 namespace BPSharing {
-    void BPSharing::ManageHook(Unreal::FFrame& Stack)
+    /**
+    *   @brief Receive the address of an output parameter of a Blueprint function
+    *   @param Stack: The reference of the stack containing the function and local parameters
+    *   @param Param: The address of the parameter to get from the function
+    * 
+    *   @important This function is a duplicate from FFrame.cpp because of linking errors.
+    *   Adding RC_UE_API before the declaration of this function in FFrame.hpp to export it did not work
+    */
+    void* FindOutParamValueAddress(FFrame& Stack, FProperty* Param)
+    {
+        auto OutParams = Stack.OutParms();
+        while (OutParams && OutParams->Property != Param)
+        {
+            OutParams = OutParams->NextOutParm;
+        }
+        return OutParams ? OutParams->PropAddr : nullptr;
+    }
+
+    void BPSharing::ManageHook([[maybe_unused]] Unreal::UObject* Context, Unreal::FFrame& Stack, [[maybe_unused]] void* RESULT_DECL)
     {
         // Set the hooked functions/events names once
-        static auto EveryTickHook = FName(STR("EveryTick"), FNAME_Add); // Function fired every tick
+        static auto EveryTickSharingCppHook = FName(STR("EveryTickSharingCpp"), FNAME_Add); // Function fired every tick
         static auto SendLocationIDHook = FName(STR("SendLocationID"), FNAME_Add); // Send locationID to Archipelago
-        static auto CheckPendingMessageHook = FName(STR("CheckPendingMessage"), FNAME_Add); // Show the last Archipelago pending message
+        static auto CheckPendingAPMessageCppHook = FName(STR("CheckPendingAPMessageCpp"), FNAME_Add); // Show the last Archipelago pending message
         static auto GameReloadedHook = FName(STR("GameReloaded"), FNAME_Add); // The game was reloaded, reset BP variables
         static auto CharlesDeathHook = FName(STR("CharlesDeath"), FNAME_Add); // Function from the game called if Charles died
         static auto NewGameStartHook = FName(STR("NewGameStart"), FNAME_Add); // The player lost in Nightmare mode or restarted a new game
@@ -43,27 +55,19 @@ namespace BPSharing {
         static auto CheckPendingAPOptionsHook = FName(STR("CheckPendingAPOptions"), FNAME_Add); // Check AP options once connected
 
         // Check the hooked function/event names are correct
-        if (Stack.Node()->GetNamePrivate() == EveryTickHook)
+        if (Stack.Node()->GetNamePrivate() == EveryTickSharingCppHook)
         {
             // No header debug message for hooks called every tick
 
-            if (ItemManager != NULL)
-            {
-                // If the event tick event is not found, exit early
-                if (EveryTickEvent == NULL)
-                {
-                    Output::send<LogLevel::Error>(STR("EveryTickEvent not found\n"));
-                    return;
-                }
+            APManager::GetConnectionStatus();
+            APManager::CheckDeathLink();
 
-                APManager::GetConnectionStatus();
-                APManager::CheckDeathLink();
+            // Set BP return value
+            //apData.statusMessage = FString(to_wstring("Debugging return code").c_str());
+            *(APData*)RESULT_DECL = apData;
 
-                ItemManager->ProcessEvent(EveryTickEvent, &information);
-
-                // Cleanup
-                APManager::CleanAPInformation();
-            }
+            // Cleanup
+            APManager::CleanAPData();
         }
         else if (Stack.Node()->GetNamePrivate() == SendLocationIDHook)
         {
@@ -79,35 +83,24 @@ namespace BPSharing {
             Output::send<LogLevel::Verbose>(STR("GameReloadedHook\n"));
 
             ItemManager = NULL;
-            EveryTickEvent = NULL;
-            CheckPendingMessageEvent = NULL;
-            ItemReceivedEvent = NULL;
-            ArchipelagoMessageEvent = NULL;
             GetAllItemAmountsEvent = NULL;
-            ConnectionStatusUpdatedEvent = NULL;
             CheckItemUnlockedEvent = NULL;
             GetAPOptionsEvent = NULL;
-            information.authenticated = false;
+            apData.authenticated = false;
         }
-        else if (Stack.Node()->GetNamePrivate() == CheckPendingMessageHook)
+        else if (Stack.Node()->GetNamePrivate() == CheckPendingAPMessageCppHook)
         {
             // No header debug message for hooks called by a looping timer
-            if (ItemManager != NULL)
+            if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated && AP_IsMessagePending())
             {
-                // If the event tick event is not found, exit early
-                if (CheckPendingMessageEvent == NULL)
-                {
-                    Output::send<LogLevel::Error>(STR("CheckPendingMessageEvent not found\n"));
-                    return;
-                }
+                FString pendingMessage = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
+                Output::send<LogLevel::Verbose>(STR("Pending message: {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
+                AP_ClearLatestMessage();
 
-                if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated && AP_IsMessagePending())
-                {
-                    FString pendingMessage = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
-                    Output::send<LogLevel::Verbose>(STR("Pending message: {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
-                    ItemManager->ProcessEvent(CheckPendingMessageEvent, &pendingMessage);
-                    AP_ClearLatestMessage();
-                }
+                // Set specific output value of BP function
+                FProperty* outProperty = Stack.Node()->GetPropertyByName(L"APMessage");
+                void* outPropertyAddress = BPSharing::FindOutParamValueAddress(Stack, outProperty);
+                *static_cast<FString*>(outPropertyAddress) = pendingMessage;
             }
         }
         else if (Stack.Node()->GetNamePrivate() == CharlesDeathHook)
@@ -125,36 +118,63 @@ namespace BPSharing {
         }
         else if (Stack.Node()->GetNamePrivate() == IsUnlockedWeaponByIndexHook)
         {
-            Output::send<LogLevel::Verbose>(STR("IsUnlockedWeaponByIndexHook\n"));
+            if (ItemManager != NULL)
+            {
+                Output::send<LogLevel::Verbose>(STR("IsUnlockedWeaponByIndexHook\n"));
 
-            int32_t* index = Stack.Node()->GetPropertyByName(STR("WeaponIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
-            ItemManager->ProcessEvent(CheckItemUnlockedEvent, &information.receivedItems.weapons[*index].unlocked);
+                if (CheckItemUnlockedEvent == NULL)
+                {
+                    Output::send<LogLevel::Error>(STR("CheckItemUnlockedEvent not found\n"));
+                    return;
+                }
+
+                int32_t* index = Stack.Node()->GetPropertyByName(STR("WeaponIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
+                ItemManager->ProcessEvent(CheckItemUnlockedEvent, &apData.allReceivedItems.weapons[*index].unlocked);
+            }
         }
         else if (Stack.Node()->GetNamePrivate() == IsUnlockedPaintCanByIndexHook)
         {
-            Output::send<LogLevel::Verbose>(STR("IsUnlockedPaintCanByIndexHook\n"));
+            if (ItemManager != NULL)
+            {
+                Output::send<LogLevel::Verbose>(STR("IsUnlockedPaintCanByIndexHook\n"));
 
-            int32_t* index = Stack.Node()->GetPropertyByName(STR("PaintCanIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
-            Output::send<LogLevel::Verbose>(STR("{}\n"), *index);
-            Output::send<LogLevel::Verbose>(STR("{}\n"), information.receivedItems.paintCans[*index].unlocked);
-            ItemManager->ProcessEvent(CheckItemUnlockedEvent, &information.receivedItems.paintCans[*index].unlocked);
+                if (CheckItemUnlockedEvent == NULL)
+                {
+                    Output::send<LogLevel::Error>(STR("CheckItemUnlockedEvent not found\n"));
+                    return;
+                }
+
+                int32_t* index = Stack.Node()->GetPropertyByName(STR("PaintCanIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
+                Output::send<LogLevel::Verbose>(STR("{}\n"), *index);
+                Output::send<LogLevel::Verbose>(STR("{}\n"), apData.allReceivedItems.paintCans[*index].unlocked);
+                Output::send<LogLevel::Error>(STR("CheckItemUnlockedEvent not found\n"));
+            }
         }
         else if (Stack.Node()->GetNamePrivate() == IsUnlockedEggByIndexHook)
         {
-            Output::send<LogLevel::Verbose>(STR("IsUnlockedEggByIndexHook\n"));
-
-            int32_t* index = Stack.Node()->GetPropertyByName(STR("EggIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
-
-            // EggIndex must be [19;20;21] respectively for [Green;Blue;Red], see ItemReceivedCallback() in APManager.cpp
-            if (*index < 19 && *index > 21)
+            if (ItemManager != NULL)
             {
-                // Exit early if the range of EggIndex is not respected
-                Output::send<LogLevel::Error>(STR("EggIndex out of range\n"));
-                return;
-            }
+                Output::send<LogLevel::Verbose>(STR("IsUnlockedEggByIndexHook\n"));
 
-            bool isEggUnlocked = APManager::CheckEggByIndex(*index);
-            ItemManager->ProcessEvent(CheckItemUnlockedEvent, &isEggUnlocked);
+                if (CheckItemUnlockedEvent == NULL)
+                {
+                    Output::send<LogLevel::Error>(STR("CheckItemUnlockedEvent not found\n"));
+                    return;
+                }
+
+                int32_t* index = Stack.Node()->GetPropertyByName(STR("EggIndex"))->ContainerPtrToValuePtr<int32_t>(Stack.Locals());
+
+                // EggIndex must be [19;20;21] respectively for [Green;Blue;Red], see ItemReceivedCallback() in APManager.cpp
+                if (*index < 19 && *index > 21)
+                {
+                    // Exit early if the range of EggIndex is not respected
+                    Output::send<LogLevel::Error>(STR("EggIndex out of range\n"));
+                    return;
+                }
+
+                bool isEggUnlocked = APManager::CheckEggByIndex(*index);
+                ItemManager->ProcessEvent(CheckItemUnlockedEvent, &isEggUnlocked);
+            }
         }
         else if (Stack.Node()->GetNamePrivate() == SendDeathLinkHook)
         {
@@ -164,15 +184,18 @@ namespace BPSharing {
         }
         else if (Stack.Node()->GetNamePrivate() == CheckPendingAPOptionsHook)
         {
-            Output::send<LogLevel::Verbose>(STR("CheckPendingAPOptionsHook\n"));
-
-            if (GetAPOptionsEvent == NULL)
+            if (ItemManager != NULL)
             {
-                Output::send<LogLevel::Error>(STR("GetAPOptionsEvent not found\n"));
-                return;
-            }
+                Output::send<LogLevel::Verbose>(STR("CheckPendingAPOptionsHook\n"));
 
-            ItemManager->ProcessEvent(GetAPOptionsEvent, &isAPOptionEnabled);
+                if (GetAPOptionsEvent == NULL)
+                {
+                    Output::send<LogLevel::Error>(STR("GetAPOptionsEvent not found\n"));
+                    return;
+                }
+
+                ItemManager->ProcessEvent(GetAPOptionsEvent, &isAPOptionEnabled);
+            }
         }
     }
 
@@ -188,35 +211,10 @@ namespace BPSharing {
         if (ItemManager != NULL)
         {
             // Set each event if not set
-            if (EveryTickEvent == NULL)
-            {
-                static auto EveryTick = FName(STR("EveryTick"), FNAME_Add);
-                EveryTickEvent = ItemManager->GetFunctionByName(EveryTick);
-            }
-            if (CheckPendingMessageEvent == NULL)
-            {
-                static auto CheckPendingMessage = FName(STR("CheckPendingMessage"), FNAME_Add);
-                CheckPendingMessageEvent = ItemManager->GetFunctionByName(CheckPendingMessage);
-            }
-            if (ItemReceivedEvent == NULL)
-            {
-                static auto ItemReceived = FName(STR("ItemReceived"), FNAME_Add);
-                ItemReceivedEvent = ItemManager->GetFunctionByName(ItemReceived);
-            }
-            if (ArchipelagoMessageEvent == NULL)
-            {
-                static auto ArchipelagoMessage = FName(STR("ArchipelagoMessage"), FNAME_Add);
-                ArchipelagoMessageEvent = ItemManager->GetFunctionByName(ArchipelagoMessage);
-            }
             if (GetAllItemAmountsEvent == NULL)
             {
                 static auto GetAllItemAmounts = FName(STR("GetAllItemAmounts"), FNAME_Add);
                 GetAllItemAmountsEvent = ItemManager->GetFunctionByName(GetAllItemAmounts);
-            }
-            if (ConnectionStatusUpdatedEvent == NULL)
-            {
-                static auto ConnectionStatusUpdated = FName(STR("ConnectionStatusUpdated"), FNAME_Add);
-                ConnectionStatusUpdatedEvent = ItemManager->GetFunctionByName(ConnectionStatusUpdated);
             }
             if (CheckItemUnlockedEvent == NULL)
             {
@@ -238,8 +236,8 @@ namespace BPSharing {
                 }
                 else
                 {
-                    information.pendingItemIDs.Empty(); // All items will be retrieved, meaning no item will be pending
-                    ItemManager->ProcessEvent(GetAllItemAmountsEvent, &information.receivedItems);
+                    apData.pendingItemIDs.Empty(); // All items will be retrieved, meaning no item will be pending
+                    ItemManager->ProcessEvent(GetAllItemAmountsEvent, &apData.allReceivedItems);
                     isNewGame = false;
                 }
             }

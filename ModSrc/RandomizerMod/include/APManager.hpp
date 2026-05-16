@@ -38,36 +38,36 @@ typedef struct
 
 
 typedef struct {
-    bool authenticated;
-    FString statusMessage;
-    TArray<int64_t> pendingItemIDs;
-    ReceivedItems receivedItems;
-    bool pendingDeathLink;
-}APInformation;
+    bool authenticated; // It is true if the player is connected to the AP room, false otherwise
+    FString statusMessage; // Connection status to render in UI: connected, offline, depreciated version, ...
+    TArray<int64_t> pendingItemIDs; // Pending item received from the AP room
+    ReceivedItems allReceivedItems; // All received items from the AP room since its start
+    bool pendingDeathLink; // It is true if the player must die because another player died, false otherwise
+}APData;
 
 
 typedef enum
 {
     TRACK_SWITCHES_OPTION = 0,
     CURSED_FOGS_OPTION = 1,
-    NB_AP_OPTIONS = 2,
+    NB_AP_OPTIONS = 2
 }APOptions; // Death link is not to consider here
 
 
-extern APInformation information;
-extern std::string latestWorldVersion;
+extern APData apData;
 extern TArray<bool> isAPOptionEnabled;
+extern std::string latestWorldVersion;
 
 void LogFromAPCpp(std::string message);
 
 namespace APManager {
-    void initializeAPInformation();
+    void initializeAPData();
     void Setup_AP(const char* ipAddress, const char* playerName, const char* password);
     void ResetItemAmounts();
     void Disconnect();
     void GetConnectionStatus();
     void CheckDeathLink();
-    void CleanAPInformation();
+    void CleanAPData();
     void SendAPLocation(int64_t locationID);
     void Victory();
     bool CheckEggByIndex(int32_t index);
