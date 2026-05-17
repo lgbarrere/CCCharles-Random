@@ -65,7 +65,7 @@ namespace APManager {
     void Setup_AP(const char* ipAddress, const char* playerName, const char* password);
     void ResetItemAmounts();
     void Disconnect();
-    void GetConnectionStatus();
+    void UpdateConnectionStatus();
     void CheckDeathLink();
     void CleanAPData();
     void SendAPLocation(int64_t locationID);

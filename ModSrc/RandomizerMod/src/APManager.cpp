@@ -564,7 +564,7 @@ namespace APManager {
     /**
     *   @brief Check if the player is authenticated or not
     */
-    void APManager::GetConnectionStatus()
+    void APManager::UpdateConnectionStatus()
     {
         // Check the connection status changed
         if (!apData.authenticated && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated
