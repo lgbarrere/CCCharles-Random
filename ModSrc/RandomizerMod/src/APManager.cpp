@@ -1,4 +1,3 @@
-
 #include <Unreal/UObject.hpp>
 #include <cstring>
 #include <Windows.h>
@@ -20,9 +19,9 @@ const std::string CURRENT_WORLD_VERSION = "1.0.0"; // To update when the version
 
 
 /**
-*   @brief Clear all the collected items from the player's inventory
-*   @notimplemented Used by AP_SetItemClearCallback but is not necessary
-*/
+ * @brief Clear all the collected items from the player's inventory
+ * @notimplemented Used by AP_SetItemClearCallback but is not necessary
+ */
 static void ClearInventoryCallback()
 {
 
@@ -30,10 +29,10 @@ static void ClearInventoryCallback()
 
 
 /**
-*   @brief Receive an item from any world
-*   @param itemID: The ID of the received item
-*   @param notifyPlayer: Id true, notify the player about the received item, false otherwise
-*/
+ * @brief Receive an item from any world
+ * @param itemID: The ID of the received item
+ * @param notifyPlayer: Id true, notify the player about the received item, false otherwise
+ */
 static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 {
     // Add 1 item from the received itemID to the inventory
@@ -323,10 +322,10 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 
 
 /**
-*   @brief Mark a given location as checked
-*   @param locationID: The ID of the checked location
-*   @notimplemented Used by AP_SetItemClearCallback but is not necessary
-*/
+ * @brief Mark a given location as checked
+ * @param locationID: The ID of the checked location
+ * @notimplemented Used by AP_SetItemClearCallback but is not necessary
+ */
 static void LocationCheckedCallback(int64_t locationID)
 {
 
@@ -337,6 +336,7 @@ static void LocationCheckedCallback(int64_t locationID)
  * @brief Retains only digits ('0'-'9') and the dot ('.') character from a version string
  * @note Intended to extract version-like strings
  * @param version The string to filter
+ *
  * @return The filtered string
  */
 static std::string filterVersion(std::string version)
@@ -355,9 +355,9 @@ static std::string filterVersion(std::string version)
 
 
 /**
-*   @brief Get the version of the apworld from the slot_data
-*   @param version: The version
-*/
+ * @brief Get the version of the apworld from the slot_data
+ * @param version: The version
+ */
 static void WorldVersionCallback(std::string version)
 {
     latestWorldVersion = filterVersion(version);
@@ -365,9 +365,9 @@ static void WorldVersionCallback(std::string version)
 
 
 /**
-*   @brief Get the TrackSwitches option value from the slot_data
-*   @param trackSwitchesValue: The option value
-*/
+ * @brief Get the TrackSwitches option value from the slot_data
+ * @param trackSwitchesValue: The option value
+ */
 static void TrackSwitchesCallback(int trackSwitchesValue)
 {
     Output::send<LogLevel::Verbose>(TEXT("trackSwitchesValue: {}\n"), trackSwitchesValue);
@@ -376,9 +376,9 @@ static void TrackSwitchesCallback(int trackSwitchesValue)
 
 
 /**
-*   @brief Get the CursedFogs option value from the slot_data
-*   @param cursedFogsValue: The option value
-*/
+ * @brief Get the CursedFogs option value from the slot_data
+ * @param cursedFogsValue: The option value
+ */
 static void CursedFogsCallback(int cursedFogsValue)
 {
     Output::send<LogLevel::Verbose>(TEXT("cursedFogsValue: {}\n"), cursedFogsValue);
@@ -386,34 +386,12 @@ static void CursedFogsCallback(int cursedFogsValue)
 }
 
 
-/**
-*   @brief Log used to check APCpp messages
-*   @param message: The message to log
-*   @note Prints functions in APCpp code must be manually replaced by calls of this function
-*/
 void LogFromAPCpp(std::string message) {
     Output::send<LogLevel::Verbose>(TEXT("LogFromAPCpp: {}\n"), RC::to_wstring(message).c_str());
 }
 
 
 namespace APManager {
-
-    void APManager::Setup_AP(const char* ipAddress, const char* playerName, const char* password)
-    {
-        AP_Init(ipAddress, "Choo-Choo Charles", playerName, password);
-        AP_SetItemClearCallback(ClearInventoryCallback);
-        AP_SetItemRecvCallback(ItemReceivedCallback);
-        AP_SetLocationCheckedCallback(LocationCheckedCallback);
-        AP_RegisterSlotDataRawCallback("world_version", &WorldVersionCallback);
-        AP_RegisterSlotDataIntCallback("TrackSwitches", &TrackSwitchesCallback);
-        AP_RegisterSlotDataIntCallback("CursedFogs", &CursedFogsCallback);
-        AP_SetDeathLinkSupported(true);
-        AP_Start();
-    }
-
-    /**
-    *   @brief Initialize AP data
-    */
     void APManager::initializeAPData()
     {
         isAPOptionEnabled.SetNum(NB_AP_OPTIONS);
@@ -530,9 +508,19 @@ namespace APManager {
         }
     }
 
-    /**
-    *   @brief Reset all received items amounts and all unlocked train components to 0
-    */
+    void APManager::Setup_AP(const char* ipAddress, const char* playerName, const char* password)
+    {
+        AP_Init(ipAddress, "Choo-Choo Charles", playerName, password);
+        AP_SetItemClearCallback(ClearInventoryCallback);
+        AP_SetItemRecvCallback(ItemReceivedCallback);
+        AP_SetLocationCheckedCallback(LocationCheckedCallback);
+        AP_RegisterSlotDataRawCallback("world_version", &WorldVersionCallback);
+        AP_RegisterSlotDataIntCallback("TrackSwitches", &TrackSwitchesCallback);
+        AP_RegisterSlotDataIntCallback("CursedFogs", &CursedFogsCallback);
+        AP_SetDeathLinkSupported(true);
+        AP_Start();
+    }
+
     void APManager::ResetItemAmounts()
     {
         for (int32_t index = 0; index < apData.allReceivedItems.items.Num(); index++)
@@ -561,9 +549,6 @@ namespace APManager {
         AP_Shutdown();
     }
 
-    /**
-    *   @brief Check if the player is authenticated or not
-    */
     void APManager::UpdateConnectionStatus()
     {
         // Check the connection status changed
@@ -589,9 +574,6 @@ namespace APManager {
         }
     }
 
-    /**
-    *   @brief Check a Deathlink was received
-    */
     void APManager::CheckDeathLink()
     {
         if (AP_DeathLinkPending())
@@ -600,9 +582,6 @@ namespace APManager {
         }
     }
 
-    /**
-    *   @brief Clean old AP apData
-    */
     void APManager::CleanAPData()
     {
         // TODO: Cleanup old content from "apData" variable
@@ -646,10 +625,5 @@ namespace APManager {
         }
 
         AP_StoryComplete();
-    }
-
-    bool APManager::CheckEggByIndex(int32_t index)
-    {
-        return apData.allReceivedItems.items[index].amount == 0 ? false : true;
     }
 }

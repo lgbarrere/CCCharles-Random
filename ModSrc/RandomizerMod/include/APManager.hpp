@@ -1,3 +1,7 @@
+/**
+ * @author Yaranorgoth
+ * @brief Manage all interactions between the AP server and the mod
+ */
 
 #pragma once
 
@@ -58,17 +62,60 @@ extern APData apData;
 extern TArray<bool> isAPOptionEnabled;
 extern std::string latestWorldVersion;
 
+/**
+ * @brief Log used to check APCpp messages
+ * @note Prints functions in APCpp code must be manually replaced by calls of this function
+ * @param message: The message to log
+ */
 void LogFromAPCpp(std::string message);
 
 namespace APManager {
+    /**
+     * @brief Initialize AP data
+     */
     void initializeAPData();
+
+    /**
+     * @brief Link the AP server to the mod, using its ipAddress a playerName and an optional password
+     * @param ipAddress: The address to the AP room
+     * @param playerName: The name of the player (slot)
+     * @param password: Optional password (provided by the host)
+     */
     void Setup_AP(const char* ipAddress, const char* playerName, const char* password);
+
+    /**
+     * @brief Reset all received items amounts and all unlocked train components to 0
+     */
     void ResetItemAmounts();
+
+    /**
+     * @brief Disconnect from the AP server
+     */
     void Disconnect();
+
+    /**
+     * @brief Check if the player is authenticated or not
+     */
     void UpdateConnectionStatus();
+
+    /**
+     * @brief Check a Deathlink was received
+     */
     void CheckDeathLink();
+
+    /**
+     * @brief Clean old AP data
+     */
     void CleanAPData();
+
+    /**
+     * @brief The the given locationID the to AP server
+     * @param locationID: The ID of the checked location
+     */
     void SendAPLocation(int64_t locationID);
+
+    /**
+     * @brief Send to the AP server the victory event, meaning the goal has been reached
+     */
     void Victory();
-    bool CheckEggByIndex(int32_t index);
 }

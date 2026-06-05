@@ -1,4 +1,3 @@
-
 #include <Unreal/UObject.hpp>
 #include <cstring>
 #include <Windows.h>
@@ -22,18 +21,19 @@ using namespace RC::Unreal;
 
 
 /**
-*   @param command: The input command to compare and parse
-*   @param expectedCmd: The expected command name to compare with the input command
-*   @param outOptions: An out array copying the parsed options separated with '\0'
-*   @param outOptionPositions: An out array with the positions of all options in outOptions (-1 for positions without option)
-*   @note If an option exceeds OPTION_MAX_LENGTH char or if more options than NB_MAX_OPTIONS are found, -1 is returned
-*   @note Get an option with getOptionAtindex()
-* 
-*   @return The number of parsed options, in error case:
-*               UNDEFINED_COMMAND if the command is not recognized
-*               MAX_OPTIONS_REACHED if the number of input options exceeds NB_MAX_OPTIONS
-*               OPTION_LENGTH_REACHED if an option exceeds OPTION_MAX_LENGTH char ('\0 included')
-*/
+ * @brief Check command and expectedCmd are equal, then parse options found after each whitespace
+ * @note If an option exceeds OPTION_MAX_LENGTH char or if more options than NB_MAX_OPTIONS are found, -1 is returned
+ * @note Get an option with getOptionAtindex()
+ * @param command: The input command to compare and parse
+ * @param expectedCmd: The expected command name to compare with the input command
+ * @param outOptions: An out array copying the parsed options separated with '\0'
+ * @param outOptionPositions: An out array with the positions of all options in outOptions (-1 for positions without option)
+ * 
+ * @return The number of parsed options, in error case:
+ * -> UNDEFINED_COMMAND if the command is not recognized
+ * -> MAX_OPTIONS_REACHED if the number of input options exceeds NB_MAX_OPTIONS
+ * -> OPTION_LENGTH_REACHED if an option exceeds OPTION_MAX_LENGTH char ('\0 included')
+ */
 static int CompareAndParseCmd(const char* command, const char* expectedCmd, char outOptions[ALL_OPTIONS_MAX_LENGTH], int outOptionPositions[NB_MAX_OPTIONS])
 {
     const char separator = ' ';
@@ -102,13 +102,14 @@ static int CompareAndParseCmd(const char* command, const char* expectedCmd, char
 
 
 /**
-*   @param options: An array with the options separated with '\0'
-*   @param optionPositions: An array with the positions of all options in outOptions
-*   @param index: The index of the option (should not exceed NB_MAX_OPTIONS)
-*   @note CompareAndParseCmd() should be called once before using this function
-*
-*   @return The option at the provided index, NULL otherwise (incorrect index or no option at this index)
-*/
+ * @brief Get the address of an option at a given index
+ * @note CompareAndParseCmd() should be called once before using this function
+ * @param options: An array with the options separated with '\0'
+ * @param optionPositions: An array with the positions of all options in outOptions
+ * @param index: The index of the option (should not exceed NB_MAX_OPTIONS)
+ *
+ * @return The option at the provided index, NULL otherwise (incorrect index or no option at this index)
+ */
 static char* GetOptionAtindex(char options[ALL_OPTIONS_MAX_LENGTH], const int optionPositions[NB_MAX_OPTIONS], const unsigned int index)
 {
     if (index >= NB_MAX_OPTIONS || optionPositions[index] == -1)
@@ -121,11 +122,6 @@ static char* GetOptionAtindex(char options[ALL_OPTIONS_MAX_LENGTH], const int op
 
 
 namespace ModConsole {
-    /**
-    *   @brief Manage user commands written in the UE console to interact with Archipelago using APCpp
-    *   @param Ar: The used device (expecting UE console here)
-    *   @param command: The typed command by the user
-    */
     bool ModConsole::CheckCommand(FOutputDevice& Ar, const TCHAR* command)
     {
         // Conversion from const TCHAR* to const char*
@@ -206,6 +202,7 @@ namespace ModConsole {
         {
             /* code */
             Ar.Log(STR("Release\n"));
+            Ar.Log(STR("Not implemented yet.\n"));
 
             return true;
         }
@@ -215,6 +212,7 @@ namespace ModConsole {
         {
             /* code */
             Ar.Log(STR("Collect\n"));
+            Ar.Log(STR("Not implemented yet.\n"));
 
             return true;
         }
@@ -224,6 +222,7 @@ namespace ModConsole {
         {
             /* code */
             Ar.Log(STR("Hint\n"));
+            Ar.Log(STR("Not implemented yet.\n"));
 
             return true;
         }
@@ -233,6 +232,7 @@ namespace ModConsole {
         {
             /* code */
             Ar.Log(STR("Hint location\n"));
+            Ar.Log(STR("Not implemented yet.\n"));
 
             return true;
         }
@@ -242,6 +242,7 @@ namespace ModConsole {
         {
             /* code */
             Ar.Log(STR("Remaining\n"));
+            Ar.Log(STR("Not implemented yet.\n"));
 
             return true;
         }
@@ -251,6 +252,7 @@ namespace ModConsole {
         {
             /* code */
             Ar.Log(STR("Send\n"));
+            Ar.Log(STR("Not implemented yet.\n"));
 
             return true;
         }

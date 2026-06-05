@@ -1,3 +1,7 @@
+/**
+ * @author Yaranorgoth
+ * @brief Starting point of the Mod logic, initializing callbacks and minimal requirements
+ */
 
 #include <Mod/CppUserModBase.hpp>
 #include <Unreal/UFunction.hpp>
@@ -75,7 +79,7 @@ public:
 
     auto on_update() -> void override
     {
-        BPSharing::SetBPFunctions();
+        BPSharing::SetBPObjects();
     }
 };
 

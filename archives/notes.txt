@@ -37,6 +37,7 @@ Found issues:
 > When the player dies while the timed dynamite is in use, the Bunker door is still closed (maybe base game bug)
 > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
 > The map keeps re-placing the marker every time a drawing_page is picked after mission start
+> If the player explodes after placing dynamites on the bunker, the door is still locked after reloading
 
 Ideas:
 > New: Link the Pop Tracker to the Setup Page
