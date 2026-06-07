@@ -5,7 +5,6 @@
 
 #include <Mod/CppUserModBase.hpp>
 #include <Unreal/UFunction.hpp>
-#include <Unreal/FProperty.hpp>
 
 #include "BPSharing.hpp"
 #include "APManager.hpp"

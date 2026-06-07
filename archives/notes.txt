@@ -34,10 +34,9 @@ Found issues:
 > Gertrude can refuse to give her mission_start location
 > Sometimes, an item is not added to inventory once received
 > Some items may not spawn at all in the game (maybe base game bug)
-> When the player dies while the timed dynamite is in use, the Bunker door is still closed (maybe base game bug)
+> If the player dies after placing dynamites on the bunker, the door is still locked after reloading (mod bug confirmed)
 > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
 > The map keeps re-placing the marker every time a drawing_page is picked after mission start
-> If the player explodes after placing dynamites on the bunker, the door is still locked after reloading
 
 Ideas:
 > New: Link the Pop Tracker to the Setup Page

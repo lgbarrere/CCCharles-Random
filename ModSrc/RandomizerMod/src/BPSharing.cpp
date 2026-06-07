@@ -5,7 +5,6 @@
 #include "APManager.hpp"
 #include "Archipelago.h"
 
-
 using namespace RC;
 using namespace RC::Unreal;
 

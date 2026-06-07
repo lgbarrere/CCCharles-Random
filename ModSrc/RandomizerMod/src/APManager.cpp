@@ -1,11 +1,8 @@
 #include <Unreal/UObject.hpp>
-#include <cstring>
-#include <Windows.h>
 
-#include "Archipelago.h"
 #include "APManager.hpp"
+#include "Archipelago.h"
 #include "Helpers/String.hpp"
-
 
 using namespace std;
 using namespace RC;

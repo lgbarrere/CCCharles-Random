@@ -1,11 +1,8 @@
 #include <Unreal/UObject.hpp>
-#include <cstring>
-#include <Windows.h>
 
 #include "ModConsole.hpp"
 #include "APManager.hpp"
 #include "Helpers/String.hpp"
-
 
 #define OPTION_MAX_LENGTH 50
 #define NB_MAX_OPTIONS 5
