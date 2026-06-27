@@ -25,16 +25,10 @@ ALighthouse_Details_C
 AScrapCratePoint_C
 TutorialState (Eugene's mission)
 
-Mission to fix (have start, no end dialog with NPC)
-KO: Tutorial2
-KO: Bob
-
 Found issues:
 > The [Password] is not stated in the AP Setup Guide
-> Gertrude can refuse to give her mission_start location
-> Sometimes, an item is not added to inventory once received
-> Some items may not spawn at all in the game (maybe base game bug)
-> If the player dies after placing dynamites on the bunker, the door is still locked after reloading (mod bug confirmed)
+> Sometimes, an item is not added to inventory once received (maybe fixed)
+> Some items may not spawn at all in the game (maybe base game bug or picked while being disconnected)
 > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
 > The map keeps re-placing the marker every time a drawing_page is picked after mission start
 
