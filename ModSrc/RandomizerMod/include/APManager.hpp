@@ -54,7 +54,10 @@ typedef enum
 {
     TRACK_SWITCHES_OPTION = 0,
     CURSED_FOGS_OPTION = 1,
-    NB_AP_OPTIONS = 2
+    SPEED_UPGRADE_OPTION = 2,
+    DAMAGE_UPGRADE_OPTION = 3,
+    ARMOR_UPGRADE_OPTION = 4,
+    NB_AP_OPTIONS = 5
 }APOptions; // Death link is not to consider here
 
 

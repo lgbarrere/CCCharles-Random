@@ -12,7 +12,7 @@ using namespace RC::Unreal;
 APData apData;
 TArray<bool> isAPOptionEnabled;
 std::string latestWorldVersion;
-const std::string CURRENT_WORLD_VERSION = "1.0.0"; // To update when the version of the AP logic changes
+const std::string CURRENT_WORLD_VERSION = "1.0.1"; // To update when the version of the AP logic changes
 
 
 /**
@@ -300,6 +300,24 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
     case 86: // Fogbane Relic - Morse Bunker
         apData.allReceivedItems.objects[42].amount < 1 ? apData.allReceivedItems.objects[42].amount += 1 : cappedAmount = 0;
         break;
+    case 87: // Speed Unlock
+        apData.allReceivedItems.objects[43].amount < 1 ? apData.allReceivedItems.objects[43].amount += 1 : cappedAmount = 0;
+        break;
+    case 88: // Damage Unlock
+        apData.allReceivedItems.objects[44].amount < 1 ? apData.allReceivedItems.objects[44].amount += 1 : cappedAmount = 0;
+        break;
+    case 89: // Armor Unlock
+        apData.allReceivedItems.objects[45].amount < 1 ? apData.allReceivedItems.objects[45].amount += 1 : cappedAmount = 0;
+        break;
+    case 90: // Speed Level
+        apData.allReceivedItems.items[24].amount < 9 ? apData.allReceivedItems.items[24].amount += 1 : cappedAmount = 0;
+        break;
+    case 91: // Damage Level
+        apData.allReceivedItems.items[25].amount < 9 ? apData.allReceivedItems.items[25].amount += 1 : cappedAmount = 0;
+        break;
+    case 92: // Armor Level
+        apData.allReceivedItems.items[26].amount < 9 ? apData.allReceivedItems.items[26].amount += 1 : cappedAmount = 0;
+        break;
     default:
         Output::send<LogLevel::Error>(STR("Unrecognized item ID skipped.\n"));
         return;
@@ -383,6 +401,39 @@ static void CursedFogsCallback(int cursedFogsValue)
 }
 
 
+/**
+ * @brief Get the SpeedUpgrade option value from the slot_data
+ * @param SpeedUpgradeValue: The option value
+ */
+static void SpeedUpgradeCallback(int SpeedUpgradeValue)
+{
+    Output::send<LogLevel::Verbose>(TEXT("SpeedUpgradeValue: {}\n"), SpeedUpgradeValue);
+    isAPOptionEnabled[SPEED_UPGRADE_OPTION] = SpeedUpgradeValue != 0;
+}
+
+
+/**
+ * @brief Get the DamageUpgrade option value from the slot_data
+ * @param DamgeUpgradeValue: The option value
+ */
+static void DamageUpgradeCallback(int DamgeUpgradeValue)
+{
+    Output::send<LogLevel::Verbose>(TEXT("DamgeUpgradeValue: {}\n"), DamgeUpgradeValue);
+    isAPOptionEnabled[DAMAGE_UPGRADE_OPTION] = DamgeUpgradeValue != 0;
+}
+
+
+/**
+ * @brief Get the ArmorUpgrade option value from the slot_data
+ * @param ArmorUpgradeValue: The option value
+ */
+static void ArmorUpgradeCallback(int ArmorUpgradeValue)
+{
+    Output::send<LogLevel::Verbose>(TEXT("ArmorUpgradeValue: {}\n"), ArmorUpgradeValue);
+    isAPOptionEnabled[ARMOR_UPGRADE_OPTION] = ArmorUpgradeValue != 0;
+}
+
+
 void LogFromAPCpp(std::string message) {
     Output::send<LogLevel::Verbose>(TEXT("LogFromAPCpp: {}\n"), RC::to_wstring(message).c_str());
 }
@@ -397,7 +448,7 @@ namespace APManager {
             isAPOptionEnabled[i] = false;
         }
 
-        apData.allReceivedItems.items.SetNum(24);
+        apData.allReceivedItems.items.SetNum(27);
         apData.allReceivedItems.items[0].name = FString(to_wstring("05_Scraps").c_str());
         apData.allReceivedItems.items[1].name = FString(to_wstring("Mine1_Key").c_str());
         apData.allReceivedItems.items[2].name = FString(to_wstring("Mine2_Key").c_str());
@@ -422,6 +473,9 @@ namespace APManager {
         apData.allReceivedItems.items[21].name = FString(to_wstring("Mine3_Egg").c_str());
         apData.allReceivedItems.items[22].name = FString(to_wstring("Bridge_Dynamite").c_str());
         apData.allReceivedItems.items[23].name = FString(to_wstring("Boss_ShrineKey").c_str());
+        apData.allReceivedItems.items[24].name = FString(to_wstring("Speed Level").c_str());
+        apData.allReceivedItems.items[25].name = FString(to_wstring("Damage Level").c_str());
+        apData.allReceivedItems.items[26].name = FString(to_wstring("Armor Level").c_str());
         for (int i = 0; i < apData.allReceivedItems.items.Num(); i++)
         {
             apData.allReceivedItems.items[i].amount = 0;
@@ -429,7 +483,8 @@ namespace APManager {
 
         const unsigned int MaxTrackSwitch = 8;
         const unsigned int MaxFogbaneRelic = 35;
-        apData.allReceivedItems.objects.SetNum(MaxTrackSwitch + MaxFogbaneRelic);
+        const unsigned int MaxUpgradeUnlock = 3;
+        apData.allReceivedItems.objects.SetNum(MaxTrackSwitch + MaxFogbaneRelic + MaxUpgradeUnlock);
         apData.allReceivedItems.objects[0].name = FString(to_wstring("Track Switch Pack").c_str());
         apData.allReceivedItems.objects[1].name = FString(to_wstring("Track Switch - Barn or Tutorial").c_str());
         apData.allReceivedItems.objects[2].name = FString(to_wstring("Track Switch - Middle or Port").c_str());
@@ -473,6 +528,9 @@ namespace APManager {
         apData.allReceivedItems.objects[40].name = FString(to_wstring("Fogbane Relic - Temple").c_str());
         apData.allReceivedItems.objects[41].name = FString(to_wstring("Fogbane Relic - Pickle Val").c_str());
         apData.allReceivedItems.objects[42].name = FString(to_wstring("Fogbane Relic - Morse Bunker").c_str());
+        apData.allReceivedItems.objects[43].name = FString(to_wstring("Speed Unlock").c_str());
+        apData.allReceivedItems.objects[44].name = FString(to_wstring("Damage Unlock").c_str());
+        apData.allReceivedItems.objects[45].name = FString(to_wstring("Armor Unlock").c_str());
         for (int i = 0; i < apData.allReceivedItems.objects.Num(); i++)
         {
             apData.allReceivedItems.objects[i].amount = 0;
@@ -514,6 +572,9 @@ namespace APManager {
         AP_RegisterSlotDataRawCallback("world_version", &WorldVersionCallback);
         AP_RegisterSlotDataIntCallback("TrackSwitches", &TrackSwitchesCallback);
         AP_RegisterSlotDataIntCallback("CursedFogs", &CursedFogsCallback);
+        AP_RegisterSlotDataIntCallback("SpeedUpgrade", &SpeedUpgradeCallback);
+        AP_RegisterSlotDataIntCallback("DamageUpgrade", &DamageUpgradeCallback);
+        AP_RegisterSlotDataIntCallback("ArmorUpgrade", &ArmorUpgradeCallback);
         AP_SetDeathLinkSupported(true);
         AP_Start();
     }

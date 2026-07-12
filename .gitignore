@@ -40,4 +40,5 @@ Release/Obscure/Binaries/Win64/ue4ss/UE4SS.log
 # Releases
 /Release/Obscure
 Release/cccharles.apworld
-Release/CCCharles.yaml
+Release/*.yaml
+Release/*.zip

@@ -34,7 +34,6 @@ Found issues:
 
 Ideas:
 > New: Link the Pop Tracker to the Setup Page
-> YAML: Randomize the loot crates (force their spawn)
 > YAML: See randomized items or not (replaced by "DeathDuck")
 > New: Update "DeathDuck" to give multiworld items and hints
 > New: "DeathDuck" has an untextured eye, the Archipelago logo could be added to it
@@ -47,11 +46,40 @@ Ideas:
 > New: Change blips of color to show mission items (non-scraps)
 > YAML: Set Track Switches to random position once connected
 > YAML: Add traps to invert all Track Switches positions
+> YAML: Add checks when cultists are killed
 
 Tpm coordinates for Start Camp level bounding box:
 X=23722.865 Y=53091.031 Z=11027.695
 X=25542.385 Y=53831.328 Z=11064.331
 X=23080.998 Y=54994.715 Z=10971.831
+
+In UpgradesMenu:
+Image: upper tools
+Image_0: main background
+Image_1: Speed tools
+Image_2: Speed wheel
+Image_3: Heal pill
+Image_4: Heal background
+Image_5: Heal tools
+Image_6: upgrade underline
+Image_7: scraps underline
+Image_8: Damage background
+Image_9: Damage tools
+Image_10: Damage sword
+Image_11: Armor background
+Image_12: Armor tools
+Image_13: Armor hemlet
+Image_37: unused?
+Image_130: Speed background
+AlphaImage: unused?
+AlphaImage2: unused?
+AlphaImage3: unused?
+AlphaImage4: unused?
+Button_2: unused?
+HealthButton: Health button
+SpeedButton: Speed button
+DamageButton: Damage button
+ArmorButton: Armor button
 
 Cursed Fogs:
 - Mine Shaft [0]:
@@ -214,19 +242,14 @@ Local scales of guns collisions:
     RocketLauncher X=0.432 Y=0.712 Z=1.508
     RangeGun X=0.237 Y=0.789 Z=2.684
 
-Get a working local world:
-1) Package the <apworld>/ folder (here cccharles) and name it <apworld>.apworld (the archipelago logo should be displayed)
-2) Double-click the <apworld>.apworld package to automatically install the world locally
-3) Launch the Archipelago launcher and click "Generate Template Options"
-4) Put the generated template from Archipelago/Players/Templates/ to Archipelago/Players/ and edit it manually
-5) In the Archipelago launcher, click "Generate" to setup a game with the yaml in the Archipelago/ouput/ folder
-6) The game can now be hosted with "Host" in the Archipelago launcher by using the generated game in Archipelago/output/
-
-Build from sources:
-1) In pycharm, type in the console: py .\Launcher.py
+Get a working local world (built from sources):
+1) In pycharm, open the "built APLauncher" by typing in the terminal: py .\Launcher.py
 2) Launch "Build APWorlds"
-3) Double-clic the output or copy it in <AP folder>/custom_world/
-4) Follow the steps 5 and 6 of "Get a working local world" (can be done with the regular launcher)
+3) Double-clic the <apworld>.apworld output or copy it in <AP folder>/custom_world/
+4) Open the regular ArchipelagoLauncher.exe, click "Generate Template Options"
+5) Put the generated template from Archipelago/Players/Templates/ to Archipelago/Players/ and edit it manually
+6) In the regular ArchipelagoLauncher.exe, click "Generate" to setup a game with the yaml in the Archipelago/ouput/ folder
+7) The game can now be hosted with "Host" in the Archipelago launcher by using the generated game in Archipelago/output/
 
 All Item Names:
 01_KeyTony
