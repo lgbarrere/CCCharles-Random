@@ -27,7 +27,8 @@ TutorialState (Eugene's mission)
 
 Found issues:
 > The [Password] is not stated in the AP Setup Guide
-> Sometimes, an item is not added to inventory once received (maybe fixed)
+> Sometimes, an item is not added to inventory once received
+> Sometimes, a picked item is never sent to AP
 > Some items may not spawn at all in the game (maybe base game bug or picked while being disconnected)
 > In Qwerty, the console does not trigger, the keys "~" and "`" should be mapped too
 > The map keeps re-placing the marker every time a drawing_page is picked after mission start
@@ -38,6 +39,7 @@ Ideas:
 > New: Update "DeathDuck" to give multiworld items and hints
 > New: "DeathDuck" has an untextured eye, the Archipelago logo could be added to it
 > YAML: Treat all scraps in a region as 1 location and keep collected scraps in the inventory (hard to do)
+> New: Add an integrated tracker in the game (hard to do)
 > YAML: Add an Easter hunt for the Red/Green/Blue eggs (like the triforce hunt from OoT)
 > New: Add teleport to Train consumables to the item pool
 > YAML: Fogbane option by "Region" (ex: "Fogbane Relic - South")
@@ -52,6 +54,58 @@ Tpm coordinates for Start Camp level bounding box:
 X=23722.865 Y=53091.031 Z=11027.695
 X=25542.385 Y=53831.328 Z=11064.331
 X=23080.998 Y=54994.715 Z=10971.831
+
+Scraps tracker coordinates:
+Start Camp: X=24205.438 Y=55072.074 Z=11077.048
+Barn: X=70729.406 Y=53829.398 Z=12217.266
+Tutorial House: X=74737.031 Y=75343.844 Z=11178.388
+Swamp: X=83205.164 Y=38929.016 Z=9545.885
+Swamp Shack: X=87253.836 Y=69068.734 Z=9780.021
+Swamp Islet: X=87238.516 Y=64209.473 Z=9701.061
+Junkyard Area: X=89346.266 Y=90073.102 Z=9616.470
+South House: X=82085.977 Y=107762.172 Z=9059.634
+Junkyard Shed: X=98471.500 Y=81729.102 Z=9455.796
+Military Base: X=109619.094 Y=86949.063 Z=9919.627
+South Mine Outside: X=113575.367 Y=52609.891 Z=8453.853
+South Mine Inside: X=107950.672 Y=59849.281 Z=8586.876
+Middle Station: X=34042.695 Y=-10164.753 Z=11577.084
+Canyon: X=18700.854 Y=1706.361 Z=12350.575
+Watchtower: X=33727.633 Y=-34452.578 Z=10804.594
+Boulder Field: X=47765.898 Y=-23573.766 Z=9674.173
+Haunted House: X=44177.066 Y=-42121.367 Z=10052.560
+Santiago House: X=36305.371 Y=-48177.363 Z=10526.388
+Port: X=73850.195 Y=-9469.558 Z=7709.694
+Trench House: X=74122.727 Y=-55640.938 Z=9523.234
+Doll Woods: X=59371.313 Y=-49818.746 Z=10081.578
+Lost Stairs: X=45935.211 Y=-55118.148 Z=9337.801
+East House: X=109616.875 Y=-56460.078 Z=9730.428
+Rocket Grounds: X=76363.703 Y=-67573.766 Z=8476.188
+Rocket Bunker: X=70264.711 Y=-62137.906 Z=9602.681
+Workshop: X=93005.094 Y=-62296.414 Z=8968.509
+East Tower: X=95701.992 Y=-69802.313 Z=8289.059
+Lighthouse: X=106610.086 Y=-78653.688 Z=8845.507
+North Mine Outside: X=-55474.648 Y=-111596.938 Z=9678.706
+North Mine Inside: X=-53001.195 Y=-103260.734 Z=10521.740
+Wood Bridge: X=-75176.406 Y=-107732.727 Z=7989.745
+Museum: X=-66757.813 Y=-97518.820 Z=11255.381
+Barbed Shelter: X=-74669.031 Y=-89729.773 Z=9999.011
+West Beach: X=-85229.547 Y=-94928.188 Z=8014.187
+Church: X=-67054.336 Y=-82116.188 Z=10033.954
+West Cottage: X=-73062.297 Y=-76641.320 Z=10361.791
+Caravan: X=-43558.574 Y=-40152.422 Z=11315.000
+Trailer Cabin: X=-52082.973 Y=-34925.449 Z=11159.488
+Towers: X=-24031.424 Y=-30121.707 Z=12184.647
+North Beach: X=-80153.625 Y=-133566.516 Z=8516.241
+Mine Shaft: X=-17997.246 Y=-73363.289 Z=10900.658
+Mob Camp: X=-27995.637 Y=-52152.379 Z=12795.043
+Mob Camp Locked Room: X=-31579.574 Y=-60735.543 Z=11377.147
+Mine Elevator Exit: X=-30865.082 Y=-42164.563 Z=12661.054
+Mountain Ruin Outside: X=-5845.084 Y=-45271.660 Z=12715.502
+Mountain Ruin Inside: X=-9288.470 Y=-57241.410 Z=12441.087
+Pickle Val: X=44551.445 Y=20593.281 Z=12313.757
+Shrine Near Temple: X=-6487.959 Y=-20177.055 Z=12103.223
+Morse Bunker: X=-46292.379 Y=-86149.313 Z=10864.799
+Temple: X=12655.441 Y=-26651.291 Z=11039.532
 
 In UpgradesMenu:
 Image: upper tools

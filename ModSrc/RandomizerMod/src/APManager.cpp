@@ -337,13 +337,231 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
 
 
 /**
+ * @brief Convert a locationID to a scraps location index
+ * @param locationID: The ID of the location
+ * @note The returned index is usefull to access a value from nbCheckedScrapsByLocation[]
+ * 
+ * @return The scraps location index or -1 if the locationID is not a scraps location
+ */
+static int getIndexOfLocationID(int64_t locationID)
+{
+    int index = -1;
+    if (locationID >= BASE_ID + 1000 && locationID <= BASE_ID + 1001)
+    {
+        index = LOCATION_ID_START_CAMP;
+    }
+    else if (locationID >= BASE_ID + 1003 && locationID <= BASE_ID + 1011)
+    {
+        index = LOCATION_ID_BARN;
+    }
+    else if (locationID >= BASE_ID + 1013 && locationID <= BASE_ID + 1021)
+    {
+        index = LOCATION_ID_TUTORIAL_HOUSE;
+    }
+    else if (locationID >= BASE_ID + 1022 && locationID <= BASE_ID + 1053)
+    {
+        index = LOCATION_ID_SWAMP;
+    }
+    else if (locationID >= BASE_ID + 1054 && locationID <= BASE_ID + 1055)
+    {
+        index = LOCATION_ID_SWAMP_SHACK;
+    }
+    else if (locationID >= BASE_ID + 1056 && locationID <= BASE_ID + 1058)
+    {
+        index = LOCATION_ID_SWAMP_ISLET;
+    }
+    else if (locationID >= BASE_ID + 1061 && locationID <= BASE_ID + 1070)
+    {
+        index = LOCATION_ID_JUNKYARD_AREA;
+    }
+    else if (locationID >= BASE_ID + 1074 && locationID <= BASE_ID + 1091)
+    {
+        index = LOCATION_ID_SOUTH_HOUSE;
+    }
+    else if (locationID >= BASE_ID + 1093 && locationID <= BASE_ID + 1100)
+    {
+        index = LOCATION_ID_JUNKYARD_SHED;
+    }
+    else if (locationID >= BASE_ID + 1102 && locationID <= BASE_ID + 1113)
+    {
+        index = LOCATION_ID_MILIRARY_BASE;
+    }
+    else if (locationID >= BASE_ID + 1115 && locationID <= BASE_ID + 1121)
+    {
+        index = LOCATION_ID_SOUTH_MINE_OUTSIDE;
+    }
+    else if (locationID >= BASE_ID + 1122 && locationID <= BASE_ID + 1130)
+    {
+        index = LOCATION_ID_SOUTH_MINE_INSIDE;
+    }
+    else if (locationID >= BASE_ID + 1134 && locationID <= BASE_ID + 1153)
+    {
+        index = LOCATION_ID_MIDDLE_STATION;
+    }
+    else if (locationID >= BASE_ID + 1155 && locationID <= BASE_ID + 1171)
+    {
+        index = LOCATION_ID_CANYON;
+    }
+    else if (locationID >= BASE_ID + 1173 && locationID <= BASE_ID + 1182)
+    {
+        index = LOCATION_ID_WATCHTOWER;
+    }
+    else if (locationID >= BASE_ID + 1192 && locationID <= BASE_ID + 1209)
+    {
+        index = LOCATION_ID_BOULER_FIELD;
+    }
+    else if (locationID >= BASE_ID + 1211 && locationID <= BASE_ID + 1216)
+    {
+        index = LOCATION_ID_HAUNTED_HOUSE;
+    }
+    else if (locationID >= BASE_ID + 1217 && locationID <= BASE_ID + 1226)
+    {
+        index = LOCATION_ID_SANTIAGO_HOUSE;
+    }
+    else if (locationID >= BASE_ID + 1229 && locationID <= BASE_ID + 1247)
+    {
+        index = LOCATION_ID_PORT;
+    }
+    else if (locationID >= BASE_ID + 1249 && locationID <= BASE_ID + 1272)
+    {
+        index = LOCATION_ID_TRENCH_HOUSE;
+    }
+    else if (locationID >= BASE_ID + 1273 && locationID <= BASE_ID + 1282)
+    {
+        index = LOCATION_ID_DOLL_WOODS;
+    }
+    else if (locationID >= BASE_ID + 1283 && locationID <= BASE_ID + 1284)
+    {
+        index = LOCATION_ID_LOST_STAIRS;
+    }
+    else if (locationID >= BASE_ID + 1285 && locationID <= BASE_ID + 1303)
+    {
+        index = LOCATION_ID_EAST_HOUSE;
+    }
+    else if (locationID >= BASE_ID + 1305 && locationID <= BASE_ID + 1314)
+    {
+        index = LOCATION_ID_ROCKET_GROUNDS;
+    }
+    else if (locationID >= BASE_ID + 1315 && locationID <= BASE_ID + 1316)
+    {
+        index = LOCATION_ID_ROCKET_BUNKER;
+    }
+    else if (locationID >= BASE_ID + 1318 && locationID <= BASE_ID + 1323)
+    {
+        index = LOCATION_ID_WORKSHOP;
+    }
+    else if (locationID >= BASE_ID + 1326 && locationID <= BASE_ID + 1331)
+    {
+        index = LOCATION_ID_EAST_TOWER;
+    }
+    else if (locationID >= BASE_ID + 1332 && locationID <= BASE_ID + 1349)
+    {
+        index = LOCATION_ID_LIGHTHOUSE;
+    }
+    else if (locationID >= BASE_ID + 1355 && locationID <= BASE_ID + 1369)
+    {
+        index = LOCATION_ID_NORTH_MINE_OUTSIDE;
+    }
+    else if (locationID >= BASE_ID + 1370 && locationID <= BASE_ID + 1383)
+    {
+        index = LOCATION_ID_NORTH_MINE_INSIDE;
+    }
+    else if (locationID >= BASE_ID + 1386 && locationID <= BASE_ID + 1398)
+    {
+        index = LOCATION_ID_WOOD_BRIDGE;
+    }
+    else if (locationID >= BASE_ID + 1399 && locationID <= BASE_ID + 1410)
+    {
+        index = LOCATION_ID_MUSEUM;
+    }
+    else if (locationID >= BASE_ID + 1414 && locationID <= BASE_ID + 1418)
+    {
+        index = LOCATION_ID_BARBED_SHELTER;
+    }
+    else if (locationID >= BASE_ID + 1419 && locationID <= BASE_ID + 1432)
+    {
+        index = LOCATION_ID_WEST_BEACH;
+    }
+    else if (locationID >= BASE_ID + 1434 && locationID <= BASE_ID + 1445)
+    {
+        index = LOCATION_ID_CHURCH;
+    }
+    else if (locationID >= BASE_ID + 1447 && locationID <= BASE_ID + 1451)
+    {
+        index = LOCATION_ID_WEST_COTTAGE;
+    }
+    else if (locationID >= BASE_ID + 1452 && locationID <= BASE_ID + 1465)
+    {
+        index = LOCATION_ID_CARAVAN;
+    }
+    else if (locationID >= BASE_ID + 1466 && locationID <= BASE_ID + 1471)
+    {
+        index = LOCATION_ID_TRAILER_CABIN;
+    }
+    else if (locationID >= BASE_ID + 1472 && locationID <= BASE_ID + 1498)
+    {
+        index = LOCATION_ID_TOWERS;
+    }
+    else if (locationID >= BASE_ID + 1502 && locationID <= BASE_ID + 1520)
+    {
+        index = LOCATION_ID_NORTH_BEACH;
+    }
+    else if (locationID >= BASE_ID + 1522 && locationID <= BASE_ID + 1542)
+    {
+        index = LOCATION_ID_MINE_SHAFT;
+    }
+    else if (locationID >= BASE_ID + 1544 && locationID <= BASE_ID + 1559)
+    {
+        index = LOCATION_ID_MOB_CAMP;
+    }
+    else if (locationID >= BASE_ID + 1560 && locationID <= BASE_ID + 1561)
+    {
+        index = LOCATION_ID_MOB_CAMP_LOCKED_ROOM;
+    }
+    else if (locationID >= BASE_ID + 1563 && locationID <= BASE_ID + 1571)
+    {
+        index = LOCATION_ID_MINE_ELEVATOR_EXIT;
+    }
+    else if (locationID >= BASE_ID + 1572 && locationID <= BASE_ID + 1588)
+    {
+        index = LOCATION_ID_MOUNTAIN_RUIN_OUTSIDE;
+    }
+    else if (locationID >= BASE_ID + 1589 && locationID <= BASE_ID + 1605)
+    {
+        index = LOCATION_ID_MOUNTAIN_RUIN_INSIDE;
+    }
+    else if (locationID >= BASE_ID + 1608 && locationID <= BASE_ID + 1630)
+    {
+        index = LOCATION_ID_PICKLE_VAL;
+    }
+    else if (locationID >= BASE_ID + 1634 && locationID <= BASE_ID + 1636)
+    {
+        index = LOCATION_ID_SHRINE_NEAR_TEMPLE;
+    }
+    else if (locationID >= BASE_ID + 1637 && locationID <= BASE_ID + 1654)
+    {
+        index = LOCATION_ID_MORSE_BUNKER;
+    }
+    else if (locationID >= BASE_ID + 1655 && locationID <= BASE_ID + 1691)
+    {
+        index = LOCATION_ID_TEMPLE;
+    }
+    return index;
+}
+
+
+/**
  * @brief Mark a given location as checked
  * @param locationID: The ID of the checked location
- * @notimplemented Used by AP_SetItemClearCallback but is not necessary
  */
 static void LocationCheckedCallback(int64_t locationID)
 {
-
+    Output::send<LogLevel::Verbose>(TEXT("Checked locationID: {}\n"), locationID);
+    int scrapsIndex = getIndexOfLocationID(locationID);
+    if (scrapsIndex != -1)
+    {
+        apData.nbCheckedScrapsByLocation[scrapsIndex] += 1;
+    }
 }
 
 
@@ -431,6 +649,19 @@ static void ArmorUpgradeCallback(int ArmorUpgradeValue)
 {
     Output::send<LogLevel::Verbose>(TEXT("ArmorUpgradeValue: {}\n"), ArmorUpgradeValue);
     isAPOptionEnabled[ARMOR_UPGRADE_OPTION] = ArmorUpgradeValue != 0;
+}
+
+
+/**
+ * @brief Get the information of a scouted location
+ * @param NWItem: The information
+ */
+static void LocationInfoCallback(std::vector<AP_NetworkItem> NWItem)
+{
+    for (int i = 0; i < MAX_LOCATIONS; i++)
+    {
+        Output::send<LogLevel::Verbose>(TEXT("NWItem: {} => {}\n"), RC::to_wstring(NWItem[i].locationName).c_str(), RC::to_wstring(NWItem[i].itemName).c_str());
+    }
 }
 
 
@@ -561,6 +792,13 @@ namespace APManager {
         {
             apData.allReceivedItems.weapons[i].unlocked = 0;
         }
+
+        // Set the number of checked scraps locations to 0, it will increment by LocationCheckedCallback()
+        apData.nbCheckedScrapsByLocation.SetNum(NB_LOCATIONS_WITH_SCRAPS);
+        for (int i = 0; i < NB_LOCATIONS_WITH_SCRAPS; i++)
+        {
+            apData.nbCheckedScrapsByLocation[i] = 0;
+        }
     }
 
     void APManager::Setup_AP(const char* ipAddress, const char* playerName, const char* password)
@@ -575,6 +813,7 @@ namespace APManager {
         AP_RegisterSlotDataIntCallback("SpeedUpgrade", &SpeedUpgradeCallback);
         AP_RegisterSlotDataIntCallback("DamageUpgrade", &DamageUpgradeCallback);
         AP_RegisterSlotDataIntCallback("ArmorUpgrade", &ArmorUpgradeCallback);
+        AP_SetLocationInfoCallback(&LocationInfoCallback);
         AP_SetDeathLinkSupported(true);
         AP_Start();
     }
@@ -618,10 +857,21 @@ namespace APManager {
             if (!apData.authenticated)
             {
                 apData.statusMessage = FString(RC::to_wstring("Offline").c_str());
+                for (int i = 0; i < NB_LOCATIONS_WITH_SCRAPS; i++)
+                {
+                    apData.nbCheckedScrapsByLocation[i] = 0;
+                }
             }
             else if (CURRENT_WORLD_VERSION == latestWorldVersion)
             {
                 apData.statusMessage = FString(RC::to_wstring("Connected").c_str());
+                // Scout all locations at each connection
+                std::set<int64_t> locations;
+                for (int i = START_LOCATION_ID; i <= LAST_LOCATION_ID; i++)
+                {
+                    locations.insert(i);
+                }
+                AP_SendLocationScouts(locations, false);
             }
             else
             {
