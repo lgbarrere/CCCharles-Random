@@ -10,7 +10,7 @@ using namespace RC::Unreal;
 
 
 APData apData;
-TArray<bool> isAPOptionEnabled;
+TArray<int32_t> isAPOptionEnabled;
 std::string latestWorldVersion;
 const std::string CURRENT_WORLD_VERSION = "1.0.1"; // To update when the version of the AP logic changes
 
@@ -142,10 +142,10 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
         apData.allReceivedItems.paintCans[10].unlocked == false ? apData.allReceivedItems.paintCans[10].unlocked = true : cappedAmount = 0;
         break;
     case 35: // The Boomer
-        apData.allReceivedItems.weapons[0].unlocked == false ? apData.allReceivedItems.weapons[0].unlocked = true : cappedAmount = 0;
+        apData.allReceivedItems.guns[0].unlocked == false ? apData.allReceivedItems.guns[0].unlocked = true : cappedAmount = 0;
         break;
     case 36: // Bob
-        apData.allReceivedItems.weapons[1].unlocked == false ? apData.allReceivedItems.weapons[1].unlocked = true : cappedAmount = 0;
+        apData.allReceivedItems.guns[1].unlocked == false ? apData.allReceivedItems.guns[1].unlocked = true : cappedAmount = 0;
         break;
     case 37: // Green egg
         apData.allReceivedItems.items[19].amount < 1 ? apData.allReceivedItems.items[19].amount += 1 : cappedAmount = 0;
@@ -169,7 +169,7 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
         apData.allReceivedItems.items[23].amount < 1 ? apData.allReceivedItems.items[23].amount += 1 : cappedAmount = 0;
         break;
     case 43: // Bug Spray
-        apData.allReceivedItems.weapons[2].unlocked == false ? apData.allReceivedItems.weapons[2].unlocked = true : cappedAmount = 0;
+        apData.allReceivedItems.guns[2].unlocked == false ? apData.allReceivedItems.guns[2].unlocked = true : cappedAmount = 0;
         break;
     case 44 : // Track Switch Pack
         apData.allReceivedItems.objects[0].amount < 1 ? apData.allReceivedItems.objects[0].amount += 1 : cappedAmount = 0;
@@ -317,6 +317,9 @@ static void ItemReceivedCallback(int64_t itemID, bool notifyPlayer)
         break;
     case 92: // Armor Level
         apData.allReceivedItems.items[26].amount < 9 ? apData.allReceivedItems.items[26].amount += 1 : cappedAmount = 0;
+        break;
+    case 93: // Derailer
+        apData.allReceivedItems.guns[3].unlocked == false ? apData.allReceivedItems.guns[3].unlocked = true : cappedAmount = 0;
         break;
     default:
         Output::send<LogLevel::Error>(STR("Unrecognized item ID skipped.\n"));
@@ -653,6 +656,17 @@ static void ArmorUpgradeCallback(int ArmorUpgradeValue)
 
 
 /**
+ * @brief Get the StartingGun option value from the slot_data
+ * @param StartingGunValue: The option value
+ */
+static void StartingGunCallback(int StartingGunValue)
+{
+    Output::send<LogLevel::Verbose>(TEXT("StartingGunValue: {}\n"), StartingGunValue);
+    isAPOptionEnabled[STARTING_GUN_OPTION] = StartingGunValue;
+}
+
+
+/**
  * @brief Get the information of a scouted location
  * @param NWItem: The information
  */
@@ -784,13 +798,14 @@ namespace APManager {
             apData.allReceivedItems.paintCans[i].unlocked = false;
         }
 
-        apData.allReceivedItems.weapons.SetNum(3);
-        apData.allReceivedItems.weapons[0].name = FString(to_wstring("The Boomer").c_str());
-        apData.allReceivedItems.weapons[1].name = FString(to_wstring("Bob").c_str());
-        apData.allReceivedItems.weapons[2].name = FString(to_wstring("Bug Spray").c_str());
-        for (int i = 0; i < apData.allReceivedItems.weapons.Num(); i++)
+        apData.allReceivedItems.guns.SetNum(4);
+        apData.allReceivedItems.guns[0].name = FString(to_wstring("Rocket Launcher").c_str()); // The Boomer
+        apData.allReceivedItems.guns[1].name = FString(to_wstring("Range Gun").c_str()); // Bob
+        apData.allReceivedItems.guns[2].name = FString(to_wstring("Flamethrower").c_str()); // Bug Spray
+        apData.allReceivedItems.guns[3].name = FString(to_wstring("Machine Gun").c_str()); // Derailer
+        for (int i = 0; i < apData.allReceivedItems.guns.Num(); i++)
         {
-            apData.allReceivedItems.weapons[i].unlocked = 0;
+            apData.allReceivedItems.guns[i].unlocked = 0;
         }
 
         // Set the number of checked scraps locations to 0, it will increment by LocationCheckedCallback()
@@ -813,6 +828,7 @@ namespace APManager {
         AP_RegisterSlotDataIntCallback("SpeedUpgrade", &SpeedUpgradeCallback);
         AP_RegisterSlotDataIntCallback("DamageUpgrade", &DamageUpgradeCallback);
         AP_RegisterSlotDataIntCallback("ArmorUpgrade", &ArmorUpgradeCallback);
+        AP_RegisterSlotDataIntCallback("StartingGun", &StartingGunCallback);
         AP_SetLocationInfoCallback(&LocationInfoCallback);
         AP_SetDeathLinkSupported(true);
         AP_Start();
@@ -832,9 +848,9 @@ namespace APManager {
         {
             apData.allReceivedItems.paintCans[index].unlocked = false;
         }
-        for (int32_t index = 0; index < apData.allReceivedItems.weapons.Num(); index++)
+        for (int32_t index = 0; index < apData.allReceivedItems.guns.Num(); index++)
         {
-            apData.allReceivedItems.weapons[index].unlocked = false;
+            apData.allReceivedItems.guns[index].unlocked = false;
         }
 
         apData.pendingItemIDs.Empty();

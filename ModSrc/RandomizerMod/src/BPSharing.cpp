@@ -111,7 +111,7 @@ namespace BPSharing {
             // Set BP output value
             FProperty* outProperty = Stack.Node()->GetPropertyByName(L"APOptions");
             void* outPropertyAddress = BPSharing::FindOutParamValueAddress(Stack, outProperty);
-            *static_cast<TArray<bool>*>(outPropertyAddress) = isAPOptionEnabled;
+            *static_cast<TArray<int32_t>*>(outPropertyAddress) = isAPOptionEnabled;
         }
     }
 

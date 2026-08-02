@@ -26,6 +26,8 @@ AScrapCratePoint_C
 TutorialState (Eugene's mission)
 
 Found issues:
+> Yellow/green dots should be integrated on the map tracker texts like a pop tracker
+> The map text of Wooden Bridge is visible in the ending cutscene
 > The [Password] is not stated in the AP Setup Guide
 > Sometimes, an item is not added to inventory once received
 > Sometimes, a picked item is never sent to AP
@@ -35,20 +37,22 @@ Found issues:
 
 Ideas:
 > New: Link the Pop Tracker to the Setup Page
+> New: Make each upgrade level a check
 > YAML: See randomized items or not (replaced by "DeathDuck")
 > New: Update "DeathDuck" to give multiworld items and hints
 > New: "DeathDuck" has an untextured eye, the Archipelago logo could be added to it
-> YAML: Treat all scraps in a region as 1 location and keep collected scraps in the inventory (hard to do)
 > New: Add an integrated tracker in the game (hard to do)
 > YAML: Add an Easter hunt for the Red/Green/Blue eggs (like the triforce hunt from OoT)
 > New: Add teleport to Train consumables to the item pool
 > YAML: Fogbane option by "Region" (ex: "Fogbane Relic - South")
 > YAML: Track Switch option by "Region" (ex: "Track Switch - North")
-> YAML: Lockpick option to either (1) randomize, (2) start with, or (3) place in early sphere
+> YAML: Lockpicks option to either (1) randomize, (2) start with, or (3) place in early sphere
 > New: Change blips of color to show mission items (non-scraps)
 > YAML: Set Track Switches to random position once connected
 > YAML: Add traps to invert all Track Switches positions
 > YAML: Add checks when cultists are killed
+> YAML: Randomize the player and train movements
+> YAML: Add a trap that disables the train ladder ramps for a while
 
 Tpm coordinates for Start Camp level bounding box:
 X=23722.865 Y=53091.031 Z=11027.695
@@ -107,33 +111,47 @@ Shrine Near Temple: X=-6487.959 Y=-20177.055 Z=12103.223
 Morse Bunker: X=-46292.379 Y=-86149.313 Z=10864.799
 Temple: X=12655.441 Y=-26651.291 Z=11039.532
 
-In UpgradesMenu:
-Image: upper tools
-Image_0: main background
-Image_1: Speed tools
-Image_2: Speed wheel
-Image_3: Heal pill
-Image_4: Heal background
-Image_5: Heal tools
-Image_6: upgrade underline
-Image_7: scraps underline
-Image_8: Damage background
-Image_9: Damage tools
-Image_10: Damage sword
-Image_11: Armor background
-Image_12: Armor tools
-Image_13: Armor hemlet
-Image_37: unused?
-Image_130: Speed background
-AlphaImage: unused?
-AlphaImage2: unused?
-AlphaImage3: unused?
-AlphaImage4: unused?
-Button_2: unused?
-HealthButton: Health button
-SpeedButton: Speed button
-DamageButton: Damage button
-ArmorButton: Armor button
+Useful components in UpgradesMenu:
+    Image: upper tools
+    Image_0: main background
+    Image_1: Speed tools
+    Image_2: Speed wheel
+    Image_3: Heal pill
+    Image_4: Heal background
+    Image_5: Heal tools
+    Image_6: upgrade underline
+    Image_7: scraps underline
+    Image_8: Damage background
+    Image_9: Damage tools
+    Image_10: Damage sword
+    Image_11: Armor background
+    Image_12: Armor tools
+    Image_13: Armor hemlet
+    Image_130: Speed background
+    HealthButton: Health button
+    SpeedButton: Speed button
+    DamageButton: Damage button
+    ArmorButton: Armor button
+
+Main components related to the "Equipped Gun" save file:
+- Derailer
+    Machine Gun
+    Bullet Loop
+- Bug Spray
+    Flamethrower
+    FuelCanister
+    FuelCanister1
+    Hose
+    Hose1
+- The Boomer
+    Rocket Launcher
+    Rocket Box
+    Rocket
+    Reload Rocket
+- Bob
+    Range Gun
+    Range Gun Barrel Left
+    Range Gun Barrel Right
 
 Cursed Fogs:
 - Mine Shaft [0]:
@@ -292,9 +310,10 @@ Reproduced game features:
 Player distance interaction:
     player_distance_interaction = 290
 Local scales of guns collisions:
-    FlameThrower X=0.432 Y=0.732 Z=1.50
-    RocketLauncher X=0.432 Y=0.712 Z=1.508
-    RangeGun X=0.237 Y=0.789 Z=2.684
+    Derailer (Machine Gun) No rescale required
+    Bug Spray (Flamethrower) X=0.432 Y=0.732 Z=1.50
+    The Boomer (Rocket Launcher) X=0.432 Y=0.712 Z=1.508
+    Bob (Range Gun) X=0.237 Y=0.789 Z=2.684
 
 Get a working local world (built from sources):
 1) In pycharm, open the "built APLauncher" by typing in the terminal: py .\Launcher.py

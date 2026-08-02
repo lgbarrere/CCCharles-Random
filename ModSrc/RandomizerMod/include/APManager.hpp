@@ -96,7 +96,7 @@ typedef struct
     TArray<MWItem> items;
     TArray<MWItem> objects;
     TArray<MWTrainComponent> paintCans;
-    TArray<MWTrainComponent> weapons;
+    TArray<MWTrainComponent> guns;
 }ReceivedItems;
 
 
@@ -117,12 +117,13 @@ typedef enum
     SPEED_UPGRADE_OPTION = 2,
     DAMAGE_UPGRADE_OPTION = 3,
     ARMOR_UPGRADE_OPTION = 4,
-    NB_AP_OPTIONS = 5
+    STARTING_GUN_OPTION = 5,
+    NB_AP_OPTIONS = 6
 }APOptions; // Death link is not to consider here
 
 
 extern APData apData;
-extern TArray<bool> isAPOptionEnabled;
+extern TArray<int32_t> isAPOptionEnabled;
 extern std::string latestWorldVersion;
 
 /**
