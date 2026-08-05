@@ -26,8 +26,6 @@ AScrapCratePoint_C
 TutorialState (Eugene's mission)
 
 Found issues:
-> Yellow/green dots should be integrated on the map tracker texts like a pop tracker
-> The map text of Wooden Bridge is visible in the ending cutscene
 > The [Password] is not stated in the AP Setup Guide
 > Sometimes, an item is not added to inventory once received
 > Sometimes, a picked item is never sent to AP
@@ -41,7 +39,6 @@ Ideas:
 > YAML: See randomized items or not (replaced by "DeathDuck")
 > New: Update "DeathDuck" to give multiworld items and hints
 > New: "DeathDuck" has an untextured eye, the Archipelago logo could be added to it
-> New: Add an integrated tracker in the game (hard to do)
 > YAML: Add an Easter hunt for the Red/Green/Blue eggs (like the triforce hunt from OoT)
 > New: Add teleport to Train consumables to the item pool
 > YAML: Fogbane option by "Region" (ex: "Fogbane Relic - South")

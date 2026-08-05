@@ -66,7 +66,12 @@ namespace BPSharing {
             // Get the parameters in order
             int64_t* locationID = Stack.Node()->GetPropertyByName(STR("locationID"))->ContainerPtrToValuePtr<int64_t>(Stack.Locals());
             Output::send<LogLevel::Verbose>(STR("{}\n"), *locationID);
-            APManager::SendAPLocation(*locationID);
+
+            // Send the checked location if its ID is valid
+            if (*locationID >= START_LOCATION_ID)
+            {
+                APManager::SendAPLocation(*locationID);
+            }
         }
         else if (Stack.Node()->GetNamePrivate() == GameReloadedCpp)
         {

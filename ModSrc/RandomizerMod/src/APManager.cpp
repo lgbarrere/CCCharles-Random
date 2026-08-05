@@ -12,7 +12,7 @@ using namespace RC::Unreal;
 APData apData;
 TArray<int32_t> isAPOptionEnabled;
 std::string latestWorldVersion;
-const std::string CURRENT_WORLD_VERSION = "1.0.1"; // To update when the version of the AP logic changes
+const std::string CURRENT_WORLD_VERSION = "1.0.2"; // To update when the version of the AP logic changes
 
 
 /**
