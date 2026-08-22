@@ -1,7 +1,6 @@
 #include <Unreal/UObject.hpp>
 
 #include "APManager.hpp"
-#include "Archipelago.h"
 #include "Helpers/String.hpp"
 
 using namespace std;
@@ -12,7 +11,7 @@ using namespace RC::Unreal;
 APData apData;
 TArray<int32_t> isAPOptionEnabled;
 std::string latestWorldVersion;
-const std::string CURRENT_WORLD_VERSION = "1.0.2"; // To update when the version of the AP logic changes
+const std::string CURRENT_WORLD_VERSION = "1.0.3"; // To update when the version of the AP logic changes
 
 
 /**
@@ -687,6 +686,8 @@ void LogFromAPCpp(std::string message) {
 namespace APManager {
     void APManager::initializeAPData()
     {
+        apData.connectionStatus = AP_ConnectionStatus::Disconnected; // Consider the game is disconnected at the start
+
         isAPOptionEnabled.SetNum(NB_AP_OPTIONS);
         for (int i = 0; i < isAPOptionEnabled.Num(); i++)
         {
@@ -818,7 +819,7 @@ namespace APManager {
 
     void APManager::Setup_AP(const char* ipAddress, const char* playerName, const char* password)
     {
-        AP_Init(ipAddress, "Choo-Choo Charles", playerName, password);
+        AP_Init(ipAddress, "Choo-Choo Charles - Enhanced", playerName, password);
         AP_SetItemClearCallback(ClearInventoryCallback);
         AP_SetItemRecvCallback(ItemReceivedCallback);
         AP_SetLocationCheckedCallback(LocationCheckedCallback);
@@ -865,14 +866,27 @@ namespace APManager {
     void APManager::UpdateConnectionStatus()
     {
         // Check the connection status changed
-        if (!apData.authenticated && AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated
-            || apData.authenticated && AP_GetConnectionStatus() != AP_ConnectionStatus::Authenticated)
+        if (apData.connectionStatus != AP_GetConnectionStatus())
         {
-            apData.authenticated = !apData.authenticated;
-
-            if (!apData.authenticated)
+            apData.connectionStatus = AP_GetConnectionStatus(); // Update the status
+            switch (apData.connectionStatus)
             {
-                apData.statusMessage = FString(RC::to_wstring("Offline").c_str());
+                case AP_ConnectionStatus::Disconnected:
+                    apData.statusMessage = FString(RC::to_wstring("Offline").c_str());
+                    break;
+                case AP_ConnectionStatus::Connected:
+                    apData.statusMessage = FString(RC::to_wstring("Connecting...").c_str());
+                    break;
+                case AP_ConnectionStatus::Authenticated:
+                    // Message update after checking the world version
+                    break; 
+                case AP_ConnectionStatus::ConnectionRefused:
+                    apData.statusMessage = FString(RC::to_wstring("Connection refused").c_str());
+                    break;
+            }
+
+            if (apData.connectionStatus != AP_ConnectionStatus::Authenticated)
+            {
                 for (int i = 0; i < NB_LOCATIONS_WITH_SCRAPS; i++)
                 {
                     apData.nbCheckedScrapsByLocation[i] = 0;

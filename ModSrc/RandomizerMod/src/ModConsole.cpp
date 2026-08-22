@@ -33,7 +33,6 @@ using namespace RC::Unreal;
  */
 static int CompareAndParseCmd(const char* command, const char* expectedCmd, char outOptions[ALL_OPTIONS_MAX_LENGTH], int outOptionPositions[NB_MAX_OPTIONS])
 {
-    const char separator = ' ';
     int i = 0, j = 0;
     int numberOfParsedOptions = 0;
 
@@ -55,6 +54,7 @@ static int CompareAndParseCmd(const char* command, const char* expectedCmd, char
     // While the end of the command is not reached, parse the options
     while (command[i] != '\n' && command[i] != '\0')
     {
+        char separator = ' ';
         outOptionPositions[numberOfParsedOptions] = j;
         int optionLength = 1; // Count the number of char in an option to not exceed OPTION_MAX_LENGTH
 
@@ -70,7 +70,14 @@ static int CompareAndParseCmd(const char* command, const char* expectedCmd, char
             return MAX_OPTIONS_REACHED;
         }
 
-        // Copy the found option until the next separator or the end of the command 
+        // If the option starts by a quote, the separator become an ending quote
+        if (command[i] == '\"')
+        {
+            separator = '\"';
+            i++;
+        }
+
+        // Copy the found option until the next separator or the end of the command
         while (command[i] != separator && command[i] != '\n' && command[i] != '\0')
         {
             if (optionLength >= OPTION_MAX_LENGTH)
@@ -179,7 +186,8 @@ namespace ModConsole {
             const char* ipAddress = GetOptionAtindex(outOptions, outOptionPositions, 0);
             const char* playerName = GetOptionAtindex(outOptions, outOptionPositions, 1);
             const char* password = numberOfOptions == 2 ? "" : GetOptionAtindex(outOptions, outOptionPositions, 2);
-            
+
+            APManager::Disconnect(); // Disconnect before connecting to reset the AP status
             APManager::Setup_AP(ipAddress, playerName, password);
 
             return true;

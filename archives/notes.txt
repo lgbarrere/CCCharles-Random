@@ -34,8 +34,8 @@ Found issues:
 > The map keeps re-placing the marker every time a drawing_page is picked after mission start
 
 Ideas:
+> New: Make the page notes in the game send free hints
 > New: Link the Pop Tracker to the Setup Page
-> New: Make each upgrade level a check
 > YAML: See randomized items or not (replaced by "DeathDuck")
 > New: Update "DeathDuck" to give multiworld items and hints
 > New: "DeathDuck" has an untextured eye, the Archipelago logo could be added to it

@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "Archipelago.h"
+
 using namespace RC;
 using namespace RC::Unreal;
 
@@ -101,7 +103,7 @@ typedef struct
 
 
 typedef struct {
-    bool authenticated; // It is true if the player is connected to the AP room, false otherwise
+    AP_ConnectionStatus connectionStatus; // Status of the connection to the AP server
     FString statusMessage; // Connection status to render in UI: connected, offline, depreciated version, ...
     TArray<int64_t> pendingItemIDs; // Pending item received from the AP room
     ReceivedItems allReceivedItems; // All received items from the AP room since its start

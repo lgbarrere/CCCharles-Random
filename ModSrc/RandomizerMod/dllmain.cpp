@@ -20,7 +20,7 @@ public:
     RandomizerMod() : CppUserModBase()
     {
         ModName = STR("RandomizerMod");
-        ModVersion = STR("0.0.7-beta");
+        ModVersion = STR("0.0.9-beta");
         ModDescription = STR("Choo-Choo Charles Archipelago Mutiworld Randomizer");
         ModAuthors = STR("Yaranorgoth");
         // Do not change this unless you want to target a UE4SS version

@@ -79,13 +79,13 @@ namespace BPSharing {
 
             // BPs are reset when the game reloads, set all references to NULL for further if check not crash the game
             ItemManager = NULL;
-            apData.authenticated = false; // BPs variables are reset as well, including AP connection
+            apData.connectionStatus = AP_ConnectionStatus::Disconnected; // BPs variables are reset as well, including AP connection
         }
         else if (Stack.Node()->GetNamePrivate() == CheckPendingAPMessageCpp)
         {
             // No header debug message for hooks called by a looping timer
 
-            if (apData.authenticated && AP_IsMessagePending())
+            if (apData.connectionStatus == AP_ConnectionStatus::Authenticated && AP_IsMessagePending())
             {
                 FString pendingMessage = FString(to_wstring(AP_GetLatestMessage()->text).c_str());
                 Output::send<LogLevel::Verbose>(STR("Pending message: {}\n"), to_wstring(AP_GetLatestMessage()->text).c_str());
